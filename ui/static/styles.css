@@ -1,0 +1,72 @@
+/* VARIABLES */
+:root {
+  --primary-color: #1e88e5;
+  --primary-color-light: #3ba3ff;
+  --primary-color-dark: #0b4182;
+
+  --text-color: #616366;
+  --text-color-light: #dcdee0;
+  --text-color-dark: #555;
+}
+
+/* RESETS */
+html {
+  font-size: 62.5%;
+  font-family: sans-serif;
+  box-sizing: border-box;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: inherit;
+  color: var(--text-color);
+}
+
+/* LAYOUT */
+.container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+}
+
+/* COMPONENTS */
+.card {
+  background-color: #fff;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+}
+
+.card__header {
+  text-align: center;
+  padding-bottom: 2rem;
+}
+
+.icon {
+  height: 1.75rem;
+  width: 1.75rem;
+}
+
+/* PAGES */
+/* SIGNUP PAGE */
+.container--auth {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-color),
+    var(--primary-color-dark)
+  );
+}
+
+.card--auth {
+  width: 30rem;
+  height: 40rem;
+  padding: 5rem;
+}
+
+.brand {
+  font-size: 2.6rem;
+}
