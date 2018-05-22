@@ -99,6 +99,12 @@ html {
   color: var(--text-color-dark);
 }
 
+.brand {
+  font-size: 4rem;
+  font-family: "Alex Brush", cursive;
+  color: var(--primary-color-dark);
+}
+
 .btn {
   padding: 1.25rem;
   width: 100%;
@@ -111,6 +117,14 @@ html {
 .btn:hover {
   outline: none;
   background-color: var(--primary-color-light);
+}
+
+.text-white {
+  color: #fff !important;
+}
+
+.text-blue {
+  color: var(--primary-color-dark) !important;
 }
 
 /* PAGES */
@@ -137,8 +151,68 @@ html {
   height: 30rem;
 }
 
-.brand {
-  font-size: 4rem;
-  font-family: "Alex Brush", cursive;
-  color: var(--primary-color-dark);
+/* LANDING PAGE */
+.header {
+  height: 95vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(
+    to bottom right,
+    var(--primary-color-light),
+    var(--primary-color-dark)
+  );
+  clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
+  position: relative;
+}
+
+.nav {
+  display: flex;
+  padding: 1rem 3rem;
+  justify-content: space-between;
+}
+
+.nav--right {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.nav__item {
+  padding: 1.5rem;
+  margin-right: 1rem;
+}
+
+.nav__link,
+.tagline__link {
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+}
+
+.nav__item--signup,
+.btn--start {
+  background-color: #fff;
+}
+
+.tagline-wrapper {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  padding: 1rem;
+  height: 10rem;
+  align-items: center;
+}
+
+.tagline {
+  color: #fff;
+  font-size: 3rem;
+  font-weight: normal;
+  margin-top: -7rem;
+}
+
+.btn--start {
+  padding: 1.5rem;
+  margin-top: 2rem;
 }
