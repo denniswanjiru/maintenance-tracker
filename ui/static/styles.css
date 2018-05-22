@@ -35,6 +35,8 @@ html {
 .card {
   background-color: #fff;
   box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
+  display: flex;
+  flex-direction: column;
 }
 
 .card__header {
@@ -42,9 +44,71 @@ html {
   padding-bottom: 2rem;
 }
 
+.card-content {
+  justify-content: center;
+}
+
+.card__footer {
+  padding-top: 3rem;
+  font-size: 1.4rem;
+  text-align: center;
+}
+
+.card__link {
+  text-decoration: none;
+  color: var(--primary-color);
+}
+
+.card__link:hover,
+.card__link:visited {
+  color: var(--primary-color-dark);
+}
+
 .icon {
   height: 1.75rem;
   width: 1.75rem;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.75rem;
+  max-width: 100%;
+  position: relative;
+}
+
+.input-field {
+  padding: 1.25rem;
+  padding-left: 4rem;
+  flex: 1;
+  border: 1px solid var(--text-color-light);
+  background-color: transparent;
+}
+
+.input-icon {
+  position: absolute;
+  padding: 0 1.5rem;
+}
+
+.input-field:focus,
+.input-field:active {
+  outline: none;
+  border: 1px solid var(--text-color-dark);
+  color: var(--text-color-dark);
+}
+
+.btn {
+  padding: 1.25rem;
+  width: 100%;
+  background-color: var(--primary-color);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+}
+
+.btn:hover {
+  outline: none;
+  background-color: var(--primary-color-light);
 }
 
 /* PAGES */
@@ -63,7 +127,7 @@ html {
 
 .card--auth {
   width: 30rem;
-  height: 40rem;
+  height: 37rem;
   padding: 5rem;
 }
 
