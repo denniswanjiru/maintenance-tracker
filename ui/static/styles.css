@@ -1,8 +1,5 @@
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
 @import url("https://fonts.googleapis.com/css?family=Alex+Brush");
 
-=======
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
 /* VARIABLES */
 :root {
   --primary-color: #1e88e5;
@@ -12,21 +9,14 @@
   --text-color: #616366;
   --text-color-light: #dcdee0;
   --text-color-dark: #555;
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
 
   --secondary-color: whitesmoke;
-=======
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
 }
 
 /* RESETS */
 html {
   font-size: 62.5%;
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
   font-family: "Lato", sans-serif;
-=======
-  font-family: sans-serif;
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
   box-sizing: border-box;
 }
 
@@ -37,7 +27,6 @@ html {
   color: var(--text-color);
 }
 
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
 h1,
 h2,
 h3,
@@ -48,8 +37,6 @@ span {
   font-weight: 300 !important;
 }
 
-=======
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
 /* LAYOUT */
 .container {
   height: 100vh;
@@ -58,7 +45,6 @@ span {
   flex-direction: column;
 }
 
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
 .container--fluid {
   background-color: var(--secondary-color);
   width: 100%;
@@ -107,12 +93,6 @@ span {
   box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.3);
   display: flex;
   flex-direction: column;
-=======
-/* COMPONENTS */
-.card {
-  background-color: #fff;
-  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.3);
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
 }
 
 .card__header {
@@ -120,7 +100,6 @@ span {
   padding-bottom: 2rem;
 }
 
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
 .card-content {
   justify-content: center;
 }
@@ -141,14 +120,11 @@ span {
   color: var(--primary-color-dark);
 }
 
-=======
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
 .icon {
   height: 1.75rem;
   width: 1.75rem;
 }
 
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
 .input-wrapper {
   display: flex;
   align-items: center;
@@ -238,8 +214,6 @@ span {
   font-size: 2.5rem;
 }
 
-=======
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
 /* PAGES */
 /* SIGNUP PAGE */
 .container--auth {
@@ -256,7 +230,6 @@ span {
 
 .card--auth {
   width: 30rem;
-<<<<<<< e1eaff662ee065d8d386fd45fc0c5e86ab99c9fc
   height: 37rem;
   padding: 5rem;
 }
@@ -399,12 +372,3 @@ span {
 .footer .row {
   justify-content: space-between;
 }
-=======
-  height: 40rem;
-  padding: 5rem;
-}
-
-.brand {
-  font-size: 2.6rem;
-}
->>>>>>> [Feature #157746105] Create a basic cadd and a signup form
