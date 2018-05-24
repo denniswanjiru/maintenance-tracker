@@ -1,3 +1,5 @@
+![license](https://img.shields.io/github/license/mashape/apistatus.svg)
+
 # Maintenance Tracker Application
 
 An application that helps users make requests for maintenance/repair services.
