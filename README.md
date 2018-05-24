@@ -1,4 +1,7 @@
 ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
+
+## _Landing page_
+
 ![Landing Page](ui/assets/images/screenshots/landing-header.png)
 
 # Maintenance Tracker Application
