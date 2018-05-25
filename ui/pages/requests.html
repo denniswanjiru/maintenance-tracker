@@ -36,9 +36,12 @@
     <div class="section page-spacer hr section--filters">
       <h1>All requests (6)</h1>
       <div class="actions">
-        <svg class="icon">
-          <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
-        </svg>
+        <div class="search">
+          <svg class="icon" id="search-btn">
+            <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
+          </svg>
+          <input type="search" name="user-search" id="user-input-search" class="search__input--user hidden" placeholder="Search...">
+        </div>
 
         <div class="actions--right">
           <div class="dropdown">
@@ -222,7 +225,8 @@
     </div>
   </footer>
 
-  <script src="../static/dropdown.js"></script>
+  <script src="../static/js/dropdown.js"></script>
+  <script src="../static/js/search.js"></script>
 </body>
 
 </html>

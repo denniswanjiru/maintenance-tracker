@@ -194,6 +194,18 @@ span {
   color: var(--primary-color-dark);
 }
 
+.search {
+  display: flex;
+  align-content: center;
+  flex: 1;
+}
+
+.search .icon {
+  align-self: center;
+  fill: currentColor;
+  cursor: pointer;
+}
+
 /* BUTTONS */
 .btn {
   padding: 1.25rem;
@@ -220,7 +232,7 @@ span {
   display: flex;
   align-items: center;
   border: none;
-  padding-bottom: 1rem;
+  cursor: pointer;
 }
 
 .btn--dropdown:hover,
@@ -246,6 +258,7 @@ span {
   position: absolute;
   background-color: #fff;
   box-shadow: var(--card-shadow);
+  margin-top: 1rem;
 }
 
 .dropdown__content a {
@@ -265,6 +278,10 @@ span {
 
 .hidden {
   display: none;
+}
+
+.show {
+  display: block;
 }
 
 .actions--right .dropdown:not(:last-child) {
@@ -556,4 +573,16 @@ span {
   flex: 1;
   justify-content: space-between;
   align-items: center;
+}
+
+.search__input--user {
+  margin-left: 1.5rem;
+  flex-basis: 60%;
+  background-color: transparent;
+  border: none;
+  color: var(--text-color-dark);
+}
+
+.search__input--user:focus {
+  outline: none;
 }

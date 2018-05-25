@@ -1,4 +1,3 @@
-const chevron = document.querySelector("#filter-icon");
 const filterClasses = document.querySelector("#filters").classList;
 const sortClasses = document.querySelector("#sort").classList;
 const sortBtn = document.querySelector("#sort-btn");
@@ -15,12 +14,8 @@ const toggleDropdown = searchType => {
 filterBtn.addEventListener("click", () => toggleDropdown(filterClasses));
 sortBtn.addEventListener("click", () => toggleDropdown(sortClasses));
 
-chevron.addEventListener("click", () => toggleDropdown());
-
 window.addEventListener("click", e => {
-  if (
-    !e.target.matches(".btn--dropdown")
-  ) {
+  if (!e.target.matches(".btn--dropdown")) {
     filterClasses.remove("dropdown__content");
     filterClasses.add("hidden");
     sortClasses.remove("dropdown__content");
