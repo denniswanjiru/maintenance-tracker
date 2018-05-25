@@ -19,6 +19,9 @@
     var(--primary-color-light),
     var(--primary-color-dark)
   );
+
+  /* BOX SHADOWS */
+  --card-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.3);
 }
 
 /* RESETS */
@@ -105,10 +108,14 @@ span {
   flex-direction: column;
 }
 
+.page-spacer {
+  padding: 3rem 0 1rem 0;
+}
+
 /* COMPONENTS */
 .card {
   background-color: #fff;
-  box-shadow: 0 0.3rem 0.6rem rgba(0, 0, 0, 0.3);
+  box-shadow: var(--card-shadow);
   display: flex;
   flex-direction: column;
 }
@@ -187,6 +194,7 @@ span {
   color: var(--primary-color-dark);
 }
 
+/* BUTTONS */
 .btn {
   padding: 1.25rem;
   width: 100%;
@@ -200,7 +208,66 @@ span {
   outline: none;
   background-color: var(--primary-color-light);
 }
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
 
+.btn--dropdown {
+  background: transparent;
+  border: solid 1px var(--text-color-light);
+  color: var(--text-color);
+  display: flex;
+  align-items: center;
+  border: none;
+  padding-bottom: 1rem;
+}
+
+.btn--dropdown:hover,
+.btn--dropdown:focus {
+  border: none;
+  outline: none;
+}
+
+.btn__icon {
+  display: flex;
+  align-self: center;
+  margin-left: 1rem;
+}
+
+.btn__icon .icon {
+  fill: currentColor;
+}
+
+.dropdown__content {
+  display: flex;
+  flex-direction: column;
+  min-width: 15rem;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: var(--card-shadow);
+}
+
+.dropdown__content a {
+  padding: 1rem 2rem;
+  font-size: 1.4rem;
+  text-decoration: none;
+  color: var(--text-color);
+}
+
+.dropdown__content a:hover {
+  background-color: #f1f1f1;
+}
+
+.dropdown__content a:not(:last-child) {
+  border-bottom: solid 1px var(--text-color-light);
+}
+
+.hidden {
+  display: none;
+}
+
+/* TEXTS */
 .text-white {
   color: #fff !important;
 }
@@ -303,6 +370,10 @@ span {
 
 .status--resolved {
   background-color: green;
+}
+
+.flex--right {
+  align-self: flex-end;
 }
 
 /* .card--hoverable:hover {
@@ -466,4 +537,19 @@ span {
 .status p {
   color: #fff;
   font-weight: 400;
+}
+
+.section--filters {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
+
+.actions {
+  margin-left: 2rem;
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  align-items: center;
 }

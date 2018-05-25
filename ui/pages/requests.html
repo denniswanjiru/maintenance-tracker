@@ -33,7 +33,31 @@
   </header>
 
   <main class="container--fluid">
-    <div class="section"></div>
+    <div class="section page-spacer hr section--filters">
+      <h1>All requests (6)</h1>
+      <div class="actions">
+        <svg class="icon">
+          <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
+        </svg>
+
+        <div class="dropdown">
+          <button class="btn--dropdown">
+            Filter by
+            <div class="btn__icon">
+              <svg class="icon">
+                <use xlink:href="../assets/icons/sprite.svg#icon-chevron-down"></use>
+              </svg>
+            </div>
+          </button>
+
+          <div id="filters" class="hidden">
+            <a href="#">Request type</a>
+            <a href="#">Status</a>
+            <a href="#">Date</a>
+          </div>
+        </div>
+      </div>
+    </div>
     <section class="section section--requests">
       <div class="row">
         <div class="col col--3">
@@ -180,6 +204,8 @@
       <span>&copy; 2018 M-tracker. All Rights Reserved</span>
     </div>
   </footer>
+
+  <script src="../static/dropdown.js"></script>
 </body>
 
 </html>
