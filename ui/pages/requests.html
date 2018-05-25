@@ -40,20 +40,37 @@
           <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
         </svg>
 
-        <div class="dropdown">
-          <button class="btn--dropdown">
-            Filter by
-            <div class="btn__icon">
-              <svg class="icon">
-                <use xlink:href="../assets/icons/sprite.svg#icon-chevron-down"></use>
-              </svg>
-            </div>
-          </button>
+        <div class="actions--right">
+          <div class="dropdown">
+            <button class="btn--dropdown" id="filter-btn">
+              Filter by
+              <div class="btn__icon" id="filter-icon">
+                <svg class="icon">
+                  <use xlink:href="../assets/icons/sprite.svg#icon-chevron-down"></use>
+                </svg>
+              </div>
+            </button>
 
-          <div id="filters" class="hidden">
-            <a href="#">Request type</a>
-            <a href="#">Status</a>
-            <a href="#">Date</a>
+            <div id="filters" class="hidden">
+              <a href="#">Request type</a>
+              <a href="#">Status</a>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <button class="btn--dropdown" id="sort-btn">
+              Sort by
+              <div class="btn__icon">
+                <svg class="icon">
+                  <use xlink:href="../assets/icons/sprite.svg#icon-chevron-down"></use>
+                </svg>
+              </div>
+            </button>
+
+            <div id="sort" class="hidden">
+              <a href="#">Ascending</a>
+              <a href="#">Descending</a>
+            </div>
           </div>
         </div>
       </div>
