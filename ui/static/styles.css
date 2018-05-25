@@ -2,6 +2,7 @@
 
 /* VARIABLES */
 :root {
+  /* COLORS */
   --primary-color: #1e88e5;
   --primary-color-light: #3ba3ff;
   --primary-color-dark: #0b4182;
@@ -11,6 +12,13 @@
   --text-color-dark: #555;
 
   --secondary-color: whitesmoke;
+
+  /* GRADIENTS */
+  --primary-gradient: linear-gradient(
+    to bottom right,
+    var(--primary-color-light),
+    var(--primary-color-dark)
+  );
 }
 
 /* RESETS */
@@ -186,11 +194,7 @@ span {
   display: flex;
   height: 40rem;
   flex-direction: column;
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-color-light),
-    var(--primary-color-dark)
-  );
+  background: var(--primary-gradient);
   padding: 5rem 10rem 2rem 10rem;
   justify-content: space-between;
 }
@@ -214,6 +218,49 @@ span {
   font-size: 2.5rem;
 }
 
+.nav {
+  display: flex;
+  padding: 1rem 3rem;
+  justify-content: space-between;
+}
+
+.nav--primary {
+  background: var(--primary-gradient);
+}
+
+.nav--right {
+  display: flex;
+  list-style: none;
+  align-items: center;
+}
+
+.nav__item {
+  padding: 1.5rem;
+  margin-right: 1rem;
+}
+
+.nav__item:hover,
+.nav__item:active {
+  background-color: darkblue;
+}
+
+.nav__link,
+.btn__link {
+  font-size: 1.2rem;
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.15rem;
+}
+.nav__item--signup,
+.btn--start {
+  background-color: #fff;
+}
+
+.nav__item--signup:hover {
+  background-color: #eee;
+}
+
 /* PAGES */
 /* SIGNUP PAGE */
 .container--auth {
@@ -221,11 +268,7 @@ span {
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-color),
-    var(--primary-color-dark)
-  );
+  background: var(--primary-gradient);
 }
 
 .card--auth {
@@ -243,44 +286,9 @@ span {
   height: 95vh;
   display: flex;
   flex-direction: column;
-  background: linear-gradient(
-    to bottom right,
-    var(--primary-color-light),
-    var(--primary-color-dark)
-  );
+  background: var(--primary-gradient);
   clip-path: polygon(0 0, 100% 0, 100% 80vh, 0 100%);
   position: relative;
-}
-
-.nav {
-  display: flex;
-  padding: 1rem 3rem;
-  justify-content: space-between;
-}
-
-.nav--right {
-  display: flex;
-  list-style: none;
-  align-items: center;
-}
-
-.nav__item {
-  padding: 1.5rem;
-  margin-right: 1rem;
-}
-
-.nav__link,
-.btn__link {
-  font-size: 1.2rem;
-  color: #fff;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.15rem;
-}
-
-.nav__item--signup,
-.btn--start {
-  background-color: #fff;
 }
 
 .tagline-wrapper {
@@ -372,3 +380,5 @@ span {
 .footer .row {
   justify-content: space-between;
 }
+
+/* REQUESTS PAGE */
