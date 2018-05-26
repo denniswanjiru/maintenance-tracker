@@ -1,0 +1,27 @@
+.card--table {
+  min-height: 20rem;
+  margin-top: 3rem;
+}
+
+.row--table {
+  padding: 2rem 3rem;
+  display: flex;
+  align-items: center;
+}
+
+.table__header {
+}
+
+.table__data {
+  flex: 1;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.table--link {
+  text-decoration: none;
+}
+
+.table--link:hover {
+  background-color: #eee;
+}
