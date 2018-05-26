@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../static/styles.css">
+  <title>All Requests | M-tracker</title>
+</head>
+
+<body>
+  <header>
+    <nav class="nav nav--primary">
+      <span class="brand text-white">
+        <a href="../index.html" class="link text-white">M-tracker</a>
+      </span>
+      <ul class="nav--right">
+        <li class="nav__item">
+          <a href="requests.html" class="nav__link">Requests</a>
+        </li>
+        <li class="nav__item">
+          <a href="new-request.html" class="nav__link">Make Request</a>
+        </li>
+        <li class="nav__item">
+          <a href="../auth/signin.html" class="nav__link">Sign in</a>
+        </li>
+        <li class="nav__item nav__item--signup">
+          <a href="../auth/signup.html" class="nav__link text-blue">Create Account</a>
+        </li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="container--fluid">
+    <div class="section page-spacer hr section--filters">
+      <h1>All requests (6)</h1>
+      <div class="actions">
+        <div class="search">
+          <svg class="icon" id="search-btn">
+            <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
+          </svg>
+          <input type="search" name="user-search" id="user-input-search" class="search__input--user hidden" placeholder="Search...">
+        </div>
+
+        <div class="actions--right">
+          <div class="dropdown">
+            <button class="btn--dropdown" id="filter-btn">
+              Filter by
+              <div class="btn__icon" id="filter-icon">
+                <svg class="icon">
+                  <use xlink:href="../assets/icons/sprite.svg#icon-chevron-down"></use>
+                </svg>
+              </div>
+            </button>
+
+            <div id="filters" class="hidden">
+              <a href="#">Request type</a>
+              <a href="#">Status</a>
+            </div>
+          </div>
+
+          <div class="dropdown">
+            <button class="btn--dropdown" id="sort-btn">
+              Sort by
+              <div class="btn__icon">
+                <svg class="icon">
+                  <use xlink:href="../assets/icons/sprite.svg#icon-chevron-down"></use>
+                </svg>
+              </div>
+            </button>
+
+            <div id="sort" class="hidden">
+              <a href="#">Ascending</a>
+              <a href="#">Descending</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="section section--requests">
+      <div class="row">
+        <div class="col col--3">
+          <div class="card card--request">
+            <div class="card__header hr">
+              <h1>Request title</h1>
+              <p class="date">Sep 20th</p>
+            </div>
+            <div class="card__content hr">
+              <p>Lorem ipsum dolor sit amet consectetur elit. Quae id accusamus odit eligendi consectetur...</p>
+            </div>
+            <div class="card__footer">
+              <em>maintenance</em>
+              <span class="status status--resolved">
+                <p>resolved</p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col col--3">
+          <div class="card card--request">
+            <div class="card__header hr">
+              <h1>Request title</h1>
+              <p class="date">Sep 20th</p>
+            </div>
+            <div class="card__content hr">
+              <p>Lorem ipsum dolor sit amet consectetur elit. Quae id accusamus odit eligendi consectetur...</p>
+            </div>
+            <div class="card__footer">
+              <em>repair</em>
+              <span class="status status--rejected">
+                <p>rejected</p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col col--3">
+          <div class="card card--request">
+            <div class="card__header hr">
+              <h1>Request title</h1>
+              <p class="date">Sep 20th</p>
+            </div>
+            <div class="card__content hr">
+              <p>Lorem ipsum dolor sit amet consectetur elit. Quae id accusamus odit eligendi consectetur...</p>
+            </div>
+            <div class="card__footer">
+              <em>repair</em>
+              <span class="status status--approved">
+                <p>approved</p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col col--3">
+          <div class="card card--request">
+            <div class="card__header hr">
+              <h1>Request title</h1>
+              <p class="date">Sep 20th</p>
+            </div>
+            <div class="card__content hr">
+              <p>Lorem ipsum dolor sit amet consectetur elit. Quae id accusamus odit eligendi consectetur...</p>
+            </div>
+            <div class="card__footer">
+              <em>maintenance</em>
+              <span class="status status--rejected">
+                <p>rejected</p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col col--3">
+          <div class="card card--request">
+            <div class="card__header hr">
+              <h1>Request title</h1>
+              <p class="date">Sep 20th</p>
+            </div>
+            <div class="card__content hr">
+              <p>Lorem ipsum dolor sit amet consectetur elit. Quae id accusamus odit eligendi consectetur...</p>
+            </div>
+            <div class="card__footer">
+              <em>maintenance</em>
+              <span class="status status--pending">
+                <p>pending</p>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col col--3">
+          <div class="card card--request">
+            <div class="card__header hr">
+              <h1>Request title</h1>
+              <p class="date">Sep 20th</p>
+            </div>
+            <div class="card__content hr">
+              <p>Lorem ipsum dolor sit amet consectetur elit. Quae id accusamus odit eligendi consectetur...</p>
+            </div>
+            <div class="card__footer">
+              <em>repair</em>
+              <span class="status status--resolved">
+                <p>resolved</p>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__content">
+      <div class="row">
+        <div class="col col--md col--flex">
+          <span class="brand text-white">M-tracker</span>
+          <p class="text-white">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, harum non voluptates ducimus, tempore, voluptate
+            eveniet magni officiis fuga id quae molestias illo tenetur fugiat eius neque? Nemo, minus illum.</p>
+          <a href="" class="btn--start btn__link text-blue">Get Started</a>
+        </div>
+
+        <div class="col col--md  social">
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="../assets/icons/sprite.svg#icon-twitter"></use>
+            </svg>
+          </div>
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="../assets/icons/sprite.svg#icon-facebook"></use>
+            </svg>
+          </div>
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="../assets/icons/sprite.svg#icon-instagram"></use>
+            </svg>
+          </div>
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="../assets/icons/sprite.svg#icon-linkedin"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>&copy; 2018 M-tracker. All Rights Reserved</span>
+    </div>
+  </footer>
+
+  <script src="../static/js/dropdown.js"></script>
+  <script src="../static/js/search.js"></script>
+</body>
+
+</html>
