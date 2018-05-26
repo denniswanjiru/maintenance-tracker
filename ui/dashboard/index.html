@@ -12,43 +12,6 @@
 
 <body>
   <div class="dashboard">
-    <div class="dashboard__content">
-      <header>
-        <nav class="nav nav--dashboard">
-          <svg class="icon">
-            <use xlink:href="../assets/icons/sprite.svg#icon-list"></use>
-          </svg>
-          <form action="#" class="search">
-            <input type="text" name="search" class="search__input" placeholder="Search requests">
-            <button class="search__button">
-              <svg class="icon search__icon">
-                <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
-              </svg>
-            </button>
-          </form>
-
-          <ul class="nav--right">
-            <li class="nav__item nav__item--dashboard">
-              <svg class="icon">
-                <use xlink:href="../assets/icons/sprite.svg#icon-bell"></use>
-              </svg>
-              <div class="notification">45</div>
-            </li>
-            <li class="nav__item nav__item--dashboard">
-              <svg class="icon">
-                <use xlink:href="../assets/icons/sprite.svg#icon-mail"></use>
-              </svg>
-              <div class="notification">8</div>
-            </li>
-            <span class="username">Dennis Wanjiru</span>
-          </ul>
-        </nav>
-      </header>
-      <main>
-        <h2>Content</h2>
-      </main>
-    </div>
-
     <aside class="sidebar">
       <div>
         <div class="brand brand--sidebar">
@@ -87,6 +50,89 @@
         <span class="copyright">M-tracker &copy; 2018. All rights reserves.</span>
       </footer>
     </aside>
+
+    <div class="dashboard__content">
+      <header>
+        <nav class="nav nav--dashboard">
+          <svg class="icon">
+            <use xlink:href="../assets/icons/sprite.svg#icon-list"></use>
+          </svg>
+          <form action="#" class="search">
+            <input type="text" name="search" class="search__input" placeholder="Search requests">
+            <button class="search__button">
+              <svg class="icon search__icon">
+                <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
+              </svg>
+            </button>
+          </form>
+
+          <ul class="nav--right">
+            <li class="nav__item nav__item--dashboard">
+              <svg class="icon">
+                <use xlink:href="../assets/icons/sprite.svg#icon-bell"></use>
+              </svg>
+              <div class="notification">45</div>
+            </li>
+            <li class="nav__item nav__item--dashboard">
+              <svg class="icon">
+                <use xlink:href="../assets/icons/sprite.svg#icon-mail"></use>
+              </svg>
+              <div class="notification">8</div>
+            </li>
+            <span class="username">Dennis Wanjiru</span>
+          </ul>
+        </nav>
+      </header>
+      <main class="dashboard__content-section">
+        <div class="status-wrapper">
+          <div class="card card--status all">
+            <h3 class="card--status__title">All requests</h3>
+            <span class="card--status__stats">
+              <svg class="icon icon--status">
+                <use xlink:href="../assets/icons/sprite.svg#icon-grid"></use>
+              </svg>
+              <p class="stats">659</p>
+            </span>
+          </div>
+          <div class="card card--status status--pending">
+            <h3 class="card--status__title">Pendings</h3>
+            <span class="card--status__stats">
+              <svg class="icon icon--status">
+                <use xlink:href="../assets/icons/sprite.svg#icon-layers"></use>
+              </svg>
+              <p class="stats">259</p>
+            </span>
+          </div>
+          <div class="card card--status status--approved">
+            <h3 class="card--status__title">Approved</h3>
+            <span class="card--status__stats">
+              <svg class="icon icon--status">
+                <use xlink:href="../assets/icons/sprite.svg#icon-git-merge"></use>
+              </svg>
+              <p class="stats">137</p>
+            </span>
+          </div>
+          <div class="card card--status status--resolved">
+            <h3 class="card--status__title">Resolved</h3>
+            <span class="card--status__stats">
+              <svg class="icon icon--status">
+                <use xlink:href="../assets/icons/sprite.svg#icon-check-square"></use>
+              </svg>
+              <p class="stats">145</p>
+            </span>
+          </div>
+          <div class="card card--status status--rejected">
+            <h3 class="card--status__title">Rejecteds</h3>
+            <span class="card--status__stats">
+              <svg class="icon icon--status">
+                <use xlink:href="../assets/icons/sprite.svg#icon-info"></use>
+              </svg>
+              <p class="stats">34</p>
+            </span>
+          </div>
+        </div>
+      </main>
+    </div>
   </div>
 </body>
 

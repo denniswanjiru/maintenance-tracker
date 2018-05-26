@@ -1,0 +1,43 @@
+.status-wrapper {
+  display: flex;
+  flex: 1;
+}
+
+.card--status {
+  flex: 1;
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  color: #fff;
+}
+
+.card--status:not(:last-child) {
+  margin-right: 2rem;
+}
+
+.all {
+  background-color: indigo;
+}
+
+.card--status__title {
+  color: #fff;
+  font-weight: 400 !important;
+  font-size: 2rem;
+  padding-bottom: 0.6rem;
+}
+
+.card--status__stats {
+  display: flex;
+  align-items: center;
+}
+
+.stats {
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.7rem;
+  padding-left: 1rem;
+}
+
+.icon--status {
+  fill: #fff;
+}

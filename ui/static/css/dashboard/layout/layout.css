@@ -8,6 +8,10 @@
   flex: 1;
 }
 
+.dashboard__content-section {
+  padding: 2rem 4rem;
+}
+
 .nav--dashboard {
   background-color: #fff;
   display: flex;
@@ -16,7 +20,6 @@
 
 .sidebar {
   background-color: var(--sidebar-color);
-  order: -1;
   flex-basis: 19%;
 
   display: flex;

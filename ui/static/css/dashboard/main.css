@@ -1,6 +1,7 @@
 @import url("utils/variables.css");
 
-@import url("components/sidebar.css");
+@import url("components/dashboard-content.css");
 @import url("components/dashboard-nav.css");
+@import url("components/sidebar.css");
 
 @import url("layout/layout.css");
