@@ -679,3 +679,7 @@ span {
   padding: 0;
   justify-content: flex-end;
 }
+
+.main--form {
+  margin-bottom: 15rem;
+}
