@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" href="../static/styles.css">
-  <title>All Requests | M-tracker</title>
+  <title>Make Request | M-tracker</title>
 </head>
 
 <body>
-  <header class="header">
+  <header class="header header--form">
     <nav class="nav">
       <span class="brand text-white">
         <a href="../index.html" class="link text-white">M-tracker</a>
@@ -31,6 +31,59 @@
       </ul>
     </nav>
   </header>
+  <main>
+    <section class="section--form">
+      <div class="row">
+        <div class="col col--1">
+          <div class="card card--form">
+            <div class="card__header hr">
+              <span>Make a new request</span>
+            </div>
+            <div class="card__content hr">
+              <form action="#" class="request-form">
+                <div class="form-input">
+                  <input type="text" placeholder="Enter request tile" class="form-input__field">
+                  <label for="" class="form-input__label">Request title
+                    <span class="required">*</span>
+                  </label>
+                </div>
+                <div class="form-input">
+                  <input type="text" placeholder="Enter your location" class="form-input__field">
+                  <label for="" class="form-input__label">Location
+                    <span class="required">*</span>
+                  </label>
+                </div>
+
+                <div class="form-input">
+                  <div class="form-input__radio">
+                    <input type="radio" id="maintenance" class="form-input__radio" name="request-type" value="maintenance">
+                    <label for="maintenance" class="radio-label">Maintenance</label>
+
+                    <input type="radio" id="repair" class="form-input__radio" name="request-type" value="repair">
+                    <label for="repair" class="radio-label">Repair</label>
+                  </div>
+
+                  <label class="form-input__label">Choose request type
+                    <span class="required">*</span>
+                  </label>
+                </div>
+
+                <div class="form-input">
+                  <textarea placeholder="Enter request description" class="form-input__field"></textarea>
+                  <label for="" class="form-input__label">Request description
+                    <span class="required">*</span>
+                  </label>
+                </div>
+                <div class="card__footer">
+                  <button class="btn btn--primary">Request now</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
 </body>
 
 </html>
