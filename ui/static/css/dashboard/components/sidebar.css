@@ -1,0 +1,46 @@
+.sidebar__nav {
+  list-style: none;
+}
+
+.sidebar__link-item,
+.brand--sidebar {
+  padding: 1.5rem 4rem;
+  display: flex;
+  align-items: center;
+}
+
+.sidebar__link-item:hover,
+.active {
+  background-color: var(--sidebar-color-light);
+}
+
+.sidebar__link-item:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.link--sidebar {
+  color: var(--text-color-light);
+  font-size: 1.4rem;
+  text-transform: uppercase;
+}
+
+.icon--sidebar {
+  fill: var(--text-color-light);
+  order: -1;
+  margin-right: 2rem;
+}
+
+.brand--sidebar {
+  border-bottom: solid 1px var(--sidebar-color-light);
+}
+
+.brand--sidebar > span {
+  color: var(--text-color-light);
+}
+
+.copyright {
+  font-size: 1.4rem;
+  color: var(--text-color-light);
+  padding: 2.25rem;
+  text-align: center;
+}
