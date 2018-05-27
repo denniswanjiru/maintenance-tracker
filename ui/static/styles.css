@@ -285,6 +285,24 @@ span {
   background-color: var(--primary-color);
 }
 
+.btn--success {
+  color: #fff;
+  background-color: #009933;
+}
+
+.btn--success:hover {
+  background-color: #00b33c;
+}
+
+.btn--danger {
+  color: #fff;
+  background-color: #cc0000;
+}
+
+.btn--danger:hover {
+  background-color: #e60000;
+}
+
 .btn--primary:hover {
   outline: none;
   background-color: var(--primary-color-light);
@@ -460,7 +478,7 @@ span {
 }
 
 .status--resolved {
-  background-color: green;
+  background-color: #009933;
 }
 
 .flex--right {

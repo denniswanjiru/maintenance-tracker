@@ -1,0 +1,42 @@
+.card--request-details {
+  min-height: 40rem;
+}
+
+.card--request-details .card__header {
+  justify-content: space-between;
+  padding: 2rem 5rem;
+}
+
+.card--request-details .card__content {
+  padding: 2rem 5rem;
+}
+
+.card--request-details .card__content > p {
+  font-size: 1.5rem;
+  line-height: 2.6rem;
+}
+
+.card--request-details .user-info {
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.card--request-details .card__footer {
+  padding: 2rem 5rem;
+}
+
+.card--request-details .status--details {
+  display: flex;
+  align-items: center;
+}
+
+.status--details button {
+  margin-left: 2rem;
+}
+
+button[disabled],
+button[disabled]:hover {
+  background-color: #ccc;
+  color: #555;
+  cursor: not-allowed;
+}
