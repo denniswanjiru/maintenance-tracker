@@ -168,6 +168,13 @@ span {
   width: 1.75rem;
 }
 
+.icon--menu {
+  fill: #fff;
+  align-self: center;
+  height: 2.5rem;
+  width: 2.5rem;
+}
+
 .input-wrapper {
   display: flex;
   align-items: center;
@@ -230,6 +237,7 @@ span {
   font-size: 2.2rem;
   letter-spacing: 0.1rem;
   font-weight: 300;
+  color: #000;
 }
 
 .form-input__radio {
@@ -367,6 +375,10 @@ span {
 
 .text-blue {
   color: var(--primary-color-dark) !important;
+}
+
+.show-on-mobile {
+  display: none;
 }
 
 .footer {
@@ -671,10 +683,9 @@ span {
 }
 
 .card--form {
-  height: 60rem;
+  min-height: 50rem;
   width: 60%;
   margin: auto;
-  z-index: 10000;
 }
 
 .request-form {
@@ -733,11 +744,78 @@ span {
   .footer {
     padding: 2rem;
   }
+
+  .hide-on-mobile {
+    display: none;
+  }
+
   .social {
-    \justify-content: flex-start;
+    justify-content: flex-start;
   }
 
   .footer__content > p:first-child {
     display: none;
+  }
+
+  .copyright {
+    justify-content: flex-start;
+  }
+
+  .section--filters {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .section--filters h1 {
+    flex-basis: 100%;
+  }
+
+  .actions {
+    margin-left: 0;
+    flex-direction: column;
+  }
+
+  .actions .search {
+    margin: 2rem 0;
+  }
+
+  .actions--right {
+    align-self: flex-start;
+  }
+
+  .card--form {
+    width: 100%;
+    box-shadow: none;
+  }
+
+  .card--form .card__header {
+    justify-content: flex-start;
+  }
+
+  .card--form .card__header > span {
+    padding: 0 1rem;
+  }
+
+  .section--form {
+    top: 5%;
+  }
+
+  .main--form {
+    margin-bottom: 7rem;
+  }
+
+  .request-form {
+    padding: 0 1rem;
+  }
+
+  .form-input__label {
+    font-size: 1.8rem;
+  }
+
+  .show-on-mobile {
+    display: block;
+  }
+
+  .mobile-nav {
   }
 }

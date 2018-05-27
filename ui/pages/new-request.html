@@ -15,6 +15,10 @@
       <span class="brand text-white">
         <a href="../index.html" class="link text-white">M-tracker</a>
       </span>
+
+      <svg class="icon icon--menu show-on-mobile">
+        <use xlink:href="../assets/icons/sprite.svg#icon-list"></use>
+      </svg>
       <ul class="nav--right">
         <li class="nav__item">
           <a href="requests.html" class="nav__link">Requests</a>
@@ -39,7 +43,7 @@
             <div class="card__header hr">
               <span>Make a new request</span>
             </div>
-            <div class="card__content hr">
+            <div class="card__content">
               <form action="#" class="request-form">
                 <div class="form-input">
                   <input type="text" placeholder="Enter request tile" class="form-input__field">
@@ -57,10 +61,10 @@
                 <div class="form-input">
                   <div class="form-input__radio">
                     <input type="radio" id="maintenance" class="form-input__radio" name="request-type" value="maintenance">
-                    <label for="maintenance" class="radio-label">Maintenance</label>
+                    <label for="maintenance" class="radio-label">maintenance</label>
 
                     <input type="radio" id="repair" class="form-input__radio" name="request-type" value="repair">
-                    <label for="repair" class="radio-label">Repair</label>
+                    <label for="repair" class="radio-label">repair</label>
                   </div>
 
                   <label class="form-input__label">Choose request type
