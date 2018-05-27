@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../static/styles.css">
+  <link rel="stylesheet" href="../static/css/dashboard/main.css">
+  <title>Dashoard | M-tracker</title>
+</head>
+
+<body>
+  <div class="dashboard">
+    <aside class="sidebar">
+      <div>
+        <div class="brand brand--sidebar">
+          <span>M-tracker</span>
+        </div>
+
+        <ul class="sidebar__nav">
+          <li class="sidebar__link-item active">
+            <a href="#" class="link link--sidebar">Home</a>
+            <svg class="icon icon--sidebar">
+              <use xlink:href="../assets/icons/sprite.svg#icon-home-lite"></use>
+            </svg>
+          </li>
+          <li class="sidebar__link-item">
+            <a href="#" class="link link--sidebar">All requests</a>
+            <svg class="icon icon--sidebar">
+              <use xlink:href="../assets/icons/sprite.svg#icon-grid"></use>
+            </svg>
+          </li>
+          <li class="sidebar__link-item">
+            <a href="#" class="link link--sidebar">Latest requests</a>
+            <svg class="icon icon--sidebar">
+              <use xlink:href="../assets/icons/sprite.svg#icon-watch"></use>
+            </svg>
+          </li>
+          <li class="sidebar__link-item">
+            <a href="#" class="link link--sidebar">Sign out</a>
+            <svg class="icon icon--sidebar">
+              <use xlink:href="../assets/icons/sprite.svg#icon-log-out"></use>
+            </svg>
+          </li>
+        </ul>
+      </div>
+
+      <footer>
+        <span class="copyright">M-tracker &copy; 2018. All rights reserves.</span>
+      </footer>
+    </aside>
+
+    <div class="dashboard__content">
+      <header>
+        <nav class="nav nav--dashboard">
+          <svg class="icon">
+            <use xlink:href="../assets/icons/sprite.svg#icon-list"></use>
+          </svg>
+          <form action="#" class="search">
+            <input type="text" name="search" class="search__input" placeholder="Search requests">
+            <button class="search__button">
+              <svg class="icon search__icon">
+                <use xlink:href="../assets/icons/sprite.svg#icon-search"></use>
+              </svg>
+            </button>
+          </form>
+
+          <ul class="nav--right">
+            <li class="nav__item nav__item--dashboard">
+              <svg class="icon">
+                <use xlink:href="../assets/icons/sprite.svg#icon-bell"></use>
+              </svg>
+              <div class="notification">45</div>
+            </li>
+            <li class="nav__item nav__item--dashboard">
+              <svg class="icon">
+                <use xlink:href="../assets/icons/sprite.svg#icon-mail"></use>
+              </svg>
+              <div class="notification">8</div>
+            </li>
+            <span class="username">Dennis Wanjiru</span>
+          </ul>
+        </nav>
+      </header>
+      <main class="dashboard__content-section">
+        <div class="card card--request-details">
+          <div class="card__header hr">
+            <span>Desktop repair</span>
+            <div class="user-info">
+              <span>Dennis Wanjiru</span> /
+              <span>Roysambu, Nairobi</span> /
+              <span>September 28th, 2017</span>
+            </div>
+          </div>
+          <div class="card__content hr">
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi aut optio, eos ullam quaerat, vitae excepturi
+              libero voluptas, accusantium quibusdam facere ipsa non atque alias nobis neque esse nostrum reiciendis! Lorem
+              ipsum dolor sit amet consectetur adipisicing elit. Animi aut optio, eos ullam quaerat, vitae excepturi libero
+              voluptas, accusantium quibusdam facere ipsa non atque alias nobis neque esse nostrum reiciendis! Lorem ipsum
+              dolor sit amet consectetur adipisicing elit. Animi aut optio, eos ullam quaerat, vitae excepturi libero voluptas,
+              accusantium quibusdam facere ipsa non atque alias nobis neque esse nostrum reiciendis! Lorem ipsum dolor sit
+              amet consectetur adipisicing elit. Animi aut optio, eos ullam quaerat, vitae excepturi libero voluptas, accusantium
+              quibusdam facere ipsa non atque alias nobis neque esse nostrum reiciendis!</p>
+          </div>
+          <div class="card__footer">
+            <strong>
+              <em>maintenance</em>
+            </strong>
+
+            <div class="status--details">
+              <em>pending</em>
+              <button class="btn btn--success">Approve</button>
+              <button class="btn btn--danger">Reject</button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+</body>
+
+</html>
