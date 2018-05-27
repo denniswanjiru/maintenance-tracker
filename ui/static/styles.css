@@ -1,5 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Alex+Brush");
 
+@import url("css/responsive.css");
+
 /* VARIABLES */
 :root {
   /* COLORS */
@@ -370,7 +372,7 @@ span {
 .footer {
   box-sizing: border-box;
   display: flex;
-  height: 40rem;
+  min-height: 40rem;
   flex-direction: column;
   background: var(--primary-gradient);
   padding: 5rem 10rem 2rem 10rem;
@@ -516,6 +518,7 @@ span {
   padding: 1rem;
   height: 10rem;
   align-items: center;
+  text-align: center;
 }
 
 .tagline {
@@ -573,7 +576,6 @@ span {
 
 .circle-wrapper {
   border: 1px solid #fff;
-  margin-left: 2rem;
   align-self: flex-start;
   width: 4rem;
   height: 4rem;
@@ -581,6 +583,10 @@ span {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
+}
+
+.circle-wrapper:not(:first-child) {
+  margin-left: 2rem;
 }
 
 .social .icon {
@@ -682,4 +688,56 @@ span {
 
 .main--form {
   margin-bottom: 15rem;
+}
+
+/* RESPONSIVE */
+@media only screen and (max-width: 500px) {
+  .card--auth {
+    height: 100vh;
+    width: 100vw;
+    display: block;
+  }
+
+  .nav {
+    flex-wrap: wrap;
+  }
+
+  .nav__item {
+    flex-basis: 100%;
+  }
+  .nav--right {
+    flex-wrap: wrap;
+    display: none;
+  }
+
+  .tagline {
+    font-size: 2rem;
+  }
+
+  .section {
+    margin: 0 2rem;
+  }
+
+  .about {
+    margin-top: -20vh;
+  }
+
+  .col--5,
+  .col--4,
+  .col--3,
+  .col--2,
+  .col--1 {
+    flex-basis: 100%;
+  }
+
+  .footer {
+    padding: 2rem;
+  }
+  .social {
+    \justify-content: flex-start;
+  }
+
+  .footer__content > p:first-child {
+    display: none;
+  }
 }
