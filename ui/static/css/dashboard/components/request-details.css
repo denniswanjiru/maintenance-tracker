@@ -33,3 +33,10 @@
 .status--details button {
   margin-left: 2rem;
 }
+
+button[disabled],
+button[disabled]:hover {
+  background-color: #ccc;
+  color: #555;
+  cursor: not-allowed;
+}
