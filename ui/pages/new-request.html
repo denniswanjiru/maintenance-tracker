@@ -5,18 +5,56 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="../static/css/dashboard/components/sidebar.css">
   <link rel="stylesheet" href="../static/styles.css">
   <title>Make Request | M-tracker</title>
 </head>
 
 <body>
+  <aside class="mobile-nav hidden" id="mobile-nav">
+    <div class="brand brand--mobile hr">
+      <span>M-tracker</span>
+    </div>
+    <ul sidebar__nav>
+      <li class="sidebar__link-item mobile-item">
+        <a href="" class="link link--sidebar mobile-link">Home</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="../assets/icons/sprite.svg#icon-home-lite"></use>
+        </svg>
+      </li>
+      <li class="sidebar__link-item mobile-item">
+        <a href="requests.html" class="link link--sidebar mobile-link">Requests</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="../assets/icons/sprite.svg#icon-layers"></use>
+        </svg>
+      </li>
+      <li class="sidebar__link-item mobile-item">
+        <a href="new-request.html" class="link link--sidebar mobile-link">Make request</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="../assets/icons/sprite.svg#icon-activity"></use>
+        </svg>
+      </li>
+      <li class="sidebar__link-item mobile-item">
+        <a href="../auth/signup.html" class="link link--sidebar mobile-link">Create account</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="../assets/icons/sprite.svg#icon-user"></use>
+        </svg>
+      </li>
+      <li class="sidebar__link-item mobile-item">
+        <a href="../auth/signin.html" class="link link--sidebar mobile-link">Sign in</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="../assets/icons/sprite.svg#icon-log-in"></use>
+        </svg>
+      </li>
+    </ul>
+  </aside>
   <header class="header header--form">
     <nav class="nav">
       <span class="brand text-white">
         <a href="../index.html" class="link text-white">M-tracker</a>
       </span>
 
-      <svg class="icon icon--menu show-on-mobile">
+      <svg class="icon icon--menu show-on-mobile" id="hamburger">
         <use xlink:href="../assets/icons/sprite.svg#icon-list"></use>
       </svg>
       <ul class="nav--right">
@@ -126,6 +164,7 @@
     <div class="copyright">
       <span>&copy; 2018 M-tracker. All Rights Reserved</span>
     </div>
+    <script src="../static/js/mobile-nav.js"></script>
   </footer>
 </body>
 

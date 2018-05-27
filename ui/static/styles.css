@@ -360,6 +360,10 @@ span {
   display: none;
 }
 
+.no-overflow {
+  overflow: hidden;
+}
+
 .show {
   display: block;
 }
@@ -816,6 +820,41 @@ span {
     display: block;
   }
 
+  .header {
+    position: relative;
+  }
+
   .mobile-nav {
+    height: 100vh;
+    width: 80%;
+    background-color: #fff;
+    z-index: 9999;
+    position: absolute;
+    top: 0%;
+    left: 0;
+  }
+
+  .brand--mobile {
+    padding: 1.5rem 4rem;
+  }
+
+  .brand--mobile > span {
+    color: var(--primary-color);
+  }
+
+  .mobile-item {
+    display: flex !important;
+    margin-bottom: 0 !important;
+    border-bottom: solid 1px #ccc;
+  }
+
+  .mobile-link {
+    color: var(--text-color);
+    align-self: center;
+  }
+
+  .mobile-icon {
+    align-self: center;
+    fill: currentColor;
   }
 }
