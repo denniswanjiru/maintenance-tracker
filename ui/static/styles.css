@@ -359,6 +359,18 @@ span {
   margin-top: 1rem;
 }
 
+#signout-btn,
+#signout-btn .icon {
+  color: #fff;
+  fill: #fff;
+}
+
+.dropdown--signout {
+  top: 6rem;
+  right: 0;
+  z-index: 99999;
+}
+
 .dropdown__content a {
   padding: 1rem 2rem;
   font-size: 1.4rem;
