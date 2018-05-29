@@ -10,3 +10,13 @@ class TestRequestResource(unittest.TestCase):
     def test_get_request(self):
         response = self.client.get('api/v1/users/requests/')
         self.assertEqual(response.status_code, 200)
+
+    def test_post_request(self):
+        response = self.client.post('api/v1/users/requests/', data=dict(
+            title="My first request",
+            location="Roysambu, Nairobi",
+            request_type="maintenance",
+            descritption="Requests' description"
+        ))
+
+        self.assertEqual(response.status_code, 201)
