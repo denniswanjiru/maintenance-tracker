@@ -584,7 +584,7 @@ span {
 }
 
 .card--about {
-  min-height: 32rem;
+  height: 26rem;
 }
 
 .card--about > .card__header {
