@@ -30,7 +30,7 @@ class TestRequestResource(unittest.TestCase):
 
         self.assertEqual(response.status_code, 201)
 
-    def test_400_post_requests(self):
+    def test_400_post_a_request(self):
         empty_dict = self.client.post('api/v1/users/requests/', data={})
         empty_tuple = self.client.post('api/v1/users/requests/', data=())
         empty_list = self.client.post('api/v1/users/requests/', data=[])
@@ -52,6 +52,23 @@ class TestRequestResource(unittest.TestCase):
             'api/v1/users/requests/1/', data=self.data["request"])
 
         self.assertEqual(response.status_code, 200)
+
+    def test_400_update_a_request(self):
+        empty_dict = self.client.put('api/v1/users/requests/1', data={})
+        empty_tuple = self.client.post('api/v1/users/requests/', data=())
+        empty_list = self.client.post('api/v1/users/requests/', data=[])
+        empty_string = self.client.post('api/v1/users/requests/', data="")
+        bad_data = self.client.post('api/v1/users/requests/', data={
+            "request_id": 1,
+            'title': '',
+            "location": 234,
+        })
+
+        self.assertEqual(empty_dict.status_code, 400)
+        self.assertEqual(empty_tuple.status_code, 400)
+        self.assertEqual(empty_list.status_code, 400)
+        self.assertEqual(empty_string.status_code, 400)
+        self.assertEqual(bad_data.status_code, 400)
 
     def test_delete_a_request(self):
         response = self.client.post(
