@@ -20,3 +20,13 @@ class TestRequestResource(unittest.TestCase):
         ))
 
         self.assertEqual(response.status_code, 201)
+
+    def test_update_request(self):
+        response = self.client.put('api/v1/users/requests/1', data=dict(
+            title="My first request",
+            location="Roysambu, Nairobi",
+            request_type="maintenance",
+            descritption="Requests' description"
+        ))
+
+        self.assertEqual(response.status_code, 200)
