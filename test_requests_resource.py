@@ -1,11 +1,14 @@
-
+""" Import app, unittest and json modules into the file """
 from app import app
 import unittest
 import json
 
 
 class TestRequestResource(unittest.TestCase):
+    """ A class to perform tests for the Request Resource """
+
     def setUp(self):
+        """ Setup the app to be in testing mode and make it able to use test client"""
         app.config['TESTING'] = True
         self.client = app.test_client()
         self.data = {
@@ -19,6 +22,7 @@ class TestRequestResource(unittest.TestCase):
         }
 
     def test_get_requests(self):
+        """ Test all resources can be successfully retrived """
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"])
         self.assertEqual(response.status_code, 201)
@@ -26,6 +30,7 @@ class TestRequestResource(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_get_a_request(self):
+        """ Test a resource can be successfully retrived """
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"])
         self.assertEqual(response.status_code, 201)
@@ -35,11 +40,13 @@ class TestRequestResource(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_a_request(self):
+        """ Test a resource can be successfully created"""
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"])
         self.assertEqual(response.status_code, 201)
 
     def test_400_post_a_request(self):
+        """ Test bad request on post method """
         empty_dict = self.client.post('api/v1/users/requests/', data={})
         empty_tuple = self.client.post('api/v1/users/requests/', data=())
         empty_list = self.client.post('api/v1/users/requests/', data=[])
@@ -57,6 +64,7 @@ class TestRequestResource(unittest.TestCase):
         self.assertEqual(bad_data.status_code, 400)
 
     def test_update_a_request(self):
+        """ Test a resource can be successfully updated """
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"])
         self.assertEqual(response.status_code, 201)
@@ -69,6 +77,7 @@ class TestRequestResource(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_400_update_a_request(self):
+        """ Test bad request on put method """
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"])
         self.assertEqual(response.status_code, 201)
@@ -96,6 +105,7 @@ class TestRequestResource(unittest.TestCase):
         self.assertEqual(bad_data.status_code, 400)
 
     def test_delete_a_request(self):
+        """ Test if a resource can be deleted successfully method """
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"])
 
