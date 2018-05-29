@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="ui/static/css/dashboard/components/sidebar.css">
+  <link rel="stylesheet" href="ui/static/styles.css">
+  <title>M-tracker</title>
+</head>
+
+<body>
+  <aside class="mobile-nav hidden" id="mobile-nav">
+    <div class="brand brand--mobile hr">
+      <span>M-tracker</span>
+    </div>
+    <ul sidebar__nav>
+      <li class="sidebar__link-item mobile-item">
+        <a href="" class="link link--sidebar mobile-link">Home</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="ui/assets/icons/sprite.svg#icon-home-lite"></use>
+        </svg>
+      </li>
+      <li class="sidebar__link-item mobile-item">
+        <a href="ui/auth/signup.html" class="link link--sidebar mobile-link">Create account</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="ui/assets/icons/sprite.svg#icon-user"></use>
+        </svg>
+      </li>
+      <li class="sidebar__link-item mobile-item">
+        <a href="ui/auth/signin.html" class="link link--sidebar mobile-link">Sign in</a>
+        <svg class="icon icon--sidebar mobile-icon">
+          <use xlink:href="ui/assets/icons/sprite.svg#icon-log-in"></use>
+        </svg>
+      </li>
+    </ul>
+  </aside>
+  <header class="header">
+    <nav class="nav">
+      <span class="brand text-white">
+        <a href="index.html" class="link text-white">M-tracker</a>
+      </span>
+
+      <svg class="icon icon--menu show-on-mobile" id="hamburger">
+        <use xlink:href="ui/assets/icons/sprite.svg#icon-list"></use>
+      </svg>
+
+      <ul class="nav--right">
+        <li class="nav__item">
+          <a href="ui/auth/signin.html" class="nav__link">Sign in</a>
+        </li>
+        <li class="nav__item nav__item--signup">
+          <a href="ui/auth/signup.html" class="nav__link text-blue">Create Account</a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="tagline-wrapper">
+      <h1 class="tagline">When you think of maintenance, think M-tracker</h1>
+      <a href="ui/auth/signup.html" class="btn--start btn__link text-blue">Get Started</a>
+    </div>
+  </header>
+
+  <main class="container--fluid">
+    <section class="section about">
+      <div class="row">
+        <h2 class="section--header">How it works</h2>
+      </div>
+      <div class="row">
+        <div class="col col--4">
+          <div class="card card--about">
+            <div class="card__header">
+              <span>You request</span>
+            </div>
+            <div class="card__content">
+              <p>At M-tracker you are expected to login first in order to successfully make a new request. A request can be
+                of types; maintenace or repair. We also need your location :)
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col col--4">
+          <div class="card card--about">
+            <div class="card__header">
+              <span>We approve it</span>
+            </div>
+            <div class="card__content">
+              <p>After you've successfully made a request. It is received by our happy team and analyzed. Once its analysed
+                it is either aprroved or rejected with a reason of course.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col col--4">
+          <div class="card card--about">
+            <div class="card__header">
+              <span>You pay</span>
+            </div>
+            <div class="card__content">
+              <p>If your request has been successfully been approved, you are notified and you are also ecpected to pay for
+                the services prior receiving them.
+              </p>
+            </div>
+          </div>
+        </div>
+        <div class="col col--4">
+          <div class="card card--about">
+            <div class="card__header">
+              <span>We serve you</span>
+            </div>
+            <div class="card__content">
+              <p>Here comes the fun part! Our team is sent to the location you provided in the first step and professionally
+                offers the services you requested.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="footer__content">
+      <div class="row">
+        <div class="col col--md col--flex">
+          <span class="brand text-white">M-tracker</span>
+          <p class="text-white">M-tracker helps you to make requests for maintenance/repair services. We will receive the request and either approve
+            or reject it. If the request is approved the you are notified and you get the appropriate services as you requested.</p>
+          <a href="ui/auth/signup.html" class="btn--start btn__link text-blue">Get Started</a>
+        </div>
+
+        <div class="col col--md  social">
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="ui/assets/icons/sprite.svg#icon-twitter"></use>
+            </svg>
+          </div>
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="ui/assets/icons/sprite.svg#icon-facebook"></use>
+            </svg>
+          </div>
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="ui/assets/icons/sprite.svg#icon-instagram"></use>
+            </svg>
+          </div>
+          <div class="circle-wrapper">
+            <svg class="icon">
+              <use xlink:href="ui/assets/icons/sprite.svg#icon-linkedin"></use>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>&copy; 2018 M-tracker. All Rights Reserved</span>
+    </div>
+  </footer>
+
+  <script src="ui/static/js/mobile-nav.js"></script>
+</body>
+
+</html>
