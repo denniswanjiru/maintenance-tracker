@@ -1,5 +1,6 @@
 from app import app
 import unittest
+import json
 
 
 class TestRequestResource(unittest.TestCase):
@@ -30,3 +31,19 @@ class TestRequestResource(unittest.TestCase):
         ))
 
         self.assertEqual(response.status_code, 200)
+
+    def test_delete_request(self):
+        response = self.client.post('api/v1/users/requests/', data=dict(
+            title="My first request",
+            location="Roysambu, Nairobi",
+            request_type="maintenance",
+            descritption="Requests' description"
+        ))
+
+        self.assertEqual(response.status_code, 200)
+
+        res = self.delete('api/v1/users/requests/1')
+        self.assertEqual(res.status_code, 200)
+
+        request = self.get('api/v1/users/requests/1')
+        self.assertEqual(res.status_code, 404)
