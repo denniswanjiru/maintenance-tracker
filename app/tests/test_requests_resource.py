@@ -45,5 +45,5 @@ class TestRequestResource(unittest.TestCase):
         res = self.delete('api/v1/users/requests/1')
         self.assertEqual(res.status_code, 200)
 
-        request = self.get('api/v1/users/requests/1')
+        request_res = self.get('api/v1/users/requests/1')
         self.assertEqual(res.status_code, 404)
