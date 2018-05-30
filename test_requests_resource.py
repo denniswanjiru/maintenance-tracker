@@ -8,7 +8,7 @@ class TestRequestResource(unittest.TestCase):
     """ A class to perform tests for the Request Resource """
 
     def setUp(self):
-        """ Setup the app to be in testing mode and make it able to use test client"""
+        """ Setup the app to be in testing mode and make it able to use test client """
         app.config['TESTING'] = True
         self.client = app.test_client()
         self.data = {
@@ -32,17 +32,26 @@ class TestRequestResource(unittest.TestCase):
             }
         }
 
-   `def register_user(self):
+    def register_user(self):
         """ Create a new user and return them """
         response = self.client.post(
             '/api/v1/auth/signup/', data=self.data.get('user1'), content_type="application/json")
         return response
 
-   `def login_user(self):
+    def authenticate_user(self):
         """ Login the newly created user and return them """
         response = self.client.post(
             '/api/v1/auth/signin/', data=self.data.get('creds'), content_type="application/json")
         return response
+
+    def register_and_authenticate_user(self):
+       # Register the user first.
+        registered_user = self.register_user()
+        self.assertEqual(registered_user.status_code, 201)
+
+        # Log the user in.
+        authenticated_user = self.authenticate_user()
+        self.assertEqual(authenticated_user.status_code, 200)
 
     def test_get_requests(self):
         """ Test all resources can be successfully retrived """
@@ -58,6 +67,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_get_a_request(self):
         """ Test a resource can be successfully retrived """
+        self.register_and_authenticate_user()
+
         response = self.client.post(
             'api/v1/users/requests/',
             data=self.data["request"],
@@ -71,6 +82,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_post_a_request(self):
         """ Test a resource can be successfully created"""
+        self.register_and_authenticate_user()
+
         response = self.client.post(
             'api/v1/users/requests/',
             data=self.data["request"],
@@ -80,6 +93,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_400_post_a_request(self):
         """ Test bad request on post method """
+        self.register_and_authenticate_user()
+
         empty_dict = self.client.post(
             'api/v1/users/requests/', data={}, content_type="application/json")
         empty_tuple = self.client.post(
@@ -89,10 +104,10 @@ class TestRequestResource(unittest.TestCase):
         empty_string = self.client.post(
             'api/v1/users/requests/', data="", content_type="application/json")
         bad_data = self.client.post('api/v1/users/requests/', data={
-                "request_id": 1,
-                'title': '',
-                "location": 234,
-            }, content_type="application/json"
+            "request_id": 1,
+            'title': '',
+            "location": 234,
+        }, content_type="application/json"
         )
 
         self.assertEqual(empty_dict.status_code, 400)
@@ -103,6 +118,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_a_request(self):
         """ Test a resource can be successfully updated """
+        self.register_and_authenticate_user()
+
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"],
             content_type="application/json"
@@ -120,6 +137,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_400_update_a_request(self):
         """ Test bad request on put method """
+        self.register_and_authenticate_user()
+
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"],
             content_type="application/json"
@@ -154,6 +173,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_delete_a_request(self):
         """ Test if a resource can be deleted successfully method """
+        self.register_and_authenticate_user()
+
         response = self.client.post(
             'api/v1/users/requests/', data=self.data["request"],
             content_type="application/json"
