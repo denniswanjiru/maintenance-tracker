@@ -24,24 +24,24 @@ class RequestList(Resource):
 
     def post(self):
         args = parser.parse_args()
-        request = {
+        _request = {
             "request_id": requests[-1]["request_id"] + 1 if requests else 1,
             "title": args['title'],
             "location": args['location'],
             "request_type": args['request_type'],
             "description": args['description']
         }
-        requests.append(request)
-        return {"request": request}, 201
+        requests.append(_request)
+        return {"request": _request}, 201
 
 
 class Request(Resource):
     def get(self, request_id):
         """ Get a single request resource based off its id """
-        request = find_request(request_id)
-        if len(request) == 0:
+        _request = find_request(request_id)
+        if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        return {'request': request[0]}, 200
+        return {'request': _request[0]}, 200
 
     def put(self, request_id):
         """ Update a single request resource based off its id """
@@ -57,6 +57,14 @@ class Request(Resource):
         _request[0]['description'] = request.json.get(
             'description', _request[0]['description'])
 
+        return {"requests": requests}
+
+    def delete(self, request_id):
+        """ Delete a single request resource based off its id """
+        _request = find_request(request_id)
+        if len(_request) == 0:
+            return {"message": f"request {request_id} doesn't exit."}, 404
+        requests.remove(_request[0])
         return {"requests": requests}
 
 
