@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse, abort
 
 app = Flask(__name__)
@@ -24,24 +24,40 @@ class RequestList(Resource):
 
     def post(self):
         args = parser.parse_args()
-        _request = {
+        request = {
             "request_id": requests[-1]["request_id"] + 1 if requests else 1,
             "title": args['title'],
             "location": args['location'],
             "request_type": args['request_type'],
             "description": args['description']
         }
-        requests.append(_request)
-        return {"_request": _request}, 201
+        requests.append(request)
+        return {"request": request}, 201
 
 
 class Request(Resource):
     def get(self, request_id):
         """ Get a single request resource based off its id """
+        request = find_request(request_id)
+        if len(request) == 0:
+            return {"message": f"request {request_id} doesn't exit."}, 404
+        return {'request': request[0]}, 200
+
+    def put(self, request_id):
+        """ Update a single request resource based off its id """
         _request = find_request(request_id)
         if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        return {'request': _request[0]}, 200
+        _request[0]['title'] = request.json.get(
+            'title', _request[0]['title'])
+        _request[0]['location'] = request.json.get(
+            'location', _request[0]['location'])
+        _request[0]['request_type'] = request.json.get(
+            'request_type', _request[0]['request_type'])
+        _request[0]['description'] = request.json.get(
+            'description', _request[0]['description'])
+
+        return {"requests": requests}
 
 
 api.add_resource(RequestList, '/api/v1/users/requests/')
