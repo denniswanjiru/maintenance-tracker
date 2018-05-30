@@ -12,19 +12,16 @@ class TestRequestResource(unittest.TestCase):
         app.config['TESTING'] = True
         self.client = app.test_client()
         self.data = {
-            "request": {
-                "request_id": 1,
+            "request1": {
                 "title": "My first request",
                 "location": "Roysambu, Nairobi",
                 "request_type": "maintenance",
                 "descritption": "Requests' description"
             },
             "user1": {
-                "username": "user1",
-                "password": "mysupersecret",
                 "email": "user@gmail.com",
-                "name": "User One",
-                "token": "SFNJFSD8IFSDI3CX8V9WVCXZ98FDSCSD8XCVZ32F"
+                "password": "mysupersecret",
+                "name": "User One"
             },
             "creds": {
                 "username": "user1",
