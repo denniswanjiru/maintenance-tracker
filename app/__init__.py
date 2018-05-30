@@ -17,5 +17,17 @@ class RequestList(Resource):
     def get(self):
         return {"requests": requests}, 200
 
+    def post(self):
+        args = parser.parse_args()
+        _request = {
+            "request_id": requests[-1]["request_id"] + 1 if requests else 1,
+            "title": args['title'],
+            "location": args['location'],
+            "request_type": args['request_type'],
+            "description": args['description']
+        }
+        requests.append(_request)
+        return {"_request": _request}, 201
+
 
 api.add_resource(RequestList, '/api/v1/users/requests/')
