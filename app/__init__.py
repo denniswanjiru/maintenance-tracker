@@ -46,19 +46,18 @@ class Request(Resource):
 
     def put(self, request_id):
         """ Update a single request resource based off its id """
+        data = request.get_json()
         _request = find_request(request_id)
         if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        _request[0]['title'] = request.json.get(
-            'title', _request[0]['title'])
-        _request[0]['location'] = request.json.get(
-            'location', _request[0]['location'])
-        _request[0]['request_type'] = request.json.get(
+        _request[0]['title'] = data.get('title', _request[0]['title'])
+        _request[0]['location'] = data.get('location', _request[0]['location'])
+        _request[0]['request_type'] = data.get(
             'request_type', _request[0]['request_type'])
-        _request[0]['description'] = request.json.get(
+        _request[0]['description'] = data.get(
             'description', _request[0]['description'])
 
-        return {"requests": requests_store}
+        return {"requests": requests_store}, 200
 
     def delete(self, request_id):
         """ Delete a single request resource based off its id """
