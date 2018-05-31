@@ -19,7 +19,7 @@ class TestRequestResource(unittest.TestCase):
                 "email": "user@gmail.com",
                 "name": "User One",
                 "password": "mysupersecret",
-                "confirm_password": "mysupersecret",
+                "confirm_password": "mysupersecret"
             },
             "creds": {
                 "username": "user1",
@@ -27,15 +27,33 @@ class TestRequestResource(unittest.TestCase):
             }
         }
 
-    def test_signup(self):
-        """ Create a new user """
+    def test_signin(self):
+        """ Login a user user """
+        # First create a new user
         response = self.client.post(
             '/api/v1/users/auth/signup/',
             data=json.dumps(self.data["user"]),
             content_type=("application/json")
         )
-
         self.assertEqual(response.status_code, 201)
+
+        # Log the user in
+        response = self.client.post(
+            '/api/v1/users/auth/signin/',
+            data=json.dumps(self.data["creds"]),
+            content_type=("application/json")
+        )
+        self.assertEqual(response.status_code, 200)
+
+    # def test_signup(self):
+    #     """ Login a user user """
+    #     # First create a new user
+    #     response = self.client.post(
+    #         '/api/v1/users/auth/signup/',
+    #         data=json.dumps(self.data["user"]),
+    #         content_type=("application/json")
+    #     )
+    #     self.assertEqual(response.status_code, 201)
 
 
 if __name__ == '__main__':
