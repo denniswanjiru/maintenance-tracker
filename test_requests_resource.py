@@ -128,10 +128,7 @@ class TestRequestResource(unittest.TestCase):
     #     self.assertEqual(response.status_code, 201)
     #     # created_resource = json.loads(response.data)
     #     response = self.client.put(
-    #         '/api/v1/users/request/1/', data={
-    #             "title": "My Actual request",
-    #             "request_type": "repair"
-    #         }
+    #         '/api/v1/users/request/1/', data=json.dumps(dict(location="New title"))
     #     )
     #     self.assertEqual(response.status_code, 200)
 
@@ -180,8 +177,6 @@ class TestRequestResource(unittest.TestCase):
             data=self.data["request1"]
         )
         self.assertEqual(response.status_code, 201)
-
-        # created_resource = json.loads(response.data)
 
         res = self.client.delete(
             '/api/v1/users/request/1/')
