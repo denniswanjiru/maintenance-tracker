@@ -71,11 +71,22 @@ class Request(Resource):
 
 class Registration(Resource):
     def post(self):
+        data = request.get_json()
+        username_taken = [user for user in users if users[data["username"]]]
+        email_taken = [email for email in users if users[data["email"]]]
+
+        if username_taken:
+            return {"message": "username already taken"}, 400
+        if email_taken:
+            return {"message": "email already taken"}, 400
+        if data["password"] != data["confirm_password"]:
+            return {"message": "password and confirm_password fields do not match"}, 400
+
         users.update({
-            request.json.get("username"): {
-                "name": request.json.get("name"),
-                "email": request.json.get("email"),
-                "password": request.json.get("password")
+            data.get("username"): {
+                "name": data.get("name"),
+                "email": data.get("email"),
+                "password": data.get("password")
             }
         })
 
