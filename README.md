@@ -1,4 +1,4 @@
-![license](https://img.shields.io/github/license/mashape/apistatus.svg)
+[![Build Status](https://travis-ci.org/DennisWanjiru/maintenance-tracker.svg?branch=ft-api-endpoints-157964345)](https://travis-ci.org/DennisWanjiru/maintenance-tracker) ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 
 ### _Landing page_
 
