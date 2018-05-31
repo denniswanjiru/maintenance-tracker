@@ -69,7 +69,7 @@ class Request(Resource):
         return {"requests": requests_store}
 
 
-class Registration(Resource):
+class UserRegistration(Resource):
     def post(self):
         data = request.get_json()
         username_taken = [
@@ -94,6 +94,20 @@ class Registration(Resource):
         return {"users": users}, 201
 
 
+class UserSignin(Resource):
+    def post(self):
+        data = request.get_json()
+        username = data["username"]
+        password = data["password"]
+
+        if username in users:
+            if users[username]["password"] != password:
+                return {"message": "username or password do not match."}, 403
+            return {"message": f"you are now logged in as {username}"}, 200
+        return {"message": f"{username} does not have an account."}, 404
+
+
 api.add_resource(RequestList, '/api/v1/users/requests/')
 api.add_resource(Request, '/api/v1/users/request/<int:request_id>/')
-api.add_resource(Registration, '/api/v1/users/auth/register/')
+api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
+api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
