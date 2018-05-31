@@ -54,14 +54,6 @@ class TestRequestResource(unittest.TestCase):
 
     def test_get_requests(self):
         """ Test all resources can be successfully retrived """
-        # responese = self.client.post(
-        #     '/api/v1/users/auth/signup/', data=self.data['user1']
-        # self.assertEqual(response.status_code, 201)
-
-        # response=self.client.post(
-        #     '/api/v1/users/auth/signin/', data=self.data['creds']
-        # self.assertEqual(response.status_code, 200)
-
         response = self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -95,30 +87,50 @@ class TestRequestResource(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 201)
 
-    # def test_400_post_a_request(self):
-    #     """ Test bad request on post method """
-    #     self.register_and_authenticate_user()
+    def tests_empty_dict(self):
+        response = self.client.post(
+            'api/v1/users/requests/',
+            data={},
+            content_type=("application/json")
+        )
 
-    #     empty_dict = self.client.post(
-    #         'api/v1/users/requests/', data={}, content_type="application/json")
-    #     empty_tuple = self.client.post(
-    #         'api/v1/users/requests/', data=(), content_type="application/json")
-    #     empty_list = self.client.post(
-    #         'api/v1/users/requests/', data=[], content_type="application/json")
-    #     empty_string = self.client.post(
-    #         'api/v1/users/requests/', data="", content_type="application/json")
-    #     bad_data = self.client.post('api/v1/users/requests/', data={
-    #         "request_id": 1,
-    #         'title': '',
-    #         "location": 234,
-    #     }, content_type="application/json"
-    #     )
+        self.assertEqual(response.status_code, 400)
 
-    #     self.assertEqual(empty_dict.status_code, 400)
-    #     self.assertEqual(empty_tuple.status_code, 400)
-    #     self.assertEqual(empty_list.status_code, 400)
-    #     self.assertEqual(empty_string.status_code, 400)
-    #     self.assertEqual(bad_data.status_code, 400)
+    def tests_empty_list(self):
+        response = self.client.post(
+            'api/v1/users/requests/',
+            data=[],
+            content_type=("application/json")
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def tests_empty_string(self):
+        response = self.client.post(
+            'api/v1/users/requests/',
+            data="",
+            content_type=("application/json")
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def tests_empty_tuple(self):
+        response = self.client.post(
+            'api/v1/users/requests/',
+            data=(),
+            content_type=("application/json")
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def tests_bad_data(self):
+        response = self.client.post(
+            'api/v1/users/requests/',
+            data={
+                "request_id": 1,
+                'title': '',
+                "location": 234
+            },
+            content_type=("application/json")
+        )
+        self.assertEqual(response.status_code, 400)
 
     def test_update_a_request(self):
         """ Test a resource can be successfully updated """
@@ -134,41 +146,84 @@ class TestRequestResource(unittest.TestCase):
         )
         self.assertEqual(response.status_code, 200)
 
-    # def test_400_update_a_request(self):
-    #     """ Test bad request on put method """
-    #     self.register_and_authenticate_user()
+    def test_update_with_empty_dict(self):
+        response = self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
 
-    #     response = self.client.post(
-    #         'api/v1/users/requests/', data=self.data["request"],
-    #         content_type="application/json"
-    #     )
-    #     self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 201)
 
-    #     created_resource = json.loads(response.data)
+        response = self.client.put(
+            'api/v1/users/request/1/', data={},
+            content_type="application/json")
 
-    #     empty_dict = self.client.put(
-    #         f'api/v1/users/requests/{created_resource["request_id"]}/', data={},
-    #         content_type="application/json")
-    #     empty_tuple = self.client.put(
-    #         f'api/v1/users/requests/{created_resource["request_id"]}/', data=(),
-    #         content_type="application/json")
-    #     empty_list = self.client.put(
-    #         f'api/v1/users/requests/{created_resource["request_id"]}/', data=[],
-    #         content_type="application/json")
-    #     empty_string = self.client.put(
-    #         f'api/v1/users/requests/{created_resource["request_id"]}/', data="",
-    #         content_type="application/json")
-    #     bad_data = self.client.put(f'api/v1/users/requests/{created_resource["request_id"]}/', data={
-    #         "request_id": 1,
-    #         'title': '',
-    #         "location": 234,
-    #     }, content_type="application/json")
+        self.assertEqual(response.status_code, 400)
 
-    #     self.assertEqual(empty_dict.status_code, 400)
-    #     self.assertEqual(empty_tuple.status_code, 400)
-    #     self.assertEqual(empty_list.status_code, 400)
-    #     self.assertEqual(empty_string.status_code, 400)
-    #     self.assertEqual(bad_data.status_code, 400)
+    def test_update_with_empty_list(self):
+        response = self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.put(
+            'api/v1/users/request/1/', data=[],
+            content_type="application/json")
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_update_with_empty_string(self):
+        response = self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.put(
+            'api/v1/users/request/1/', data="",
+            content_type="application/json")
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_update_with_empty_tuple(self):
+        response = self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.put(
+            'api/v1/users/request/1/', data=(),
+            content_type="application/json")
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_update_with_bad_data(self):
+        response = self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.put(
+            'api/v1/users/request/1/', data={
+                "request_id": 1,
+                'title': '',
+                "location": 234,
+            },
+            content_type="application/json")
+
+        self.assertEqual(response.status_code, 400)
 
     def test_delete_a_request(self):
         """ Test if a resource can be deleted successfully method """
