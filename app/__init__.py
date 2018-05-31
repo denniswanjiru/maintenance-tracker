@@ -5,6 +5,7 @@ app = Flask(__name__)
 api = Api(app)
 
 requests_store = []
+users = {}
 
 parser = reqparse.RequestParser()
 parser.add_argument('title', required=True, type=str)
@@ -68,5 +69,19 @@ class Request(Resource):
         return {"requests": requests_store}
 
 
+class Registration(Resource):
+    def post(self):
+        users.update({
+            request.json.get("username"): {
+                "name": request.json.get("name"),
+                "email": request.json.get("email"),
+                "password": request.json.get("password")
+            }
+        })
+
+        return {"users": users}, 201
+
+
 api.add_resource(RequestList, '/api/v1/users/requests/')
 api.add_resource(Request, '/api/v1/users/request/<int:request_id>/')
+api.add_resource(Registration, '/api/v1/users/auth/register/')
