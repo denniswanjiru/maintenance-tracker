@@ -8,11 +8,13 @@ class TestRequestResource(unittest.TestCase):
     """ A class to perform tests for the Request Resource """
 
     def setUp(self):
-        """ Setup the app to be in testing mode and make it able to use test client """
+        """
+        Setup the app to be in testing mode and make it able to use test client
+        """
         app.config['TESTING'] = True
         self.client = app.test_client()
         self.data = {
-            "request1": {
+            "dummy_request": {
                 "title": "My first request",
                 "location": "Roysambu, Nairobi",
                 "request_type": "maintenance",
@@ -62,7 +64,8 @@ class TestRequestResource(unittest.TestCase):
 
         response = self.client.post(
             '/api/v1/users/requests/',
-            data=self.data["request1"]
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
         )
 
         self.assertEqual(response.status_code, 201)
@@ -75,7 +78,8 @@ class TestRequestResource(unittest.TestCase):
 
         response = self.client.post(
             '/api/v1/users/requests/',
-            data=self.data["request1"]
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
         )
         self.assertEqual(response.status_code, 201)
         # created_resource = json.loads(response.data)
@@ -84,11 +88,10 @@ class TestRequestResource(unittest.TestCase):
 
     def test_post_a_request(self):
         """ Test a resource can be successfully created"""
-        # self.register_and_authenticate_user()
-
         response = self.client.post(
             '/api/v1/users/requests/',
-            data=self.data["request1"]
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
         )
         self.assertEqual(response.status_code, 201)
 
@@ -117,20 +120,19 @@ class TestRequestResource(unittest.TestCase):
     #     self.assertEqual(empty_string.status_code, 400)
     #     self.assertEqual(bad_data.status_code, 400)
 
-    # def test_update_a_request(self):
-    #     """ Test a resource can be successfully updated """
-    #     # self.register_and_authenticate_user()
+    def test_update_a_request(self):
+        """ Test a resource can be successfully updated """
+        response = self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+        self.assertEqual(response.status_code, 201)
 
-    #     response = self.client.post(
-    #         '/api/v1/users/requests/',
-    #         data=self.data["request1"]
-    #     )
-    #     self.assertEqual(response.status_code, 201)
-    #     # created_resource = json.loads(response.data)
-    #     response = self.client.put(
-    #         '/api/v1/users/request/1/', data=json.dumps(dict(location="New title"))
-    #     )
-    #     self.assertEqual(response.status_code, 200)
+        response = self.client.put(
+            '/api/v1/users/request/1/', data=json.dumps(dict(location="New title")), content_type=("application/json")
+        )
+        self.assertEqual(response.status_code, 200)
 
     # def test_400_update_a_request(self):
     #     """ Test bad request on put method """
@@ -174,7 +176,8 @@ class TestRequestResource(unittest.TestCase):
 
         response = self.client.post(
             '/api/v1/users/requests/',
-            data=self.data["request1"]
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
         )
         self.assertEqual(response.status_code, 201)
 
