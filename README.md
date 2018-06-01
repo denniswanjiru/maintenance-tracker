@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/DennisWanjiru/maintenance-tracker.svg?branch=ft-api-endpoints-157964345)](https://travis-ci.org/DennisWanjiru/maintenance-tracker) [![Coverage Status](https://coveralls.io/repos/github/DennisWanjiru/maintenance-tracker/badge.svg)] [![Codacy Badge](https://api.codacy.com/project/badge/Grade/66e365fe623b40df8057b16be085e712)](https://www.codacy.com/app/DennisWanjiru/maintenance-tracker?utm_source=github.com&utm_medium=referral&utm_content=DennisWanjiru/maintenance-tracker&utm_campaign=Badge_Grade) ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
+[![Build Status](https://travis-ci.org/DennisWanjiru/maintenance-tracker.svg?branch=ft-api-endpoints-157964345)](https://travis-ci.org/DennisWanjiru/maintenance-tracker) ![Codacy Badge](https://api.codacy.com/project/badge/Grade/66e365fe623b40df8057b16be085e712) ![license](https://img.shields.io/github/license/mashape/apistatus.svg)
 
 ### _Landing page_
 
