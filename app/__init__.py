@@ -9,6 +9,7 @@ CORS(app)
 requests_store = []
 users = {}
 
+# Parsing received data
 parser = reqparse.RequestParser()
 parser.add_argument('title', required=True, type=str)
 parser.add_argument('location', required=True, type=str)
@@ -22,10 +23,14 @@ def find_request(request_id):
 
 
 class RequestList(Resource):
+    """ Resource for list request """
+
     def get(self):
+        """ Get all request """
         return {"requests": requests_store}, 200
 
     def post(self):
+        """ Create a new request """
         args = parser.parse_args()
         _request = {
             "request_id": requests_store[-1]["request_id"] + 1 if requests_store else 1,
@@ -71,7 +76,10 @@ class Request(Resource):
 
 
 class UserRegistration(Resource):
+    """ User Registration Resource """
+
     def post(self):
+        """ Create a new User """
         data = request.get_json()
         username_taken = [
             username for username in users if data["username"] in users]
@@ -96,7 +104,10 @@ class UserRegistration(Resource):
 
 
 class UserSignin(Resource):
+    """ User Signin Resource """
+
     def post(self):
+        """ Log in an existing User """
         data = request.get_json()
         username = data["username"]
         password = data["password"]
