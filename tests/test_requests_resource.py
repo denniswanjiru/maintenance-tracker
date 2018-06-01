@@ -40,6 +40,7 @@ class TestRequestResource(unittest.TestCase):
         )
 
         self.assertEqual(response.status_code, 201)
+
         response = self.client.get('/api/v1/users/requests/')
         self.assertEqual(response.status_code, 200)
 
@@ -50,6 +51,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 201)
 
         response = self.client.get('/api/v1/users/request/1/')
@@ -62,6 +64,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 201)
 
     def tests_empty_dict(self):
@@ -81,6 +84,7 @@ class TestRequestResource(unittest.TestCase):
             data=[],
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 400)
 
     def tests_empty_string(self):
@@ -90,6 +94,7 @@ class TestRequestResource(unittest.TestCase):
             data="",
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 400)
 
     def tests_empty_tuple(self):
@@ -99,6 +104,7 @@ class TestRequestResource(unittest.TestCase):
             data=(),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 400)
 
     def tests_bad_data(self):
@@ -112,6 +118,7 @@ class TestRequestResource(unittest.TestCase):
             },
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 400)
 
     def test_update_a_request(self):
@@ -121,6 +128,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 201)
 
         response = self.client.put(
@@ -128,6 +136,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(dict(location="New title")),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 200)
 
     def test_update_with_empty_dict(self):
@@ -142,7 +151,8 @@ class TestRequestResource(unittest.TestCase):
 
         response = self.client.put(
             'api/v1/users/request/1/', data={},
-            content_type="application/json")
+            content_type="application/json"
+        )
 
         self.assertEqual(response.status_code, 400)
 
@@ -158,7 +168,8 @@ class TestRequestResource(unittest.TestCase):
 
         response = self.client.put(
             'api/v1/users/request/1/', data=[],
-            content_type="application/json")
+            content_type="application/json"
+        )
 
         self.assertEqual(response.status_code, 400)
 
@@ -174,7 +185,8 @@ class TestRequestResource(unittest.TestCase):
 
         response = self.client.put(
             'api/v1/users/request/1/', data="",
-            content_type="application/json")
+            content_type="application/json"
+        )
 
         self.assertEqual(response.status_code, 400)
 
@@ -210,7 +222,8 @@ class TestRequestResource(unittest.TestCase):
                 'title': '',
                 "location": 234,
             },
-            content_type="application/json")
+            content_type=("application/json")
+        )
 
         self.assertEqual(response.status_code, 400)
 
@@ -221,10 +234,10 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 201)
 
-        res = self.client.delete(
-            '/api/v1/users/request/1/')
+        res = self.client.delete('/api/v1/users/request/1/')
         self.assertEqual(res.status_code, 200)
 
         request_res = self.client.get('/api/v1/users/request/1/')

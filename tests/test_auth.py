@@ -8,7 +8,7 @@ class TestRequestResource(unittest.TestCase):
     """ A class to perform tests for the Request Resource """
 
     def setUp(self):
-        """ Setup the app to be in testing mode and make it able to use test client """
+        """Setup the app to be in testing mode and make it able to use test client"""
         app.config['TESTING'] = True
         self.client = app.test_client()
         self.data = {
@@ -33,6 +33,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["user"]),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 201)
 
         # Log the user in
@@ -41,6 +42,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["creds"]),
             content_type=("application/json")
         )
+
         self.assertEqual(response.status_code, 200)
 
 
