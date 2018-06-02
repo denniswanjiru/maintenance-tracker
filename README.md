@@ -47,7 +47,7 @@ $ git clone git@github.com:DennisWanjiru/maintenance-tracker.git
 [Flask](http://flask.pocoo.org/)
 [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)
 
-### ENDPOINTS
+### Endpoints
 
 | METHOD | ENDPOINT                                | DESCRIPTION                      |
 | ------ | --------------------------------------- | -------------------------------- |
