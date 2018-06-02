@@ -28,6 +28,17 @@ def find_request(request_id):
         if _request['request_id'] == request_id]
 
 
+def login_required(fn):
+    @wraps(fn)
+    def decorated_function(*args, **kwargs):
+        # session.pop('username')
+        print(session)
+        if session:
+            return fn(*args, **kwargs)
+        return {"message": "You must be logged in to make a request"}, 403
+    return decorated_function
+
+
 class RequestList(Resource):
     """ Resource for list request """
 
@@ -36,6 +47,7 @@ class RequestList(Resource):
 
         return {"requests": requests_store}, 200
 
+    @login_required
     def post(self):
         """ Create a new request """
         user_id = session["username"]
