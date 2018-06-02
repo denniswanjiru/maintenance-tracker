@@ -34,8 +34,6 @@ class TestRequestResource(unittest.TestCase):
             content_type=("application/json")
         )
 
-        self.assertEqual(response.status_code, 201)
-
         # Log the user in
         response = self.client.post(
             '/api/v1/users/auth/signin/',
