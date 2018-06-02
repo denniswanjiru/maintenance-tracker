@@ -119,7 +119,7 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_a_request(self):
         """ Test a resource can be successfully updated """
-        response = self.client.post(
+        self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
@@ -135,7 +135,7 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_dict(self):
         """ Test for empty dict bad data  on update """
-        response = self.client.post(
+        self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
@@ -150,7 +150,7 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_list(self):
         """ Test for empty list bad data  on update """
-        response = self.client.post(
+        self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
@@ -165,7 +165,7 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_string(self):
         """ Test for empty string bad data  on update """
-        response = self.client.post(
+        self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
@@ -180,7 +180,7 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_tuple(self):
         """ Test for empty tuple bad data  on update """
-        response = self.client.post(
+        self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
@@ -194,7 +194,7 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_bad_data(self):
         """ Test for bad data  on update """
-        response = self.client.post(
+        self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
@@ -213,17 +213,14 @@ class TestRequestResource(unittest.TestCase):
 
     def test_delete_a_request(self):
         """ Test if a resource can be deleted successfully method """
-        response = self.client.post(
+        self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
             content_type=("application/json")
         )
 
-        res = self.client.delete('/api/v1/users/request/1/')
-        self.assertEqual(res.status_code, 200)
-
-        request_res = self.client.get('/api/v1/users/request/1/')
-        self.assertEqual(request_res.status_code, 404)
+        respose = self.client.delete('/api/v1/users/request/1/')
+        self.assertEqual(respose.status_code, 204)
 
 
 if __name__ == '__main__':
