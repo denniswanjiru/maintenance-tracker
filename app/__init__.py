@@ -31,7 +31,6 @@ def find_request(request_id):
 def login_required(fn):
     @wraps(fn)
     def decorated_function(*args, **kwargs):
-        # session.pop('username')
         print(session)
         if session:
             return fn(*args, **kwargs)
@@ -42,10 +41,18 @@ def login_required(fn):
 class RequestList(Resource):
     """ Resource for list request """
 
+    @login_required
     def get(self):
         """ Get all request """
+        user_id = session["username"]
+        if len(requests_store) != 0:
+            my_requests = [
+                _request for _request in requests_store if _request["user_id"] == user_id]
 
-        return {"requests": requests_store}, 200
+            if len(my_requests) != 0:
+                return {"requests": my_requests}, 200
+            return {"message": "You don't have any requests yet"}, 404
+        return {"message": "You don't have any requests yet"}, 404
 
     @login_required
     def post(self):
@@ -66,6 +73,8 @@ class RequestList(Resource):
 
 
 class Request(Resource):
+    """ Requests Resource """
+
     def get(self, request_id):
         """ Get a single request resource based off its id """
         _request = find_request(request_id)
@@ -147,13 +156,16 @@ class UserSignin(Resource):
 
 
 class UserSignout(Resource):
-    """ User Signin Resource """
+    """ User Signout Resource """
 
     def post(self):
+        """ Should pop the user in session  """
         print(session)
-        session.pop("username")
+        if session:
+            session.pop("username")
+            return{"message": "You've been signed out successfully!"}, 200
         print(session)
-        return{"message": "You've been signed out successfully!"}, 200
+        return{"message": "Your are not logged in!"}, 404
 
 
 api.add_resource(RequestList, '/api/v1/users/requests/')
