@@ -142,11 +142,22 @@ class UserSignin(Resource):
             else:
                 session["username"] = username
                 print(session)
-                return {"message": f"you are now logged in as {username}"}, 200
+                return {"message": f"you are now signed in as {username}"}, 200
         return {"message": f"{username} does not have an account."}, 404
+
+
+class UserSignout(Resource):
+    """ User Signin Resource """
+
+    def post(self):
+        print(session)
+        session.pop("username")
+        print(session)
+        return{"message": "You've been signed out successfully!"}, 200
 
 
 api.add_resource(RequestList, '/api/v1/users/requests/')
 api.add_resource(Request, '/api/v1/users/request/<int:request_id>/')
 api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
 api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
+api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
