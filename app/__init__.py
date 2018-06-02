@@ -21,13 +21,6 @@ parser.add_argument('request_type', required=True)
 parser.add_argument('description')
 
 
-def find_request(request_id):
-    """ Find a specific request resource based off the id """
-    return [
-        _request for _request in requests_store
-        if _request['request_id'] == request_id]
-
-
 def login_required(fn):
     @wraps(fn)
     def decorated_function(*args, **kwargs):
@@ -36,6 +29,16 @@ def login_required(fn):
             return fn(*args, **kwargs)
         return {"message": "You must be logged in to make a request"}, 403
     return decorated_function
+
+
+def find_request(request_id, user_id):
+    """ Find a specific request resource based off the id and users' id """
+    return [
+        _request if _request['request_id'] == request_id and
+        _request["user_id"] == user_id else "does_not_belong_to"
+        for _request in requests_store
+        if _request['request_id'] == request_id
+    ]
 
 
 class RequestList(Resource):
@@ -47,12 +50,13 @@ class RequestList(Resource):
         user_id = session["username"]
         if len(requests_store) != 0:
             my_requests = [
-                _request for _request in requests_store if _request["user_id"] == user_id]
+                _request for _request in requests_store
+                if _request["user_id"] == user_id]
 
             if len(my_requests) != 0:
                 return {"requests": my_requests}, 200
             return {"message": "You don't have any requests yet"}, 404
-        return {"message": "You don't have any requests yet"}, 404
+        return {"message": "You don't have any requests yet. Make some!"}, 404
 
     @login_required
     def post(self):
@@ -75,19 +79,32 @@ class RequestList(Resource):
 class Request(Resource):
     """ Requests Resource """
 
+    @login_required
     def get(self, request_id):
         """ Get a single request resource based off its id """
-        _request = find_request(request_id)
+        user_id = session["username"]
+
+        _request = find_request(request_id, user_id)
+
         if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
+        elif _request[0] == "does_not_belong_to":
+            return {"message": "You can only view your own requests"}, 403
         return {'request': _request[0]}, 200
 
+    @login_required
     def put(self, request_id):
         """ Update a single request resource based off its id """
         data = request.get_json()
-        _request = find_request(request_id)
+        user_id = session["username"]
+
+        _request = find_request(request_id, user_id)
+
         if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
+        elif _request[0] == "does_not_belong_to":
+            return {"message": "You can only edit your own requests"}, 403
+
         _request[0]['title'] = data.get('title', _request[0]['title'])
         _request[0]['location'] = data.get('location', _request[0]['location'])
         _request[0]['request_type'] = data.get(
