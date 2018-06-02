@@ -42,10 +42,10 @@ $ git clone git@github.com:DennisWanjiru/maintenance-tracker.git
 
 ### Prerequisites
 
-[Python 3.6](https://www.python.org/downloads/release/python-360/)
-[Virtual Environment](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/)
-[Flask](http://flask.pocoo.org/)
-[Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)
+* [Python 3.6](https://www.python.org/downloads/release/python-360/)
+* [Virtual Environment](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/)
+* [Flask](http://flask.pocoo.org/)
+* [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)
 
 ### Endpoints
 
