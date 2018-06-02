@@ -1,10 +1,14 @@
-from flask import Flask, request
-from flask_restful import Resource, Api, reqparse, abort
+from flask import Flask, request, session
+from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
+from functools import wraps
+import uuid
 
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
+
+app.secret_key = "cxFkdfn908AO7YHSFCycA98CH/3RD?FD23]UYyhiS"
 
 requests_store = []
 users = {}
@@ -19,7 +23,9 @@ parser.add_argument('description')
 
 def find_request(request_id):
     """ Find a specific request resource based off the id """
-    return [_request for _request in requests_store if _request['request_id'] == request_id]
+    return [
+        _request for _request in requests_store
+        if _request['request_id'] == request_id]
 
 
 class RequestList(Resource):
@@ -27,13 +33,17 @@ class RequestList(Resource):
 
     def get(self):
         """ Get all request """
+
         return {"requests": requests_store}, 200
 
     def post(self):
         """ Create a new request """
+        user_id = session["username"]
         args = parser.parse_args()
         _request = {
-            "request_id": requests_store[-1]["request_id"] + 1 if requests_store else 1,
+            "request_id":
+                requests_store[-1]["request_id"] + 1 if requests_store else 1,
+            "user_id": user_id,
             "title": args['title'],
             "location": args['location'],
             "request_type": args['request_type'],
@@ -72,7 +82,7 @@ class Request(Resource):
         if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
         requests_store.remove(_request[0])
-        return {"requests": requests_store}
+        return {"requests": requests_store}, 204
 
 
 class UserRegistration(Resource):
@@ -90,7 +100,9 @@ class UserRegistration(Resource):
         elif data["email"] in emails:
             return {"message": "email already taken"}, 400
         elif data["password"] != data["confirm_password"]:
-            return {"message": "password and confirm_password fields do not match"}, 400
+            return {
+                "message": "password and confirm_password fields do not match"
+            }, 400
 
         users.update({
             data.get("username"): {
@@ -115,7 +127,10 @@ class UserSignin(Resource):
         if username in users:
             if users[username]["password"] != password:
                 return {"message": "username or password do not match."}, 403
-            return {"message": f"you are now logged in as {username}"}, 200
+            else:
+                session["username"] = username
+                print(session)
+                return {"message": f"you are now logged in as {username}"}, 200
         return {"message": f"{username} does not have an account."}, 404
 
 
