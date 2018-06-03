@@ -29,7 +29,6 @@ def login_required(fn):
         return {"message": "You must be logged in to make a request"}, 403
     return decorated_function
 
-
 def find_request(request_id, user_id):
     """ Find a specific request resource based off the id and users' id """
     return [
@@ -190,6 +189,7 @@ class UserSignout(Resource):
         print(session)
         if session:
             return{"message": "You've been signed out successfully!"}, 200
+        print(session)
         return{"message": "Your are not logged in!"}, 404
 
 
