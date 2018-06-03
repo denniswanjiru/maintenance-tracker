@@ -3,6 +3,8 @@ from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from functools import wraps
 
+from .models import User, Store
+
 app = Flask(__name__)
 api = Api(app)
 CORS(app)
@@ -28,6 +30,7 @@ def login_required(fn):
             return fn(*args, **kwargs)
         return {"message": "You must be logged in to make a request"}, 403
     return decorated_function
+
 
 def find_request(request_id, user_id):
     """ Find a specific request resource based off the id and users' id """
@@ -136,28 +139,23 @@ class UserRegistration(Resource):
         """ Create a new User """
         args = UserRegistration.parser.parse_args()
 
-        username_taken = [
-            username for username in users if args["username"] in users]
-        emails = [users[user]["email"] for user in users]
+        username_taken = Store.get_user_by_username(args["username"])
+        email_taken = Store.get_user_by_email(args["email"])
 
         if username_taken:
             return {"message": "username already taken"}, 400
-        elif args["email"] in emails:
+        elif email_taken:
             return {"message": "email already taken"}, 400
         elif args["password"] != args["confirm_password"]:
             return {
                 "message": "password and confirm_password fields do not match"
             }, 400
 
-        users.update({
-            args.get("username"): {
-                "name": args.get("name"),
-                "email": args.get("email"),
-                "password": args.get("password")
-            }
-        })
+        user = User(username=args.get("username"), name=args.get("name"), email=args.get(
+            "email"), password=args.get("password"))
 
-        return {"users": users}, 201
+        Store.add_user(user)
+        return {"user": user.to_dict()}, 201
 
 
 class UserSignin(Resource):
