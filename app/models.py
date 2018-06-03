@@ -46,3 +46,22 @@ class User():
             "name": self.name,
             "password": self.password
         }
+
+
+class Request():
+    def __init__(self, user_id, title, location. request_type, description):
+        self.id = id(self)
+        self.user_id = user_id
+        self.title = title
+        self.location = location
+        self.request_type = request_type
+        self.description = description
+
+    def request_to_dict(self):
+        return {
+            "user_id": self.user_id,
+            "title": self.title,
+            "location": self.location,
+            "request_type": self.request_type,
+            "description": self.description
+        }
