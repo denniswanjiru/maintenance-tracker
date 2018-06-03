@@ -3,7 +3,7 @@ from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from functools import wraps
 
-from .models import User, Store
+from .models import User, Request as RequestModel, Store
 
 app = Flask(__name__)
 api = Api(app)
@@ -13,13 +13,6 @@ session = {}
 
 requests_store = []
 users = {}
-
-# Parsing received data
-parser = reqparse.RequestParser()
-parser.add_argument('title', required=True, type=str)
-parser.add_argument('location', required=True, type=str)
-parser.add_argument('request_type', required=True)
-parser.add_argument('description')
 
 
 def login_required(fn):
@@ -44,36 +37,39 @@ def find_request(request_id, user_id):
 class RequestList(Resource):
     """ Resource for list request """
 
+    parser = reqparse.RequestParser()
+    parser.add_argument('title', required=True, type=str)
+    parser.add_argument('location', required=True, type=str)
+    parser.add_argument('request_type', required=True)
+    parser.add_argument('description')
+
     @login_required
     def get(self):
         """ Get all request """
-        user_id = session["username"]
-        if len(requests_store) != 0:
-            my_requests = [
-                _request for _request in requests_store
-                if _request["user_id"] == user_id]
+        user_id = session["user_id"]
+        my_requests = Store.get_user_requests(user_id)
 
-            if len(my_requests) != 0:
-                return {"requests": my_requests}, 200
-            return {"message": "You don't have any requests yet"}, 404
-        return {"message": "You don't have any requests yet. Make some!"}, 404
+        if my_requests:
+            return {
+                "requests": [
+                    request.request_to_dict() for request in my_requests
+                ]
+            }, 200
+        return {"message": "You don't have any requests yet"}, 404
 
     @login_required
     def post(self):
         """ Create a new request """
-        user_id = session["username"]
-        args = parser.parse_args()
-        _request = {
-            "request_id":
-                requests_store[-1]["request_id"] + 1 if requests_store else 1,
-            "user_id": user_id,
-            "title": args['title'],
-            "location": args['location'],
-            "request_type": args['request_type'],
-            "description": args['description']
-        }
-        requests_store.append(_request)
-        return {"request": _request}, 201
+        user_id = session["user_id"]
+        args = RequestList.parser.parse_args()
+
+        _request = RequestModel(
+            user_id=user_id, title=args['title'], location=args['location'],
+            request_type=args['request_type'], description=args['description']
+        )
+
+        Store.add_request(_request)
+        return {"request": _request.request_to_dict()}, 201
 
 
 class Request(Resource):
@@ -150,8 +146,8 @@ class UserRegistration(Resource):
                 "message": "password and confirm_password fields do not match"
             }, 400
 
-        user = User(username=args.get("username"), name=args.get("name"), email=args.get(
-            "email"), password=args.get("password"))
+        user = User(username=args.get("username"), name=args.get("name"),
+                    email=args.get("email"), password=args.get("password"))
 
         Store.add_user(user)
         return {"user": user.to_dict()}, 201

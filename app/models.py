@@ -24,6 +24,15 @@ class Store():
                 return user
         return None
 
+    @classmethod
+    def get_user_requests(cls, user_id):
+        if cls.requests:
+            my_requests = [
+                _request for _request in cls.requests
+                if _request.user_id == user_id]
+            return my_requests
+        return None
+
 
 class User():
     def __init__(self, username, email, name, password):
@@ -49,7 +58,7 @@ class User():
 
 
 class Request():
-    def __init__(self, user_id, title, location. request_type, description):
+    def __init__(self, user_id, title, location, request_type, description):
         self.id = id(self)
         self.user_id = user_id
         self.title = title
@@ -59,6 +68,7 @@ class Request():
 
     def request_to_dict(self):
         return {
+            "id": self.id,
             "user_id": self.user_id,
             "title": self.title,
             "location": self.location,
