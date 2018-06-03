@@ -31,8 +31,26 @@ class TestRequestResource(unittest.TestCase):
             }
         }
 
+    def create_and_login_user(self):
+        """ Login a user user """
+        # First create a new user
+        self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(self.data["user"]),
+            content_type=("application/json")
+        )
+
+        # Log the user in
+        self.client.post(
+            '/api/v1/users/auth/signin/',
+            data=json.dumps(self.data["creds"]),
+            content_type=("application/json")
+        )
+
     def test_get_requests(self):
         """ Test all resources can be successfully retrived """
+        self.create_and_login_user()
+
         response = self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -44,6 +62,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_get_a_request(self):
         """ Test a resource can be successfully retrived """
+        self.create_and_login_user()
+
         response = self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -54,7 +74,9 @@ class TestRequestResource(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_post_a_request(self):
-        """ Test a if resource can be successfully created"""
+        """ Test a if resource can be successfully created """
+        self.create_and_login_user()
+
         response = self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -65,6 +87,8 @@ class TestRequestResource(unittest.TestCase):
 
     def tests_empty_dict(self):
         """ Test for empty dict bad data """
+        self.create_and_login_user()
+
         response = self.client.post(
             'api/v1/users/requests/',
             data={},
@@ -75,6 +99,8 @@ class TestRequestResource(unittest.TestCase):
 
     def tests_empty_list(self):
         """ Test for empty list bad data """
+        self.create_and_login_user()
+
         response = self.client.post(
             'api/v1/users/requests/',
             data=[],
@@ -85,6 +111,8 @@ class TestRequestResource(unittest.TestCase):
 
     def tests_empty_string(self):
         """ Test for empty string bad data """
+        self.create_and_login_user()
+
         response = self.client.post(
             'api/v1/users/requests/',
             data="",
@@ -95,6 +123,8 @@ class TestRequestResource(unittest.TestCase):
 
     def tests_empty_tuple(self):
         """ Test for empty tuple bad data """
+        self.create_and_login_user()
+
         response = self.client.post(
             'api/v1/users/requests/',
             data=(),
@@ -105,6 +135,8 @@ class TestRequestResource(unittest.TestCase):
 
     def tests_bad_data(self):
         """ Test for when user inputs bad data """
+        self.create_and_login_user()
+
         response = self.client.post(
             'api/v1/users/requests/',
             data={
@@ -119,6 +151,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_a_request(self):
         """ Test a resource can be successfully updated """
+        self.create_and_login_user()
+
         self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -135,6 +169,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_dict(self):
         """ Test for empty dict bad data  on update """
+        self.create_and_login_user()
+
         self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -150,6 +186,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_list(self):
         """ Test for empty list bad data  on update """
+        self.create_and_login_user()
+
         self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -165,6 +203,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_string(self):
         """ Test for empty string bad data  on update """
+        self.create_and_login_user()
+
         self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -180,6 +220,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_empty_tuple(self):
         """ Test for empty tuple bad data  on update """
+        self.create_and_login_user()
+
         self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -194,6 +236,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_update_with_bad_data(self):
         """ Test for bad data  on update """
+        self.create_and_login_user()
+
         self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -213,6 +257,8 @@ class TestRequestResource(unittest.TestCase):
 
     def test_delete_a_request(self):
         """ Test if a resource can be deleted successfully method """
+        self.create_and_login_user()
+
         self.client.post(
             '/api/v1/users/requests/',
             data=json.dumps(self.data["dummy_request"]),
@@ -220,7 +266,7 @@ class TestRequestResource(unittest.TestCase):
         )
 
         respose = self.client.delete('/api/v1/users/request/1/')
-        self.assertEqual(respose.status_code, 204)
+        self.assertEqual(respose.status_code, 200)
 
 
 if __name__ == '__main__':
