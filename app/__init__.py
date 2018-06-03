@@ -2,7 +2,6 @@ from flask import Flask, request, session
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from functools import wraps
-import uuid
 
 app = Flask(__name__)
 api = Api(app)
@@ -97,30 +96,32 @@ class Request(Resource):
         """ Update a single request resource based off its id """
         data = request.get_json()
         user_id = session["username"]
-
         _request = find_request(request_id, user_id)
 
         if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
         elif _request[0] == "does_not_belong_to":
             return {"message": "You can only edit your own requests"}, 403
-
         _request[0]['title'] = data.get('title', _request[0]['title'])
         _request[0]['location'] = data.get('location', _request[0]['location'])
         _request[0]['request_type'] = data.get(
             'request_type', _request[0]['request_type'])
         _request[0]['description'] = data.get(
             'description', _request[0]['description'])
+        return {"request": _request[0]}, 200
 
-        return {"requests": requests_store}, 200
-
+    @login_required
     def delete(self, request_id):
         """ Delete a single request resource based off its id """
-        _request = find_request(request_id)
+        user_id = session["username"]
+        _request = find_request(request_id, user_id)
+
         if len(_request) == 0:
             return {"message": f"request {request_id} doesn't exit."}, 404
+        elif _request[0] == "does_not_belong_to":
+            return {"message": "You can only delete your own requests"}, 403
         requests_store.remove(_request[0])
-        return {"requests": requests_store}, 204
+        return {"message": "Your request was successfully deleted"}, 200
 
 
 class UserRegistration(Resource):
@@ -167,7 +168,6 @@ class UserSignin(Resource):
                 return {"message": "username or password do not match."}, 403
             else:
                 session["username"] = username
-                print(session)
                 return {"message": f"you are now signed in as {username}"}, 200
         return {"message": f"{username} does not have an account."}, 404
 
@@ -179,9 +179,7 @@ class UserSignout(Resource):
         """ Should pop the user in session  """
         print(session)
         if session:
-            session.pop("username")
             return{"message": "You've been signed out successfully!"}, 200
-        print(session)
         return{"message": "Your are not logged in!"}, 404
 
 
