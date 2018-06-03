@@ -1,4 +1,4 @@
-from flask import Flask, request, session
+from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from functools import wraps
@@ -9,7 +9,7 @@ app = Flask(__name__)
 api = Api(app)
 CORS(app)
 
-app.secret_key = "cxFkdfn908AO7YHSFCycA98CH/3RD?FD23]UYyhiS"
+session = {}
 
 requests_store = []
 users = {}
@@ -25,7 +25,6 @@ parser.add_argument('description')
 def login_required(fn):
     @wraps(fn)
     def decorated_function(*args, **kwargs):
-        print(session)
         if session:
             return fn(*args, **kwargs)
         return {"message": "You must be logged in to make a request"}, 403
@@ -165,18 +164,18 @@ class UserSignin(Resource):
     parser.add_argument('password', required=True)
 
     def post(self):
-        """ Log in an existing User """
+        """ Signin an existing User """
         args = UserSignin.parser.parse_args()
         username = args["username"]
         password = args["password"]
 
-        if username in users:
-            if users[username]["password"] != password:
-                return {"message": "username or password do not match."}, 403
-            else:
-                session["username"] = username
-                return {"message": f"you are now signed in as {username}"}, 200
-        return {"message": f"{username} does not have an account."}, 404
+        user = Store.get_user_by_username(username)
+        if not user:
+            return {"message": f"{username} does not have an account."}, 404
+        if not user.check_password(password):
+            return {"message": "username or password do not match."}, 403
+        session["user_id"] = user.id
+        return {"message": f"you are now signed in as {username}"}, 200
 
 
 class UserSignout(Resource):
@@ -184,10 +183,9 @@ class UserSignout(Resource):
 
     def post(self):
         """ Should pop the user in session  """
-        print(session)
         if session:
+            session.pop("user_id")
             return{"message": "You've been signed out successfully!"}, 200
-        print(session)
         return{"message": "Your are not logged in!"}, 404
 
 

@@ -25,7 +25,7 @@ class Store():
         return None
 
 
-class User(Store):
+class User():
     def __init__(self, username, email, name, password):
         self.id = id(self)
         self.username = username
@@ -33,8 +33,10 @@ class User(Store):
         self.name = name
         self.password = password
 
-    def check_password(self):
-        pass
+    def check_password(self, password):
+        if password == self.password:
+            return True
+        return False
 
     def to_dict(self):
         return {
