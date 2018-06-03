@@ -126,28 +126,35 @@ class Request(Resource):
 
 class UserRegistration(Resource):
     """ User Registration Resource """
+    parser = reqparse.RequestParser()
+    parser.add_argument('name', required=True, type=str)
+    parser.add_argument('username', required=True, type=str)
+    parser.add_argument('email', required=True, type=str)
+    parser.add_argument('password', required=True)
+    parser.add_argument('confirm_password', required=True)
 
     def post(self):
         """ Create a new User """
-        data = request.get_json()
+        args = UserRegistration.parser.parse_args()
+
         username_taken = [
-            username for username in users if data["username"] in users]
+            username for username in users if args["username"] in users]
         emails = [users[user]["email"] for user in users]
 
         if username_taken:
             return {"message": "username already taken"}, 400
-        elif data["email"] in emails:
+        elif args["email"] in emails:
             return {"message": "email already taken"}, 400
-        elif data["password"] != data["confirm_password"]:
+        elif args["password"] != args["confirm_password"]:
             return {
                 "message": "password and confirm_password fields do not match"
             }, 400
 
         users.update({
-            data.get("username"): {
-                "name": data.get("name"),
-                "email": data.get("email"),
-                "password": data.get("password")
+            args.get("username"): {
+                "name": args.get("name"),
+                "email": args.get("email"),
+                "password": args.get("password")
             }
         })
 
@@ -156,12 +163,15 @@ class UserRegistration(Resource):
 
 class UserSignin(Resource):
     """ User Signin Resource """
+    parser = reqparse.RequestParser()
+    parser.add_argument('username', required=True, type=str)
+    parser.add_argument('password', required=True)
 
     def post(self):
         """ Log in an existing User """
-        data = request.get_json()
-        username = data["username"]
-        password = data["password"]
+        args = UserSignin.parser.parse_args()
+        username = args["username"]
+        password = args["password"]
 
         if username in users:
             if users[username]["password"] != password:
