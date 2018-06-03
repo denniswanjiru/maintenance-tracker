@@ -78,46 +78,46 @@ class Request(Resource):
     @login_required
     def get(self, request_id):
         """ Get a single request resource based off its id """
-        user_id = session["username"]
+        user_id = session["user_id"]
 
-        _request = find_request(request_id, user_id)
+        _request = Store.get_request_by_id(request_id)
 
-        if len(_request) == 0:
+        if not _request:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        elif _request[0] == "does_not_belong_to":
+        elif _request.user_id != user_id:
             return {"message": "You can only view your own requests"}, 403
-        return {'request': _request[0]}, 200
+        return {'request': _request.request_to_dict()}, 200
 
     @login_required
     def put(self, request_id):
         """ Update a single request resource based off its id """
         data = request.get_json()
-        user_id = session["username"]
-        _request = find_request(request_id, user_id)
+        user_id = session["user_id"]
+        _request = Store.get_request_by_id(request_id)
 
-        if len(_request) == 0:
+        if not _request:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        elif _request[0] == "does_not_belong_to":
+        elif _request.user_id != user_id:
             return {"message": "You can only edit your own requests"}, 403
-        _request[0]['title'] = data.get('title', _request[0]['title'])
-        _request[0]['location'] = data.get('location', _request[0]['location'])
-        _request[0]['request_type'] = data.get(
-            'request_type', _request[0]['request_type'])
-        _request[0]['description'] = data.get(
-            'description', _request[0]['description'])
-        return {"request": _request[0]}, 200
+        _request.title = data.get('title', _request.title)
+        _request.location = data.get('location', _request.location)
+        _request.request_type = data.get(
+            'request_type', _request.request_type)
+        _request.description = data.get(
+            'description', _request.description)
+        return {"request": _request.request_to_dict()}, 200
 
     @login_required
     def delete(self, request_id):
         """ Delete a single request resource based off its id """
-        user_id = session["username"]
-        _request = find_request(request_id, user_id)
+        user_id = session["user_id"]
+        _request = Store.get_request_by_id(request_id)
 
-        if len(_request) == 0:
+        if not _request:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        elif _request[0] == "does_not_belong_to":
+        elif _request.user_id != user_id:
             return {"message": "You can only delete your own requests"}, 403
-        requests_store.remove(_request[0])
+        Store.remove_request(_request)
         return {"message": "Your request was successfully deleted"}, 200
 
 

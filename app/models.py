@@ -11,6 +11,10 @@ class Store():
         cls.requests.append(request)
 
     @classmethod
+    def remove_request(cls, request):
+        cls.requests.remove(request)
+
+    @classmethod
     def get_user_by_username(cls, username):
         for user in cls.users:
             if user.username == username:
@@ -22,6 +26,13 @@ class Store():
         for user in cls.users:
             if user.email == email:
                 return user
+        return None
+
+    @classmethod
+    def get_request_by_id(cls, request_id):
+        for request in cls.requests:
+            if request.id == request_id:
+                return request
         return None
 
     @classmethod
@@ -58,13 +69,16 @@ class User():
 
 
 class Request():
+    request_id = 1
+
     def __init__(self, user_id, title, location, request_type, description):
-        self.id = id(self)
+        self.id = Request.request_id
         self.user_id = user_id
         self.title = title
         self.location = location
         self.request_type = request_type
         self.description = description
+        Request.request_id += 1
 
     def request_to_dict(self):
         return {
