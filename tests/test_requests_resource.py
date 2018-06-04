@@ -255,7 +255,7 @@ class TestRequestResource(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
 
-    def test_delete_a_request(self):
+    def test_z_delete_a_request(self):
         """ Test if a resource can be deleted successfully method """
         self.create_and_login_user()
 

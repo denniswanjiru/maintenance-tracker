@@ -22,8 +22,15 @@ class TestRequestResource(unittest.TestCase):
                 "password": "mysupersecret",
                 "confirm_password": "mysupersecret"
             },
-            "creds": {
-                "username": "user1",
+            "user_login": {
+                "username": "user2",
+                "email": "user2@gmail.com",
+                "name": "User One",
+                "password": "mysupersecret",
+                "confirm_password": "mysupersecret"
+            },
+            "creds_login": {
+                "username": "user2",
                 "password": "mysupersecret"
             }
         }
@@ -35,7 +42,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["user"]),
             content_type=("application/json")
         )
-
+        print(response.data)
         self.assertEqual(response.status_code, 201)
 
     def test_signin(self):
@@ -43,14 +50,14 @@ class TestRequestResource(unittest.TestCase):
         # First create a new user
         self.client.post(
             '/api/v1/users/auth/signup/',
-            data=json.dumps(self.data["user"]),
+            data=json.dumps(self.data["user_login"]),
             content_type=("application/json")
         )
 
         # Log the user in
         response = self.client.post(
             '/api/v1/users/auth/signin/',
-            data=json.dumps(self.data["creds"]),
+            data=json.dumps(self.data["creds_login"]),
             content_type=("application/json")
         )
 
@@ -58,20 +65,6 @@ class TestRequestResource(unittest.TestCase):
 
     def test_signout(self):
         """Signout a user """
-        # First create a new user
-        self.client.post(
-            '/api/v1/users/auth/signup/',
-            data=json.dumps(self.data["user"]),
-            content_type=("application/json")
-        )
-
-        # Sign the user in
-        self.client.post(
-            '/api/v1/users/auth/signin/',
-            data=json.dumps(self.data["creds"]),
-            content_type=("application/json")
-        )
-
         # Sign the user out
         response = self.client.post('/api/v1/users/auth/signout/')
         self.assertEqual(response.status_code, 200)
