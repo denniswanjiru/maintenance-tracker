@@ -129,31 +129,6 @@ class TestRequestResource(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
 
-    def test_email_taken(self):
-        """ Test if the email is already taken """
-        self.client.post(
-            '/api/v1/users/auth/signup/',
-            data=json.dumps(dict(
-                username="greater",
-                email="greater@gmail.com",
-                name="Dennis",
-                password="root",
-                confirm_password="root"
-            )),
-            content_type=("application/json")
-        )
-
-        response = self.client.post(
-            '/api/v1/users/auth/signin/',
-            data=json.dumps(dict(
-                username="greater",
-                password="wrong-password"
-            )),
-            content_type=("application/json")
-        )
-
-        self.assertEqual(response.status_code, 403)
-
 
 if __name__ == '__main__':
     unittest.main()
