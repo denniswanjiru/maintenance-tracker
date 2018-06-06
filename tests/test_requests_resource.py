@@ -111,6 +111,29 @@ class TestRequestResource(unittest.TestCase):
             response = self.client.get('/api/v1/users/request/1000/')
             self.assertEqual(response.status_code, 404)
 
+    def test_not_users_request(self):
+        """ Test a user tries to retrieve a post that don't belong to them """
+        self.create_and_login_user()
+
+        self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+
+        self.client.post('/api/v1/users/auth/signout/')
+
+        self.create_and_login_fake_user()
+
+        response = self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+
+        response = self.client.get('/api/v1/users/request/1/')
+        self.assertEqual(response.status_code, 403)
+
     def test_post_a_request(self):
         """ Test a if resource can be successfully created """
         self.create_and_login_user()
