@@ -31,6 +31,13 @@ class TestRequestResource(unittest.TestCase):
             }
         }
 
+    def make_request(self):
+        return self.client.post(
+            '/api/v1/users/requests/',
+            data=json.dumps(self.data["dummy_request"]),
+            content_type=("application/json")
+        )
+
     def create_and_login_user(self):
         """ Login a user user """
         # First create a new user
@@ -47,15 +54,36 @@ class TestRequestResource(unittest.TestCase):
             content_type=("application/json")
         )
 
+    def create_and_login_fake_user(self):
+        """ Login a user user """
+        # First create a new user
+        self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(dict(
+                username="test_user",
+                email="dennis@gmail.com",
+                name="Dennis",
+                password="root",
+                confirm_password="rooter"
+            )),
+            content_type=("application/json")
+        )
+
+        # Log the user in
+        self.client.post(
+            '/api/v1/users/auth/signin/',
+            data=json.dumps(dict(
+                username="test_user",
+                password="root"
+            )),
+            content_type=("application/json")
+        )
+
     def test_get_requests(self):
         """ Test all resources can be successfully retrived """
         self.create_and_login_user()
 
-        response = self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        response = self.make_request()
 
         response = self.client.get('/api/v1/users/requests/')
         self.assertEqual(response.status_code, 200)
@@ -64,24 +92,40 @@ class TestRequestResource(unittest.TestCase):
         """ Test a resource can be successfully retrived """
         self.create_and_login_user()
 
-        response = self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        response = self.make_request()
 
         response = self.client.get('/api/v1/users/request/1/')
         self.assertEqual(response.status_code, 200)
+
+        def test_get_a_non_existing_request(self):
+            """ Test user tries to retrieve a noin-existing request """
+            self.create_and_login_user()
+
+            response = self.make_request()
+
+            response = self.client.get('/api/v1/users/request/1000/')
+            self.assertEqual(response.status_code, 404)
+
+    def test_not_users_request(self):
+        """ Test a user tries to retrieve a post that don't belong to them """
+        self.create_and_login_user()
+
+        self.make_request()
+
+        self.client.post('/api/v1/users/auth/signout/')
+
+        self.create_and_login_fake_user()
+
+        response = self.make_request()
+
+        response = self.client.get('/api/v1/users/request/1/')
+        self.assertEqual(response.status_code, 403)
 
     def test_post_a_request(self):
         """ Test a if resource can be successfully created """
         self.create_and_login_user()
 
-        response = self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        response = self.make_request()
 
         self.assertEqual(response.status_code, 201)
 
@@ -153,11 +197,7 @@ class TestRequestResource(unittest.TestCase):
         """ Test a resource can be successfully updated """
         self.create_and_login_user()
 
-        self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        self.make_request()
 
         response = self.client.put(
             '/api/v1/users/request/1/',
@@ -171,11 +211,7 @@ class TestRequestResource(unittest.TestCase):
         """ Test for empty dict bad data  on update """
         self.create_and_login_user()
 
-        self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        self.make_request()
 
         response = self.client.put(
             'api/v1/users/request/1/', data={},
@@ -188,11 +224,7 @@ class TestRequestResource(unittest.TestCase):
         """ Test for empty list bad data  on update """
         self.create_and_login_user()
 
-        self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        self.make_request()
 
         response = self.client.put(
             'api/v1/users/request/1/', data=[],
@@ -205,11 +237,7 @@ class TestRequestResource(unittest.TestCase):
         """ Test for empty string bad data  on update """
         self.create_and_login_user()
 
-        self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        self.make_request()
 
         response = self.client.put(
             'api/v1/users/request/1/', data="",
@@ -222,11 +250,7 @@ class TestRequestResource(unittest.TestCase):
         """ Test for empty tuple bad data  on update """
         self.create_and_login_user()
 
-        self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        self.make_request()
 
         response = self.client.put(
             'api/v1/users/request/1/', data=(),
@@ -238,11 +262,7 @@ class TestRequestResource(unittest.TestCase):
         """ Test for bad data  on update """
         self.create_and_login_user()
 
-        self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        self.make_request()
 
         response = self.client.put(
             'api/v1/users/request/1/', data={
@@ -259,11 +279,7 @@ class TestRequestResource(unittest.TestCase):
         """ Test if a resource can be deleted successfully method """
         self.create_and_login_user()
 
-        self.client.post(
-            '/api/v1/users/requests/',
-            data=json.dumps(self.data["dummy_request"]),
-            content_type=("application/json")
-        )
+        self.make_request()
 
         respose = self.client.delete('/api/v1/users/request/1/')
         self.assertEqual(respose.status_code, 200)

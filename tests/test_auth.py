@@ -42,7 +42,7 @@ class TestRequestResource(unittest.TestCase):
             data=json.dumps(self.data["user"]),
             content_type=("application/json")
         )
-        print(response.data)
+
         self.assertEqual(response.status_code, 201)
 
     def test_signin(self):
@@ -68,6 +68,66 @@ class TestRequestResource(unittest.TestCase):
         # Sign the user out
         response = self.client.post('/api/v1/users/auth/signout/')
         self.assertEqual(response.status_code, 200)
+
+    def test_username_taken(self):
+        """ Test if the username is already taken """
+        self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(self.data["user"]),
+            content_type=("application/json")
+        )
+
+        response = self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(self.data["user"]),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_email_taken(self):
+        """ Test if the email is already taken """
+        self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(dict(
+                username="dennis",
+                email="user1@gmail.com",
+                name="Dennis",
+                password="root",
+                confirm_password="root"
+            )),
+            content_type=("application/json")
+        )
+
+        response = self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(dict(
+                username="creez",
+                email="user1@gmail.com",
+                name="Dennis",
+                password="root",
+                confirm_password="root"
+            )),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 400)
+
+    def test_password_missmatch(self):
+        """ Test if the email is already taken """
+        response = self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(dict(
+                username="test_user",
+                email="dennis@gmail.com",
+                name="Dennis",
+                password="root",
+                confirm_password="rooter"
+            )),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 400)
 
 
 if __name__ == '__main__':
