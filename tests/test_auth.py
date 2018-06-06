@@ -113,6 +113,22 @@ class TestRequestResource(unittest.TestCase):
 
         self.assertEqual(response.status_code, 400)
 
+    def test_password_missmatch(self):
+        """ Test if the email is already taken """
+        response = self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(dict(
+                username="test_user",
+                email="dennis@gmail.com",
+                name="Dennis",
+                password="root",
+                confirm_password="rooter"
+            )),
+            content_type=("application/json")
+        )
+
+        self.assertEqual(response.status_code, 400)
+
 
 if __name__ == '__main__':
     unittest.main()
