@@ -47,6 +47,31 @@ class TestRequestResource(unittest.TestCase):
             content_type=("application/json")
         )
 
+    def create_and_login_fake_user(self):
+        """ Login a user user """
+        # First create a new user
+        self.client.post(
+            '/api/v1/users/auth/signup/',
+            data=json.dumps(dict(
+                username="test_user",
+                email="dennis@gmail.com",
+                name="Dennis",
+                password="root",
+                confirm_password="rooter"
+            )),
+            content_type=("application/json")
+        )
+
+        # Log the user in
+        self.client.post(
+            '/api/v1/users/auth/signin/',
+            data=json.dumps(dict(
+                username="test_user",
+                password="root"
+            )),
+            content_type=("application/json")
+        )
+
     def test_get_requests(self):
         """ Test all resources can be successfully retrived """
         self.create_and_login_user()
@@ -72,6 +97,19 @@ class TestRequestResource(unittest.TestCase):
 
         response = self.client.get('/api/v1/users/request/1/')
         self.assertEqual(response.status_code, 200)
+
+        def test_get_a_non_existing_request(self):
+            """ Test user tries to retrieve a noin-existing request """
+            self.create_and_login_user()
+
+            response = self.client.post(
+                '/api/v1/users/requests/',
+                data=json.dumps(self.data["dummy_request"]),
+                content_type=("application/json")
+            )
+
+            response = self.client.get('/api/v1/users/request/1000/')
+            self.assertEqual(response.status_code, 404)
 
     def test_post_a_request(self):
         """ Test a if resource can be successfully created """
