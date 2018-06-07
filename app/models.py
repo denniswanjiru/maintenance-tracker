@@ -1,91 +1,12 @@
-class Store():
-    users = []
-    requests = []
-
-    @classmethod
-    def add_user(cls, user):
-        cls.users.append(user)
-
-    @classmethod
-    def add_request(cls, request):
-        cls.requests.append(request)
-
-    @classmethod
-    def remove_request(cls, request):
-        cls.requests.remove(request)
-
-    @classmethod
-    def get_user_by_username(cls, username):
-        for user in cls.users:
-            if user.username == username:
-                return user
-        return None
-
-    @classmethod
-    def get_user_by_email(cls, email):
-        for user in cls.users:
-            if user.email == email:
-                return user
-        return None
-
-    @classmethod
-    def get_request_by_id(cls, request_id):
-        for request in cls.requests:
-            if request.id == request_id:
-                return request
-        return None
-
-    @classmethod
-    def get_user_requests(cls, user_id):
-        if cls.requests:
-            my_requests = [
-                _request for _request in cls.requests
-                if _request.user_id == user_id]
-            return my_requests
-        return None
+import psycopg2
+import os
 
 
-class User():
-    def __init__(self, username, email, name, password):
-        self.id = id(self)
-        self.username = username
-        self.email = email
-        self.name = name
-        self.password = password
-
-    def check_password(self, password):
-        if password == self.password:
-            return True
-        return False
-
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "username": self.username,
-            "email": self.email,
-            "name": self.name,
-            "password": self.password
-        }
-
-
-class Request():
-    request_id = 1
-
-    def __init__(self, user_id, title, location, request_type, description):
-        self.id = Request.request_id
-        self.user_id = user_id
-        self.title = title
-        self.location = location
-        self.request_type = request_type
-        self.description = description
-        Request.request_id += 1
-
-    def request_to_dict(self):
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "title": self.title,
-            "location": self.location,
-            "request_type": self.request_type,
-            "description": self.description
-        }
+def Store():
+    def __init__(self):
+        self.db_host = os.getenv('DB_HOST')
+        self.db_name = os.getenv('DB_NAME')
+        self.db_username = os.getenv('DB_USERNAME')
+        self.db_password = os.getenv('DB_PASSWORD')
+        self.conn = psycopg2.connect(
+            database=self.db_name, host=self.db_host, user=self.db_username, password=self.db_password)
