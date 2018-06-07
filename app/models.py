@@ -1,4 +1,5 @@
 import psycopg2
+import uuid
 import os
 
 
@@ -15,9 +16,6 @@ class Store():
     def create_table(self, schema):
         self.cur.execute(schema)
         self.save()
-
-    def save(self):
-        self.conn.commit()
 
 
 class User(Store):
@@ -88,6 +86,7 @@ class Request(Store):
         super().__init__()
         self.id = id
         self.user_id = user_id
+        self.public_id = str(uuid.uuid4())
         self.title = title
         self.request_type = request_type
         self.location = location
@@ -98,11 +97,22 @@ class Request(Store):
             """
             CREATE TABLE requests(
                 id serial PRIMARY KEY,
-                uuid varchar NOT NULL UNIQUE,
+                public_id varchar NOT NULL UNIQUE,
                 title varchar NOT NULL,
                 location varchar NOT NULL,
                 description text,
-                user_id  SERIAL REFERENCES users,
+                user_id int NOT NULL,
                 request_type varchar NOT NULL)
             """
-        )
+        ))
+
+    def add(self):
+        self.cur.execute(
+            """
+            INSERT INTO requests(
+                public_id, title, location, description, user_id, request_type)
+                VALUES (%s,%s , %s, %s, %s, %s)
+                RETURNING id
+            """,
+            (self.public_id, self.title, self.location, self.description, self.user_id, self.request_type))
+        self.save()
