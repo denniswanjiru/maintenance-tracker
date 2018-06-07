@@ -17,6 +17,17 @@ class Store():
         self.cur.execute(schema)
         self.save()
 
+    def drop_table(self, name):
+        self.cur.execute(f'DROP TABLE IF EXISTS {name}')
+        self.save()
+
+    def save(self):
+        self.conn.commit()
+
+    def close(self):
+        self.cur.close()
+        self.conn.close()
+
 
 class User(Store):
     def __init__(self, username, name, email, password):
@@ -104,7 +115,10 @@ class Request(Store):
                 user_id int NOT NULL,
                 request_type varchar NOT NULL)
             """
-        ))
+        )
+
+    def drop(self):
+        self.drop_table("requests")
 
     def add(self):
         self.cur.execute(
