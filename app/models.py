@@ -50,3 +50,13 @@ class User(Store):
             (self.username, self.name, self.email, self.password_hash))
 
         self.save()
+
+    def get_all(self):
+        self.cur.execute("SELECT * FROM users")
+        users_tuple = self.cur.fetchall()
+        users = []
+
+        for user in users_tuple:
+            users.append(self.serializer(user))
+
+        print(users)
