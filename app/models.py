@@ -23,7 +23,6 @@ class Store():
 class User(Store):
     def __init__(self, username, name, email, password):
         super().__init__()
-        self.id = id
         self.username = username
         self.name = name
         self.email = email
@@ -41,3 +40,13 @@ class User(Store):
             );
             """
         )
+
+    def add(self):
+        self.cur.execute(
+            """
+            INSERT INTO users (username, name, email, password_hash)
+            VALUES (%s , %s, %s, %s)
+            """,
+            (self.username, self.name, self.email, self.password_hash))
+
+        self.save()
