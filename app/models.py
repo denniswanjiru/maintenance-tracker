@@ -56,17 +56,22 @@ class User(Store):
         users_tuple = self.cur.fetchall()
         users = []
 
-        for user in users_tuple:
-            users.append(self.serializer(user))
+        if user:
+            for user in users_tuple:
+                users.append(self.serializer(user))
 
-        print(users)
+            print(users)
+        return None
 
     def fetch_by_username(self, username):
         self.cur.execute(
             "SELECT * FROM users where username=%s", (username, ))
 
         user = self.cur.fetchone()
-        return self.serializer(user)
+
+        if user:
+            return self.serializer(user)
+        return None
 
     def serializer(self, user):
         return dict(
@@ -75,4 +80,29 @@ class User(Store):
             name=user[2],
             email=user[3],
             password=user[4]
+        )
+
+
+class Request(Store):
+    def __init__(self, user_id, title, request_type, location, description):
+        super().__init__()
+        self.id = id
+        self.user_id = user_id
+        self.title = title
+        self.request_type = request_type
+        self.location = location
+        self.description = description
+
+    def create(self):
+        self.create_table(
+            """
+            CREATE TABLE requests(
+                id serial PRIMARY KEY,
+                uuid varchar NOT NULL UNIQUE,
+                title varchar NOT NULL,
+                location varchar NOT NULL,
+                description text,
+                user_id  SERIAL REFERENCES users,
+                request_type varchar NOT NULL)
+            """
         )
