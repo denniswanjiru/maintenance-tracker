@@ -60,3 +60,12 @@ class User(Store):
             users.append(self.serializer(user))
 
         print(users)
+
+    def serializer(self, user):
+        return dict(
+            id=user[0],
+            username=user[1],
+            name=user[2],
+            email=user[3],
+            password=user[4]
+        )
