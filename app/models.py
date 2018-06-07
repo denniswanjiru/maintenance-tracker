@@ -51,7 +51,7 @@ class User(Store):
 
         self.save()
 
-    def get_all(self):
+    def fetch_all(self):
         self.cur.execute("SELECT * FROM users")
         users_tuple = self.cur.fetchall()
         users = []
@@ -60,6 +60,13 @@ class User(Store):
             users.append(self.serializer(user))
 
         print(users)
+
+    def fetch_by_username(self, username):
+        self.cur.execute(
+            "SELECT * FROM users where username=%s", (username, ))
+
+        user = self.cur.fetchone()
+        return self.serializer(user)
 
     def serializer(self, user):
         return dict(
