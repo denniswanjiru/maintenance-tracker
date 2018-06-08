@@ -1,5 +1,7 @@
+import datetime
 import psycopg2
 import uuid
+import jwt
 import os
 
 
@@ -63,13 +65,9 @@ class User(Store):
     def fetch_all(self):
         self.cur.execute("SELECT * FROM users")
         users_tuple = self.cur.fetchall()
-        users = []
 
         if user:
-            for user in users_tuple:
-                users.append(self.serializer(user))
-
-            print(users)
+            return [self.serializer(user) for user in users_tuple]
         return None
 
     def fetch_by_username(self, username):
@@ -104,7 +102,8 @@ class User(Store):
 
 class Request(Store):
     def __init__(
-            self, user_id=None, title=None, location=None, request_type=None, description=None, id=None):
+            self, user_id=None, title=None, location=None, request_type=None,
+            description=None, id=None, status="pending"):
         super().__init__()
         self.id = id
         self.user_id = user_id
@@ -124,7 +123,8 @@ class Request(Store):
                 location varchar NOT NULL,
                 description text,
                 user_id integer NOT NULL,
-                request_type varchar NOT NULL)
+                request_type varchar NOT NULL,
+                status varchar NOT NULL)
             """
         )
 
