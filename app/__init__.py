@@ -175,19 +175,20 @@ class UserSignin(Resource):
         session["user_id"] = user["id"]
         return {"message": f"you are now signed in as {username}"}, 200
 
-# class UserSignout(Resource):
-#     """ User Signout Resource """
 
-#     def post(self):
-#         """ Should pop the user in session  """
-#         if session:
-#             session.pop("user_id")
-#             return{"message": "You've been signed out successfully!"}, 200
-#         return{"message": "Your are not logged in!"}, 404
+class UserSignout(Resource):
+    """ User Signout Resource """
+
+    def post(self):
+        """ Should pop the user in session  """
+        if session:
+            session.pop("user_id")
+            return{"message": "You've been signed out successfully!"}, 200
+        return{"message": "Your are not logged in!"}, 404
 
 
 # api.add_resource(RequestList, '/api/v1/users/requests/')
 # api.add_resource(Request, '/api/v1/users/request/<int:request_id>/')
 api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
 api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
-# api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
+api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
