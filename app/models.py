@@ -197,5 +197,6 @@ class Request(Store):
             location=request[3],
             description=request[3],
             user_id=request[5],
-            request_type=request[6]
+            request_type=request[6],
+            status=request[7]
         )

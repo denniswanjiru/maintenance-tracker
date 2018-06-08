@@ -46,10 +46,11 @@ class RequestList(Resource):
     parser.add_argument('request_type', required=True)
     parser.add_argument('description')
 
+    @jwt_required
     def get(self):
         """ Get all request """
-        user_id = session["user_id"]
-
+        user_id = get_jwt_identity()
+        print(user_id)
         request = RequestModel()
 
         my_requests = request.fetch_by_user(user_id)
