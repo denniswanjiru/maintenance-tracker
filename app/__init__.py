@@ -2,9 +2,7 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from functools import wraps
-from .models import User
-
-from .models import User, Request as RequestModel, Store
+from .models import User, Request as RequestModel
 
 app = Flask(__name__)
 api = Api(app)
@@ -154,26 +152,28 @@ class UserRegistration(Resource):
         return {"message": "Account created successfully"}, 201
 
 
-# class UserSignin(Resource):
-#     """ User Signin Resource """
-#     parser = reqparse.RequestParser()
-#     parser.add_argument('username', required=True, type=str)
-#     parser.add_argument('password', required=True)
+class UserSignin(Resource):
+    """ User Signin Resource """
+    parser = reqparse.RequestParser()
+    parser.add_argument('username', required=True, help="Username is required")
+    parser.add_argument('password', required=True, help="Password is required")
 
-#     def post(self):
-#         """ Signin an existing User """
-#         args = UserSignin.parser.parse_args()
-#         username = args["username"]
-#         password = args["password"]
+    def post(self):
+        """ Signin an existing User """
+        args = UserSignin.parser.parse_args()
+        username = args["username"]
+        password = args["password"]
 
-#         user = Store.get_user_by_username(username)
-#         if not user:
-#             return {"message": f"{username} does not have an account."}, 404
-#         if not user.check_password(password):
-#             return {"message": "username or password do not match."}, 403
-#         session["user_id"] = user.id
-#         return {"message": f"you are now signed in as {username}"}, 200
+        user = User()
+        user = user.fetch_by_username(username)
 
+        print(user)
+        if not user:
+            return {"message": f"{username} does not have an account."}, 404
+        if user['password'] != password:
+            return {"message": "username or password do not match."}, 403
+        session["user_id"] = user["id"]
+        return {"message": f"you are now signed in as {username}"}, 200
 
 # class UserSignout(Resource):
 #     """ User Signout Resource """
@@ -189,5 +189,5 @@ class UserRegistration(Resource):
 # api.add_resource(RequestList, '/api/v1/users/requests/')
 # api.add_resource(Request, '/api/v1/users/request/<int:request_id>/')
 api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
-# api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
+api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
 # api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
