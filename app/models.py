@@ -18,7 +18,7 @@ class Store():
         self.save()
 
     def drop_table(self, name):
-        self.cur.execute(f'DROP TABLE IF EXISTS {name}')
+        self.cur.execute('DROP TABLE IF EXISTS ' + name)
         self.save()
 
     def save(self):
@@ -113,7 +113,7 @@ class Request(Store):
                 title varchar NOT NULL,
                 location varchar NOT NULL,
                 description text,
-                user_id int NOT NULL,
+                user_id integer NOT NULL,
                 request_type varchar NOT NULL)
             """
         )
@@ -153,6 +153,22 @@ class Request(Store):
         if requests_tuple:
             return [self.serializer(request) for request in requests_tuple]
         return None
+
+    def update(self, public_id):
+        self.cur.execute(
+            """
+            UPDATE requests
+            SET
+            title = (%s),
+            location = (%s),
+            description = (%s),
+            request_type = (%s)
+            WHERE public_id = (%s)
+             """,
+            (self.title, self.location, self.description,
+             self.request_type, public_id)
+        )
+        self.save()
 
     def serializer(self, request):
         return dict(
