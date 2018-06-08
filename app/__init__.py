@@ -2,14 +2,18 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from functools import wraps
+from flask_jwt_extended import jwt_required, JWTManager, create_access_token, get_jwt_identity
 from .models import User, Request as RequestModel
+import os
 
 app = Flask(__name__)
+app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
+jwt = JWTManager(app)
 api = Api(app)
 CORS(app)
 
 session = {}
-
+#
 requests_store = []
 users = {}
 
@@ -42,7 +46,6 @@ class RequestList(Resource):
     parser.add_argument('request_type', required=True)
     parser.add_argument('description')
 
-    @login_required
     def get(self):
         """ Get all request """
         user_id = session["user_id"]
@@ -54,26 +57,6 @@ class RequestList(Resource):
         if my_requests:
             return {"requests": my_requests}, 200
         return {"message": "You don't have any requests yet"}, 404
-
-    @login_required
-    def post(self):
-        """ Create a new request """
-        user_id = session["user_id"]
-        args = RequestList.parser.parse_args()
-
-        _request = RequestModel(
-            user_id=user_id, title=args['title'], location=args['location'],
-            request_type=args['request_type'], description=args['description']
-        )
-
-        _request.add()
-
-        _request = _request.fetch_by_id(_request.public_id)
-
-        return {"request": _request}, 201
-
-
-
 
 
 class UserRegistration(Resource):
@@ -107,6 +90,7 @@ class UserRegistration(Resource):
         user.add()
         return {"message": "Account created successfully"}, 201
 
+
 class UserSignin(Resource):
     """ User Signin Resource """
     parser = reqparse.RequestParser()
@@ -122,28 +106,16 @@ class UserSignin(Resource):
         user = User()
         user = user.fetch_by_username(username)
 
-        print(user)
         if not user:
             return {"message": f"{username} does not have an account."}, 404
         if user['password'] != password:
             return {"message": "username or password do not match."}, 403
-        session["user_id"] = user["id"]
-        return {"message": f"you are now signed in as {username}"}, 200
-
-
-class UserSignout(Resource):
-    """ User Signout Resource """
-
-    def post(self):
-        """ Should pop the user in session  """
-        if session:
-            session.pop("user_id")
-            return{"message": "You've been signed out successfully!"}, 200
-        return{"message": "Your are not logged in!"}, 404
+        access_token = create_access_token(identity=user["id"])
+        return {"access_token": access_token}, 200
 
 
 api.add_resource(RequestList, '/api/v1/users/requests/')
-# api.add_resource(Request, '/api/v1/users/request/<int:request_id>/')
+# api.add_resource(Re/quest, '/api/v1/users/request/<string:request_id>/')
 api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
 api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
-api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
+# api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
