@@ -137,6 +137,14 @@ class Request(Store):
         requests = [self.serializer(request) for request in requests_tuple]
         return requests
 
+    def fetch_by_id(self, public_id):
+        self.cur.execute(
+            "SELECT * FROM requests WHERE public_id=%s", (public_id, ))
+        request_tuple = self.cur.fetchone()
+        if request_tuple:
+            return self.serializer(request_tuple)
+        return None
+
     def serializer(self, request):
         return dict(
             id=request[0],
