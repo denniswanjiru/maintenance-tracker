@@ -33,91 +33,47 @@ def find_request(request_id, user_id):
     ]
 
 
-# class RequestList(Resource):
-#     """ Resource for list request """
+class RequestList(Resource):
+    """ Resource for list request """
 
-#     parser = reqparse.RequestParser()
-#     parser.add_argument('title', required=True, type=str)
-#     parser.add_argument('location', required=True, type=str)
-#     parser.add_argument('request_type', required=True)
-#     parser.add_argument('description')
+    parser = reqparse.RequestParser()
+    parser.add_argument('title', required=True, type=str)
+    parser.add_argument('location', required=True, type=str)
+    parser.add_argument('request_type', required=True)
+    parser.add_argument('description')
 
-#     @login_required
-#     def get(self):
-#         """ Get all request """
-#         user_id = session["user_id"]
-#         my_requests = Store.get_user_requests(user_id)
+    @login_required
+    def get(self):
+        """ Get all request """
+        user_id = session["user_id"]
 
-#         if my_requests:
-#             return {
-#                 "requests": [
-#                     request.request_to_dict() for request in my_requests
-#                 ]
-#             }, 200
-#         return {"message": "You don't have any requests yet"}, 404
+        request = RequestModel()
 
-#     @login_required
-#     def post(self):
-#         """ Create a new request """
-#         user_id = session["user_id"]
-#         args = RequestList.parser.parse_args()
+        my_requests = request.fetch_by_user(user_id)
 
-#         _request = RequestModel(
-#             user_id=user_id, title=args['title'], location=args['location'],
-#             request_type=args['request_type'], description=args['description']
-#         )
+        if my_requests:
+            return {"requests": my_requests}, 200
+        return {"message": "You don't have any requests yet"}, 404
 
-#         Store.add_request(_request)
-#         return {"request": _request.request_to_dict()}, 201
+    @login_required
+    def post(self):
+        """ Create a new request """
+        user_id = session["user_id"]
+        args = RequestList.parser.parse_args()
+
+        _request = RequestModel(
+            user_id=user_id, title=args['title'], location=args['location'],
+            request_type=args['request_type'], description=args['description']
+        )
+
+        _request.add()
+
+        _request = _request.fetch_by_id(_request.public_id)
+
+        return {"request": _request}, 201
 
 
-# class Request(Resource):
-#     """ Requests Resource """
 
-#     @login_required
-#     def get(self, request_id):
-#         """ Get a single request resource based off its id """
-#         user_id = session["user_id"]
-
-#         _request = Store.get_request_by_id(request_id)
-
-#         if not _request:
-#             return {"message": f"request {request_id} doesn't exit."}, 404
-#         elif _request.user_id != user_id:
-#             return {"message": "You can only view your own requests"}, 403
-#         return {'request': _request.request_to_dict()}, 200
-
-#     @login_required
-#     def put(self, request_id):
-#         """ Update a single request resource based off its id """
-#         data = request.get_json()
-#         user_id = session["user_id"]
-#         _request = Store.get_request_by_id(request_id)
-
-#         if not _request:
-#             return {"message": f"request {request_id} doesn't exit."}, 404
-#         elif _request.user_id != user_id:
-#             return {"message": "You can only edit your own requests"}, 403
-#         _request.title = data.get('title', _request.title)
-#         _request.location = data.get('location', _request.location)
-#         _request.request_type = data.get(
-#             'request_type', _request.request_type)
-#         _request.description = data.get(
-#             'description', _request.description)
-#         return {"request": _request.request_to_dict()}, 200
-
-#     @login_required
-#     def delete(self, request_id):
-#         """ Delete a single request resource based off its id """
-#         user_id = session["user_id"]
-#         _request = Store.get_request_by_id(request_id)
-
-#         if not _request:
-#             return {"message": f"request {request_id} doesn't exit."}, 404
-#         elif _request.user_id != user_id:
-#             return {"message": "You can only delete your own requests"}, 403
-#         Store.remove_request(_request)
-#         return {"message": "Your request was successfully deleted"}, 200
 
 
 class UserRegistration(Resource):
@@ -150,7 +106,6 @@ class UserRegistration(Resource):
 
         user.add()
         return {"message": "Account created successfully"}, 201
-
 
 class UserSignin(Resource):
     """ User Signin Resource """
@@ -187,7 +142,7 @@ class UserSignout(Resource):
         return{"message": "Your are not logged in!"}, 404
 
 
-# api.add_resource(RequestList, '/api/v1/users/requests/')
+api.add_resource(RequestList, '/api/v1/users/requests/')
 # api.add_resource(Request, '/api/v1/users/request/<int:request_id>/')
 api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
 api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
