@@ -59,6 +59,23 @@ class RequestList(Resource):
             return {"requests": my_requests}, 200
         return {"message": "You don't have any requests yet"}, 404
 
+    @jwt_required
+    def post(self):
+        """ Create a new request """
+        user_id = get_jwt_identity()
+        args = RequestList.parser.parse_args()
+
+        _request = RequestModel(
+            user_id=user_id, title=args['title'], location=args['location'],
+            request_type=args['request_type'], description=args['description']
+        )
+
+        _request.add()
+
+        _request = _request.fetch_by_id(_request.public_id)
+
+        return {"request": _request}, 201
+
 
 class UserRegistration(Resource):
     """ User Registration Resource """
