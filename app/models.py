@@ -93,7 +93,8 @@ class User(Store):
 
 
 class Request(Store):
-    def __init__(self, user_id, title, request_type, location, description):
+    def __init__(
+            self, user_id=None, title=None, location=None, request_type=None, description=None, id=None):
         super().__init__()
         self.id = id
         self.user_id = user_id
@@ -143,6 +144,14 @@ class Request(Store):
         request_tuple = self.cur.fetchone()
         if request_tuple:
             return self.serializer(request_tuple)
+        return None
+
+    def fetch_by_user(self, user_id):
+        self.cur.execute(
+            "SELECT * FROM requests WHERE user_id=%s", (user_id, ))
+        requests_tuple = self.cur.fetchall()
+        if requests_tuple:
+            return [self.serializer(request) for request in requests_tuple]
         return None
 
     def serializer(self, request):
