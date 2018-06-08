@@ -30,7 +30,7 @@ class Store():
 
 
 class User(Store):
-    def __init__(self, username, name, email, password):
+    def __init__(self, username=None, name=None, email=None, password=None):
         super().__init__()
         self.username = username
         self.name = name
