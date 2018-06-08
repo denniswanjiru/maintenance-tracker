@@ -111,7 +111,8 @@ class Request(Store):
         self.title = title
         self.request_type = request_type
         self.location = location
-        self.description = description
+        self.description = description,
+        self.status = status
 
     def create(self):
         self.create_table(
@@ -135,11 +136,14 @@ class Request(Store):
         self.cur.execute(
             """
             INSERT INTO requests(
-                public_id, title, location, description, user_id, request_type)
-                VALUES (%s,%s , %s, %s, %s, %s)
-                RETURNING id
+                public_id, title, location, description, user_id, request_type, status)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             """,
-            (self.public_id, self.title, self.location, self.description, self.user_id, self.request_type))
+            (
+                self.public_id, self.title,
+                self.location, self.description,
+                self.user_id, self.request_type, self.status
+            ))
         self.save()
 
     def fetch_all(self):
