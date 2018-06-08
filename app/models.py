@@ -130,3 +130,20 @@ class Request(Store):
             """,
             (self.public_id, self.title, self.location, self.description, self.user_id, self.request_type))
         self.save()
+
+    def fetch_all(self):
+        self.cur.execute("SELECT * FROM requests")
+        requests_tuple = self.cur.fetchall()
+        requests = [self.serializer(request) for request in requests_tuple]
+        return requests
+
+    def serializer(self, request):
+        return dict(
+            id=request[0],
+            public_id=request[1],
+            title=request[2],
+            location=request[3],
+            description=request[3],
+            user_id=request[5],
+            request_type=request[6]
+        )
