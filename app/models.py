@@ -82,6 +82,16 @@ class User(Store):
             return self.serializer(user)
         return None
 
+    def fetch_by_email(self, email):
+        self.cur.execute(
+            "SELECT * FROM users where email=%s", (email, ))
+
+        user = self.cur.fetchone()
+
+        if user:
+            return self.serializer(user)
+        return None
+
     def serializer(self, user):
         return dict(
             id=user[0],
