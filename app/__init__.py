@@ -128,7 +128,7 @@ class UserRegistration(Resource):
     parser.add_argument('username', required=True, type=str)
     parser.add_argument('email', required=True, type=str)
     parser.add_argument('password', required=True)
-    parser.add_asrgument('confirm_password', required=True)
+    parser.add_argument('confirm_password', required=True)
 
     def post(self):
         """ Create a new User """
