@@ -170,6 +170,11 @@ class Request(Store):
         )
         self.save()
 
+    def delete(self, public_id):
+        self.cur.execute(
+            "DELETE FROM requests WHERE public_id=%s", (public_id, ))
+        self.save()
+
     def serializer(self, request):
         return dict(
             id=request[0],
