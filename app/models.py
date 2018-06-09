@@ -1,4 +1,4 @@
-import datetime
+from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 import uuid
 import jwt
@@ -37,7 +37,8 @@ class User(Store):
         self.username = username
         self.name = name
         self.email = email
-        self.password_hash = password
+        self.password_hash = "" if not password else generate_password_hash(
+            password)
         self.is_admin = is_admin
 
     def create(self):
@@ -95,13 +96,17 @@ class User(Store):
             return self.serializer(user)
         return None
 
+    def check_password_hash(self, username, password):
+        user = self.fetch_by_username(username)
+        return check_password_hash(user["password_hash"], password)
+
     def serializer(self, user):
         return dict(
             id=user[0],
             username=user[1],
             name=user[2],
             email=user[3],
-            password=user[4]
+            password_hash=user[4]
         )
 
 

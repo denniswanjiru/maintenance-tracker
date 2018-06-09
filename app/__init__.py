@@ -201,12 +201,12 @@ class UserSignin(Resource):
         if validate_str_field(args["username"], 'Username'):
             return validate_str_field(args["username"], 'Username')
 
-        user = User()
-        user = user.fetch_by_username(username)
+        new_user = User()
+        user = new_user.fetch_by_username(username)
 
         if not user:
             return {"message": f"{username} does not have an account."}, 404
-        if user['password'] != password:
+        if not new_user.check_password_hash(username, password):
             return {"message": "username or password do not match."}, 403
         access_token = create_access_token(identity=user)
         return {"access_token": access_token}, 200
