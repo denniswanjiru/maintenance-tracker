@@ -38,11 +38,10 @@ class RequestList(Resource):
     @jwt_required
     def get(self):
         """ Get all request """
-        user_id = get_jwt_identity()
-        # print(user_id)
+        user = get_jwt_identity()
         request = RequestModel()
 
-        my_requests = request.fetch_by_user(user_id)
+        my_requests = request.fetch_by_user(user["id"])
 
         if my_requests:
             return {"requests": my_requests}, 200
@@ -51,11 +50,11 @@ class RequestList(Resource):
     @jwt_required
     def post(self):
         """ Create a new request """
-        user_id = get_jwt_identity()
+        user = get_jwt_identity()
         args = RequestList.parser.parse_args()
 
         _request = RequestModel(
-            user_id=user_id, title=args['title'], location=args['location'],
+            user_id=user["id"], title=args['title'], location=args['location'],
             request_type=args['request_type'], description=args['description']
         )
 
@@ -72,15 +71,43 @@ class Request(Resource):
     @jwt_required
     def get(self, request_id):
         """ Get a single request resource based off its id """
-        user_id = get_jwt_identity()
+        user = get_jwt_identity()
         req = RequestModel()
         _request = req.fetch_by_id(request_id)
 
         if not _request:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        elif _request["user_id"] != user_id:
+        elif _request["user_id"] != user["id"]:
             return {"message": "You can only view your own requests"}, 403
         return {'request': _request}, 200
+
+    @jwt_required
+    def put(self, request_id):
+        """ Update a single request resource based off its id """
+        user = get_jwt_identity()
+        data = request.get_json()
+        req = RequestModel()
+        _request = req.fetch_by_id(request_id)
+
+        if not _request:
+            return {"message": f"request {request_id} doesn't exit."}, 404
+        elif _request['user_id'] != user["id"]:
+            return {"message": "You can only edit your own requests"}, 403
+        title = data.get('title', _request["title"])
+        location = data.get('location', _request["location"])
+        request_type = data.get('request_type', _request["request_type"])
+        description = data.get('description', _request["description"])
+        status = data.get('status', _request["status"])
+
+        print(title)
+
+        req = RequestModel(
+            title=title, location=location, request_type=request_type,
+            description=description, status=status)
+
+        _request = req.update(request_id)
+        updated_request = req.fetch_by_id(request_id)
+        return {"request": updated_request}, 200
 
     @jwt_required
     def delete(self, request_id):
@@ -148,7 +175,7 @@ class UserSignin(Resource):
             return {"message": f"{username} does not have an account."}, 404
         if user['password'] != password:
             return {"message": "username or password do not match."}, 403
-        access_token = create_access_token(identity=user["id"])
+        access_token = create_access_token(identity=user)
         return {"access_token": access_token}, 200
 
 

@@ -181,7 +181,7 @@ class Request(Store):
             WHERE public_id = (%s)
              """,
             (self.title, self.location, self.description,
-             self.request_type, status, public_id)
+             self.request_type, self.status, public_id)
         )
         self.save()
 
@@ -196,7 +196,7 @@ class Request(Store):
             public_id=request[1],
             title=request[2],
             location=request[3],
-            description=request[3],
+            description=request[4],
             user_id=request[5],
             request_type=request[6],
             status=request[7]
