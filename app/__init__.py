@@ -6,7 +6,9 @@ from flask_jwt_extended import (
     jwt_required, JWTManager, create_access_token, get_jwt_identity
 )
 from .models import User, Request as RequestModel
+
 import os
+import re
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
@@ -14,6 +16,14 @@ jwt = JWTManager(app)
 jwt.unauthorized_loader(app)
 api = Api(app)
 CORS(app)
+
+
+def validate_str_field(string, name):
+    if len(string.strip()) == 0:
+        return {"message": f"{name} can't have empty values"}, 400
+    elif not re.match("^[A-Za-z0-9_-]*$", string):
+        return {"message": f"{name} should only contain letters, numbers, underscores and dashes"}, 400
+    return None
 
 
 def find_request(request_id, user_id):
@@ -30,7 +40,8 @@ class RequestList(Resource):
     """ Resource for list request """
 
     parser = reqparse.RequestParser()
-    parser.add_argument('title', required=True, type=str)
+    parser.add_argument('title', required=True, type=str,
+                        help="Required and must be a string")
     parser.add_argument('location', required=True, type=str)
     parser.add_argument('request_type', required=True)
     parser.add_argument('description')
@@ -52,6 +63,14 @@ class RequestList(Resource):
         """ Create a new request """
         user = get_jwt_identity()
         args = RequestList.parser.parse_args()
+        if validate_str_field(args["title"], 'Title'):
+            return validate_str_field(args["title"], 'Title')
+        elif validate_str_field(args["location"], 'location'):
+            return validate_str_field(args["location"], 'location')
+        elif validate_str_field(args["request_type"], 'request_type'):
+            return validate_str_field(args["request_type"], 'request_type')
+        elif validate_str_field(args["description"], 'description'):
+            return validate_str_field(args["description"], 'description')
 
         _request = RequestModel(
             user_id=user["id"], title=args['title'], location=args['location'],
@@ -127,19 +146,30 @@ class Request(Resource):
 class UserRegistration(Resource):
     """ User Registration Resource """
     parser = reqparse.RequestParser()
-    parser.add_argument('name', required=True, type=str)
-    parser.add_argument('username', required=True, type=str)
-    parser.add_argument('email', required=True, type=str)
-    parser.add_argument('password', required=True)
-    parser.add_argument('confirm_password', required=True)
+    parser.add_argument('name', required=True, type=str,
+                        help="Name is required can only be a string")
+    parser.add_argument('username', required=True, type=str,
+                        help="Username is required and can only be a string")
+    parser.add_argument('email', required=True, type=str,
+                        help="Email is required")
+    parser.add_argument('password', required=True,
+                        help="Password is required")
+    parser.add_argument('confirm_password', required=True,
+                        help="Password confirmation is required")
 
     def post(self):
         """ Create a new User """
         args = UserRegistration.parser.parse_args()
+        print()
+        if validate_str_field(args["username"], 'Username'):
+            return validate_str_field(args["username"], 'Username')
+        if validate_str_field(args["name"], 'Name'):
+            return validate_str_field(args["name"], 'Name')
+        if not re.match('[^@]+@[^@]+\.[^@]+', args['email']):
+            return {"message": "Provide a valid email"}, 400
 
         user = User(username=args.get("username"), name=args.get("name"),
                     email=args.get("email"), password=args.get("password"))
-
         username_taken = user.fetch_by_username(args["username"])
         email_taken = user.fetch_by_email(args["email"])
 
@@ -167,6 +197,9 @@ class UserSignin(Resource):
         args = UserSignin.parser.parse_args()
         username = args["username"]
         password = args["password"]
+
+        if validate_str_field(args["username"], 'Username'):
+            return validate_str_field(args["username"], 'Username')
 
         user = User()
         user = user.fetch_by_username(username)
