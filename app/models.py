@@ -1,5 +1,7 @@
+from werkzeug.security import generate_password_hash, check_password_hash
 import psycopg2
 import uuid
+import jwt
 import os
 
 
@@ -30,46 +32,48 @@ class Store():
 
 
 class User(Store):
-    def __init__(self, username, name, email, password):
+    def __init__(self, username=None, name=None, email=None, password=None, is_admin=False):
         super().__init__()
         self.username = username
         self.name = name
         self.email = email
-        self.password_hash = password
+        self.password_hash = "" if not password else generate_password_hash(
+            password)
+        self.is_admin = is_admin
 
     def create(self):
         self.create_table(
             """
             CREATE TABLE users(
                 id serial PRIMARY KEY,
-                username varchar NOT NULL UNIQUE,
-                name varchar NOT NULL,
-                email varchar NOT NULL UNIQUE,
-                password_hash text NOT NULL
+                username VARCHAR NOT NULL UNIQUE,
+                name VARCHAR NOT NULL,
+                email VARCHAR NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL,
+                is_admin BOOLEAN DEFAULT FALSE
             );
             """
         )
 
+    def drop(self):
+        self.drop_table("users")
+
     def add(self):
         self.cur.execute(
             """
-            INSERT INTO users (username, name, email, password_hash)
-            VALUES (%s , %s, %s, %s)
+            INSERT INTO users (username, name, email, password_hash, is_admin)
+            VALUES (%s , %s, %s, %s, %s)
             """,
-            (self.username, self.name, self.email, self.password_hash))
+            (self.username, self.name, self.email, self.password_hash, self.is_admin))
 
         self.save()
 
     def fetch_all(self):
         self.cur.execute("SELECT * FROM users")
         users_tuple = self.cur.fetchall()
-        users = []
 
         if user:
-            for user in users_tuple:
-                users.append(self.serializer(user))
-
-            print(users)
+            return [self.serializer(user) for user in users_tuple]
         return None
 
     def fetch_by_username(self, username):
@@ -82,19 +86,34 @@ class User(Store):
             return self.serializer(user)
         return None
 
+    def fetch_by_email(self, email):
+        self.cur.execute(
+            "SELECT * FROM users where email=%s", (email, ))
+
+        user = self.cur.fetchone()
+
+        if user:
+            return self.serializer(user)
+        return None
+
+    def check_password_hash(self, username, password):
+        user = self.fetch_by_username(username)
+        return check_password_hash(user["password_hash"], password)
+
     def serializer(self, user):
         return dict(
             id=user[0],
             username=user[1],
             name=user[2],
             email=user[3],
-            password=user[4]
+            password_hash=user[4]
         )
 
 
 class Request(Store):
     def __init__(
-            self, user_id=None, title=None, location=None, request_type=None, description=None, id=None):
+            self, user_id=None, title=None, location=None, request_type=None,
+            description=None, id=None, status="pending"):
         super().__init__()
         self.id = id
         self.user_id = user_id
@@ -102,7 +121,8 @@ class Request(Store):
         self.title = title
         self.request_type = request_type
         self.location = location
-        self.description = description
+        self.description = description,
+        self.status = status
 
     def create(self):
         self.create_table(
@@ -114,7 +134,8 @@ class Request(Store):
                 location varchar NOT NULL,
                 description text,
                 user_id integer NOT NULL,
-                request_type varchar NOT NULL)
+                request_type varchar NOT NULL,
+                status varchar NOT NULL)
             """
         )
 
@@ -125,11 +146,14 @@ class Request(Store):
         self.cur.execute(
             """
             INSERT INTO requests(
-                public_id, title, location, description, user_id, request_type)
-                VALUES (%s,%s , %s, %s, %s, %s)
-                RETURNING id
+                public_id, title, location, description, user_id, request_type, status)
+                VALUES (%s, %s, %s, %s, %s, %s, %s)
             """,
-            (self.public_id, self.title, self.location, self.description, self.user_id, self.request_type))
+            (
+                self.public_id, self.title,
+                self.location, self.description,
+                self.user_id, self.request_type, self.status
+            ))
         self.save()
 
     def fetch_all(self):
@@ -162,11 +186,12 @@ class Request(Store):
             title = (%s),
             location = (%s),
             description = (%s),
-            request_type = (%s)
+            request_type = (%s),
+            status = (%s)
             WHERE public_id = (%s)
              """,
             (self.title, self.location, self.description,
-             self.request_type, public_id)
+             self.request_type, self.status, public_id)
         )
         self.save()
 
@@ -181,7 +206,8 @@ class Request(Store):
             public_id=request[1],
             title=request[2],
             location=request[3],
-            description=request[3],
+            description=request[4],
             user_id=request[5],
-            request_type=request[6]
+            request_type=request[6],
+            status=request[7]
         )
