@@ -32,14 +32,15 @@ class Store():
 
 
 class User(Store):
-    def __init__(self, username=None, name=None, email=None, password=None, is_admin=False):
+    def __init__(
+            self, username=None, name=None, email=None, password=None, is_admin=False):
         super().__init__()
         self.username = username
         self.name = name
         self.email = email
+        self.is_admin = is_admin
         self.password_hash = "" if not password else generate_password_hash(
             password)
-        self.is_admin = is_admin
 
     def create(self):
         self.create_table(
@@ -50,7 +51,7 @@ class User(Store):
                 name VARCHAR NOT NULL,
                 email VARCHAR NOT NULL UNIQUE,
                 password_hash TEXT NOT NULL,
-                is_admin BOOLEAN DEFAULT FALSE
+                is_admin BOOLEAN NOT NULL
             );
             """
         )
@@ -106,7 +107,8 @@ class User(Store):
             username=user[1],
             name=user[2],
             email=user[3],
-            password_hash=user[4]
+            password_hash=user[4],
+            is_admin=user[5]
         )
 
 

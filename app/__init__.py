@@ -13,9 +13,7 @@ import re
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
 jwt = JWTManager(app)
-jwt.unauthorized_loader(app)
 api = Api(app)
-CORS(app)
 
 
 def validate_str_field(string, name):
@@ -143,6 +141,18 @@ class Request(Resource):
         return {"message": "Your request was successfully deleted"}, 200
 
 
+class AdminRequests(Resource):
+    @jwt_required
+    def get(self):
+        current_user = get_jwt_identity()
+
+        if current_user["is_admin"]:
+            req = RequestModel()
+            _requests = req.fetch_all()
+            return {"requests": _requests}, 200
+        return {'message': 'Access Denied'}, 403
+
+
 class UserRegistration(Resource):
     """ User Registration Resource """
     parser = reqparse.RequestParser()
@@ -203,6 +213,7 @@ class UserSignin(Resource):
 
         new_user = User()
         user = new_user.fetch_by_username(username)
+        print(user)
 
         if not user:
             return {"message": f"{username} does not have an account."}, 404
@@ -212,8 +223,9 @@ class UserSignin(Resource):
         return {"access_token": access_token}, 200
 
 
-api.add_resource(RequestList, '/api/v1/users/requests/')
-api.add_resource(Request, '/api/v1/users/request/<string:request_id>/')
-api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
-api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
-# api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
+api.add_resource(RequestList, '/api/v2/users/requests/')
+api.add_resource(Request, '/api/v2/users/request/<string:request_id>/')
+api.add_resource(AdminRequests, '/api/v2/requests/')
+api.add_resource(UserRegistration, '/api/v2/users/auth/signup/')
+api.add_resource(UserSignin, '/api/v2/users/auth/signin/')
+# api.add_resource(UserSignout, '/api/v2/users/auth/signout/')
