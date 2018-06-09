@@ -2,29 +2,18 @@ from flask import Flask, request
 from flask_restful import Resource, Api, reqparse
 from flask_cors import CORS
 from functools import wraps
-from flask_jwt_extended import jwt_required, JWTManager, create_access_token, get_jwt_identity
+from flask_jwt_extended import (
+    jwt_required, JWTManager, create_access_token, get_jwt_identity
+)
 from .models import User, Request as RequestModel
 import os
 
 app = Flask(__name__)
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
 jwt = JWTManager(app)
+jwt.unauthorized_loader(app)
 api = Api(app)
 CORS(app)
-
-session = {}
-#
-requests_store = []
-users = {}
-
-
-def login_required(fn):
-    @wraps(fn)
-    def decorated_function(*args, **kwargs):
-        if session:
-            return fn(*args, **kwargs)
-        return {"message": "You must be logged in to make a request"}, 403
-    return decorated_function
 
 
 def find_request(request_id, user_id):
@@ -50,7 +39,7 @@ class RequestList(Resource):
     def get(self):
         """ Get all request """
         user_id = get_jwt_identity()
-        print(user_id)
+        # print(user_id)
         request = RequestModel()
 
         my_requests = request.fetch_by_user(user_id)
@@ -75,6 +64,37 @@ class RequestList(Resource):
         _request = _request.fetch_by_id(_request.public_id)
 
         return {"request": _request}, 201
+
+
+class Request(Resource):
+    """ Requests Resource """
+
+    @jwt_required
+    def get(self, request_id):
+        """ Get a single request resource based off its id """
+        user_id = get_jwt_identity()
+        req = RequestModel()
+        _request = req.fetch_by_id(request_id)
+
+        if not _request:
+            return {"message": f"request {request_id} doesn't exit."}, 404
+        elif _request["user_id"] != user_id:
+            return {"message": "You can only view your own requests"}, 403
+        return {'request': _request}, 200
+
+    @jwt_required
+    def delete(self, request_id):
+        """ Delete a single request resource based off its id """
+        user_id = get_jwt_identity()
+        req = RequestModel()
+        _request = req.fetch_by_id(request_id)
+
+        if not _request:
+            return {"message": f"request {request_id} doesn't exit."}, 404
+        elif _request["user_id"] != user_id:
+            return {"message": "You can only delete your own requests"}, 403
+        req.delete(_request["public_id"])
+        return {"message": "Your request was successfully deleted"}, 200
 
 
 class UserRegistration(Resource):
@@ -133,7 +153,7 @@ class UserSignin(Resource):
 
 
 api.add_resource(RequestList, '/api/v1/users/requests/')
-# api.add_resource(Re/quest, '/api/v1/users/request/<string:request_id>/')
+api.add_resource(Request, '/api/v1/users/request/<string:request_id>/')
 api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
 api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
 # api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
