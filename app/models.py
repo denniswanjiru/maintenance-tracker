@@ -32,33 +32,38 @@ class Store():
 
 
 class User(Store):
-    def __init__(self, username=None, name=None, email=None, password=None):
+    def __init__(self, username=None, name=None, email=None, password=None, is_admin=False):
         super().__init__()
         self.username = username
         self.name = name
         self.email = email
         self.password_hash = password
+        self.is_admin = is_admin
 
     def create(self):
         self.create_table(
             """
             CREATE TABLE users(
                 id serial PRIMARY KEY,
-                username varchar NOT NULL UNIQUE,
-                name varchar NOT NULL,
-                email varchar NOT NULL UNIQUE,
-                password_hash text NOT NULL
+                username VARCHAR NOT NULL UNIQUE,
+                name VARCHAR NOT NULL,
+                email VARCHAR NOT NULL UNIQUE,
+                password_hash TEXT NOT NULL,
+                is_admin BOOLEAN DEFAULT FALSE
             );
             """
         )
 
+    def drop(self):
+        self.drop_table("users")
+
     def add(self):
         self.cur.execute(
             """
-            INSERT INTO users (username, name, email, password_hash)
-            VALUES (%s , %s, %s, %s)
+            INSERT INTO users (username, name, email, password_hash, is_admin)
+            VALUES (%s , %s, %s, %s, %s)
             """,
-            (self.username, self.name, self.email, self.password_hash))
+            (self.username, self.name, self.email, self.password_hash, self.is_admin))
 
         self.save()
 
