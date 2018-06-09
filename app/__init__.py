@@ -185,6 +185,22 @@ class RejectRequest(Resource):
         return {'message': 'Access Denied'}, 403
 
 
+class ResolveRequest(Resource):
+    @jwt_required
+    def put(self, request_id):
+        current_user = get_jwt_identity()
+        if current_user['is_admin']:
+            new_req = RequestModel()
+            req = new_req.fetch_by_id(request_id)
+            if not req:
+                return {'message': f'No request found under {request_id} id'}, 404
+            elif req["status"] != 'pending':
+                return {'message': 'You can\'t resolve this request, it\'s already been approved or resolveed'}, 403
+            new_req.resolve(request_id)
+            return {'message': 'Request resolved succcessfully'}, 200
+        return {'message': 'Access Denied'}, 403
+
+
 class UserRegistration(Resource):
     """ User Registration Resource """
     parser = reqparse.RequestParser()
@@ -262,6 +278,8 @@ api.add_resource(
     ApproveRequest, '/api/v2/requests/<string:request_id>/approve/')
 api.add_resource(
     RejectRequest, '/api/v2/requests/<string:request_id>/reject/')
+api.add_resource(
+    ResolveRequest, '/api/v2/requests/<string:request_id>/resolve/')
 api.add_resource(UserRegistration, '/api/v2/users/auth/signup/')
 api.add_resource(UserSignin, '/api/v2/users/auth/signin/')
 # api.add_resource(UserSignout, '/api/v2/users/auth/signout/')
