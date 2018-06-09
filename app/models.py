@@ -195,7 +195,7 @@ class Request(Store):
         )
         self.save()
 
-    def resolve(self, public_id):
+    def approve(self, public_id):
         self.cur.execute(
             """
             UPDATE requests
@@ -204,6 +204,18 @@ class Request(Store):
             WHERE public_id = (%s)
              """,
             ('approved', public_id)
+        )
+        self.save()
+
+    def reject(self, public_id):
+        self.cur.execute(
+            """
+            UPDATE requests
+            SET
+            status = (%s)
+            WHERE public_id = (%s)
+             """,
+            ('rejected', public_id)
         )
         self.save()
 
