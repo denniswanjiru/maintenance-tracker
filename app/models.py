@@ -195,6 +195,18 @@ class Request(Store):
         )
         self.save()
 
+    def resolve(self, public_id):
+        self.cur.execute(
+            """
+            UPDATE requests
+            SET
+            status = (%s)
+            WHERE public_id = (%s)
+             """,
+            ('approved', public_id)
+        )
+        self.save()
+
     def delete(self, public_id):
         self.cur.execute(
             "DELETE FROM requests WHERE public_id=%s", (public_id, ))
