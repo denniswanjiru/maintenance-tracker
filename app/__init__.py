@@ -24,7 +24,7 @@ def validate_str_field(string, name):
     if len(string.strip()) == 0:
         return {"message": f"{name} can't have empty values"}, 400
     elif not re.match("^[ A-Za-z0-9_-]*$", string):
-        return {"message": f"{name} should only contain letters, numbers, underscores and dashes"}, 400
+        return {"message": f"{name} invalid datas"}, 400
     return None
 
 
@@ -163,7 +163,7 @@ class ApproveRequest(Resource):
             new_req = RequestModel()
             req = new_req.fetch_by_id(request_id)
             if not req:
-                return {'message': f'No request found under {request_id} id'}, 404
+                return {"message": "request {request_id} doesn't exit."}, 404
             elif req["status"] != 'pending':
                 return {'message': 'You can\'t approve this request, it\'s already been approved or rejected'}, 403
             new_req.approve(request_id)
@@ -179,7 +179,7 @@ class RejectRequest(Resource):
             new_req = RequestModel()
             req = new_req.fetch_by_id(request_id)
             if not req:
-                return {'message': f'No request found under {request_id} id'}, 404
+                return {"message": "request {request_id} doesn't exit."}, 404
             elif req["status"] != 'pending':
                 return {'message': 'You can\'t reject this request, it\'s already been approved or rejected'}, 403
             new_req.reject(request_id)
@@ -195,7 +195,7 @@ class ResolveRequest(Resource):
             new_req = RequestModel()
             req = new_req.fetch_by_id(request_id)
             if not req:
-                return {'message': f'No request found under {request_id} id'}, 404
+                return {"message": "request {request_id} doesn't exit."}, 404
             elif req["status"] != 'approve':
                 return {'message': 'You can\'t resolve this request, it\'s either rejected or not approved'}, 403
             new_req.resolve(request_id)
@@ -264,7 +264,6 @@ class UserSignin(Resource):
 
         new_user = User()
         user = new_user.fetch_by_username(username)
-        print(user)
 
         if not user:
             return {"message": f"{username} does not have an account."}, 404
