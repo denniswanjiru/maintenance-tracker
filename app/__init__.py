@@ -1,17 +1,21 @@
 from flask import Flask, request
+
 from flask_restful import Resource, Api, reqparse
-from flask_cors import CORS
-from functools import wraps
 from flask_jwt_extended import (
-    jwt_required, JWTManager, create_access_token, get_jwt_identity
+    jwt_required, JWTManager, create_access_token, get_jwt_identity,
+    jwt_refresh_token_required, create_refresh_token
 )
 from .models import User, Request as RequestModel
 
 import os
 import re
 
+from config import app_config
+
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
+
+MODE = os.getenv('MODE') if os.getenv('MODE') else 'development'
+app.config.from_object(app_config[MODE])
 jwt = JWTManager(app)
 api = Api(app)
 
@@ -22,16 +26,6 @@ def validate_str_field(string, name):
     elif not re.match("^[A-Za-z0-9_-]*$", string):
         return {"message": f"{name} should only contain letters, numbers, underscores and dashes"}, 400
     return None
-
-
-def find_request(request_id, user_id):
-    """ Find a specific request resource based off the id and users' id """
-    return [
-        _request if _request['request_id'] == request_id and
-        _request["user_id"] == user_id else "does_not_belong_to"
-        for _request in requests_store
-        if _request['request_id'] == request_id
-    ]
 
 
 class RequestList(Resource):
@@ -194,8 +188,8 @@ class ResolveRequest(Resource):
             req = new_req.fetch_by_id(request_id)
             if not req:
                 return {'message': f'No request found under {request_id} id'}, 404
-            elif req["status"] != 'pending':
-                return {'message': 'You can\'t resolve this request, it\'s already been approved or resolveed'}, 403
+            elif req["status"] != 'approve':
+                return {'message': 'You can\'t resolve this request, it\'s either rejected or not approved'}, 403
             new_req.resolve(request_id)
             return {'message': 'Request resolved succcessfully'}, 200
         return {'message': 'Access Denied'}, 403
@@ -218,17 +212,18 @@ class UserRegistration(Resource):
     def post(self):
         """ Create a new User """
         args = UserRegistration.parser.parse_args()
+        username = args.get("username").lower()
         print()
-        if validate_str_field(args["username"], 'Username'):
-            return validate_str_field(args["username"], 'Username')
+        if validate_str_field(username, 'Username'):
+            return validate_str_field(username, 'Username')
         if validate_str_field(args["name"], 'Name'):
             return validate_str_field(args["name"], 'Name')
         if not re.match('[^@]+@[^@]+\.[^@]+', args['email']):
             return {"message": "Provide a valid email"}, 400
 
-        user = User(username=args.get("username"), name=args.get("name"),
+        user = User(username=username, name=args.get("name"),
                     email=args.get("email"), password=args.get("password"))
-        username_taken = user.fetch_by_username(args["username"])
+        username_taken = user.fetch_by_username(username)
         email_taken = user.fetch_by_email(args["email"])
 
         if username_taken:
@@ -253,7 +248,7 @@ class UserSignin(Resource):
     def post(self):
         """ Signin an existing User """
         args = UserSignin.parser.parse_args()
-        username = args["username"]
+        username = args["username"].lower()
         password = args["password"]
 
         if validate_str_field(args["username"], 'Username'):
