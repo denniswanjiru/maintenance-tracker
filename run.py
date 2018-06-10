@@ -1,5 +1,14 @@
 from app import app
+from db import init, drop
 
 
-if __name__ == '__main__':
-    app.run()
+@app.cli.command()
+def init_db():
+    ''' Create tables'''
+    init()
+
+
+@app.cli.command()
+def drop_db():
+    ''' Drop tables'''
+    drop()
