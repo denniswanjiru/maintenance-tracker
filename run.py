@@ -4,7 +4,7 @@ from db import init, drop
 
 @app.cli.command()
 def init_db():
-    ''' Create tables'''
+    ''' Create tables '''
     init()
 
 
