@@ -1,80 +1,73 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
+HOST: https://m-tracker-app.herokuapp.com
 
-# m-tracker
+# M-tracker
 
-Polls is a simple API allowing consumers to view polls and vote in them.
-
-## Questions Collection [/questions]
-
-### List All Questions [GET]
-
-+ Response 200 (application/json)
-
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
-
+A maintenance/repair request app.
+## UserSignup Collection [/api/v2/users/auth/signup/]
+### Signup [POST]
 + Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
+    + Attributes (Signup Post)
+    
 + Response 201 (application/json)
 
-    + Headers
+        + message: Account successfully created
 
-            Location: /questions/2
+## UserSignup Collection [/api/v2/users/auth/signin/]
+### Signup [POST]
++ Request (application/json)
+    + Attributes (Signin Post)
+    
++ Response 201 (application/json)
+    + {"access_tokenge": token}
 
-    + Body
 
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
-            }
+## RequestsList Collection [/api/v2/users/requests/]
+### List All Request [GET]
+
+Get all requests
++ Response 200 (application/json)
+    + Attributes (array[Request])
+    
+    
+### Make a New Request [POST]
++ Request (application/json)
+    + Attributes (Request Post)
+    
++ Response 201 (application/json)
+    + Attributes (Request)
+            
+
+## Request Collection [/api/v2/users/requests/{request_id}]          
+### Get a Request [GET]
+
+Get a single requests 
++ Parameters
+    + request_id (number) - ID of the Request in the form of an integer
+        
++ Response 200 (application/json)
+    + Attributes (Request)         
+            
+# Data Structures
+## Signup Post (object)
++ id: 2321 (number, required)
++ name: User One (string, required)
++ username: user1 (string, required)
++ password: supersecret (string, required)
++ confirm_password: supersecret (string, required)
+## Signin Post (object)
++ username: user1 (string, required)
++ password: supersecret (string, required)
+## Request (object)
++ id: 21323232 (number, required)
++ title: Broken Desktop (string, required)
++ user_id: 2234234 (number, required)
++ location: Some locaotion (string, required)
++ description: Some useful Description here (string)
++ public_id: sdkmhfbkjsdh (string, required)
+## Request Post (object)
++ title: Broken Desktop (string, required)
++ description: Some useful Description here (string)
++ location: Some locaotion (string, required)
++ request_type: Some Type (string)
++ public_id: sdkmhfbkjsdh (string, required)
