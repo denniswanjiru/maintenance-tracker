@@ -1,0 +1,143 @@
+FORMAT: 1A
+HOST: https://m-tracker-app.herokuapp.com
+
+# M-tracker
+
+An application that helps users make requests for maintenance/repair services. The admin of the application receives the request and either approves or disapproves it. If the request is approved the user is notified and he/she gets the appropriate services as requested. User can also track his/her requests.
+
+A maintenance/repair request app.
+
+## UserSignup Collection [/api/v2/users/auth/signup/]
+### Signup [POST]
+A user can create an Acoount
++ Request (application/json)
+    + Attributes (Signup Post)
+
++ Response 201 (application/json)
+
+        {"message": "Account successfully created"}
+
+## UserSignin Collection [/api/v2/users/auth/signin/]
+### Signin [POST]
+A registerd user can signin
++ Request (application/json)
+    + Attributes (Signin Post)
+
++ Response 201 (application/json)
+
+        {"access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjg2NDI2MTAsIm5iZiI6MTUyODY0MjYxMCwianRpIjoiNjJhNzFhYTgtYmUyNy00YjIxLTliOGItZjE3ZjJmOWRmNzBmIiwiZXhwIjoxNTI4NjQzNTEwLCJpZGVudGl0eSI6eyJpZCI6MSwidXNlcm5hbWUiOiJvZ29sMiIsIm5hbWUiOiJUZXN0IFVzZXIxIiwiZW1haWwiOiJuZXcxQGdtYWlsLmNvbSIsInBhc3N3b3JkX2hhc2giOiJwYmtkZjI6c2hhMjU2OjUwMDAwJFQydElKbUoyJDIxNGZkOTJiNzBmNDE4Mjg5ZGQ5ZjZmMTBmNjY4NDg5MzRmMzNhN2Q0ZDAzMDc3M2Q5Y2QwYTM0MmRhOTFmN2EiLCJpc19hZG1pbiI6ZmFsc2V9LCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.DcFIv6KC2lUD9k8rSYBVTU4ffxsEjNVQaaZSMhnwAa4"}
+
+
+## RequestsList Collection [/api/v2/users/requests/]
+### List All Request [GET]
+
+Get all requests
++ Response 200 (application/json)
+    + Attributes (array[Request, Request, Request, Request, Request])
+
+
+### Make a New Request [POST]
++ Request (application/json)
+    + Attributes (Request Post)
+
++ Response 201 (application/json)
+    + Attributes (Request)
+
+
+## Request Collection [/api/v2/users/requests/{request_id}/]
+### Get a Request [GET]
+
+An authenticated user can view a single requests
++ Parameters
+    + request_id (number) - ID of the Request in the form of an integer
+
++ Response 200 (application/json)
+    + Attributes (Request)
+
+### Update Request [PUT]
+
+An authenticated user can update a single requests
++ Parameters
+    + request_id (number) - ID of the Request in the form of an integer
+
++ Response 200 (application/json)
+    + Attributes (Request)
+
+
+### Delete Request [DELETE]
+
+An authenticated user can delete a single requests
++ Parameters
+    + request_id (number) - ID of the Request in the form of an integer
+
++ Response 200 (application/json)
+    + Attributes (Request)
+
++ Response 404 (application/json)
+
+        {"message": "Request not found"}
+
+# Group Admin Endpoints
+
+## Get All requests [/api/v2/requests/]
+### Get All [GET]
+An Admin can get all the requests inthe application
++ Response 201 (application/json)
+    + Attributes (array[Request, Request, Request, Request, Request])
+
+## Approve request [/api/v2/requests/{request_id}/approve/]
+### Approve Request [PUT]
+An Admin can approve a request
++ Parameters
+    + request_id (number) - ID of the Request in the form of an integer
+
++ Response 200 (application/json)
+
+        {"message": "Request has been successfully approved"}
+
+
+## Resolve request [/api/v2/requests/{request_id}/resolve/]
+### Resolve Request [PUT]
+An Admin can resolve approved requests in the application
++ Parameters
+    + request_id (number) - ID of the Request in the form of an integer
+
++ Response 200 (application/json)
+
+        {"message": "Request has been successfully resolved"}
+
+## Reject request [/api/v2/requests/{request_id}/reject/]
+### Reject Request [PUT]
+An Admin can reject a request
++ Parameters
+    + request_id (number) - ID of the Request in the form of an integer
+
++ Response 200 (application/json)
+
+        {"message": "Request has been successfully rejected"}
+
+
+# Data Structures
+## Signup Post (object)
++ id: 2321 (number, required)
++ name: User One (string, required)
++ username: user1 (string, required)
++ password: supersecret (string, required)
++ confirm_password: supersecret (string, required)
+## Signin Post (object)
++ username: user1 (string, required)
++ password: supersecret (string, required)
+## Request (object)
++ id: 21323232 (number, required)
++ title: Broken Desktop (string, required)
++ user_id: 2234234 (number, required)
++ location: Some locaotion (string, required)
++ description: Some useful Description here (string)
++ status: pending (string, required)
++ public_id: ywe98sfdcisaydvuh (string, required)
+## Request Post (object)
++ title: Broken Desktop (string, required)
++ description: Some useful Description here (string)
++ location: Some locaotion (string, required)
++ request_type: Some Type (string)
++ public_id: sdkmhfbkjsdh (string, required)
