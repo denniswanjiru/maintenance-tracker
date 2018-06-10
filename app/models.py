@@ -4,15 +4,20 @@ import uuid
 import jwt
 import os
 
+from flask import current_app
+
 
 class Store():
     def __init__(self):
-        self.db_host = os.getenv('DB_HOST')
-        self.db_name = os.getenv('DB_NAME')
+        self.db_name = current_app.config['DB_NAME']
+        self.db_host = current_app.config['DB_HOST']
         self.db_username = os.getenv('DB_USERNAME')
         self.db_password = os.getenv('DB_PASSWORD')
         self.conn = psycopg2.connect(
-            database=self.db_name, host=self.db_host, user=self.db_username, password=self.db_password)
+            database=self.db_name,
+            host=self.db_host,
+            user=self.db_username,
+            password=self.db_password)
         self.cur = self.conn.cursor()
 
     def create_table(self, schema):
