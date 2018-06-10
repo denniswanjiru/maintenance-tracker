@@ -23,6 +23,14 @@ api = Api(app)
 def validate_str_field(string, name):
     if len(string.strip()) == 0:
         return {"message": f"{name} can't have empty values"}, 400
+    elif not re.match("^[ A-Za-z0-9_-]*$", string):
+        return {"message": f"{name} should only contain letters, numbers, underscores and dashes"}, 400
+    return None
+
+
+def validate_username(string, name):
+    if len(string.strip()) == 0:
+        return {"message": f"{name} can't have empty values"}, 400
     elif not re.match("^[A-Za-z0-9_-]*$", string):
         return {"message": f"{name} should only contain letters, numbers, underscores and dashes"}, 400
     return None
@@ -214,8 +222,8 @@ class UserRegistration(Resource):
         args = UserRegistration.parser.parse_args()
         username = args.get("username").lower()
         print()
-        if validate_str_field(username, 'Username'):
-            return validate_str_field(username, 'Username')
+        if validate_username(username, 'Username'):
+            return validate_username(username, 'Username')
         if validate_str_field(args["name"], 'Name'):
             return validate_str_field(args["name"], 'Name')
         if not re.match('[^@]+@[^@]+\.[^@]+', args['email']):
