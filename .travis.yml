@@ -8,7 +8,7 @@ install:
 
 before_script:
   - psql -c "CREATE DATABASE testdb;" -U postgres
-  - flask init_db
+  - python migrations.py
 
 env:
   global:
