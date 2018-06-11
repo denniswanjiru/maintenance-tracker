@@ -29,12 +29,12 @@ class TestRequestResource(unittest.TestCase):
                 "username": "user1",
                 "email": "user@gmail.com",
                 "name": "User One",
-                "password": "mysupersecret",
-                "confirm_password": "mysupersecret",
+                "password": "My_supersecret1",
+                "confirm_password": "My_supersecret1",
             },
             "creds": {
                 "username": "user1",
-                "password": "mysupersecret"
+                "password": "My_supersecret1"
             }
         }
 
@@ -52,11 +52,13 @@ class TestRequestResource(unittest.TestCase):
     def create_and_login_user(self):
         """ Login a user user """
         # First create a new user
-        self.client.post(
+        res = self.client.post(
             '/api/v2/users/auth/signup/',
             data=json.dumps(self.data["user"]),
             content_type=("application/json")
         )
+
+        print(res.data)
 
         # Log the user in
         res = self.client.post(
@@ -77,8 +79,8 @@ class TestRequestResource(unittest.TestCase):
                 username="test_user",
                 email="dennis@gmail.com",
                 name="Dennis",
-                password="rooter",
-                confirm_password="rooter"
+                password="Rooter_1",
+                confirm_password="Rooter_1"
             )),
             content_type=("application/json")
         )
@@ -88,7 +90,7 @@ class TestRequestResource(unittest.TestCase):
             '/api/v2/users/auth/signin/',
             data=json.dumps(dict(
                 username="test_user",
-                password="rooter"
+                password="Rooter_1"
             )),
             content_type=("application/json")
         )
@@ -99,14 +101,15 @@ class TestRequestResource(unittest.TestCase):
     def test_get_requests(self):
         """ Test all resources can be successfully retrived """
         token = self.create_and_login_user()
-
+        print(token)
         response = self.make_request(token)
+        print(response.data)
 
         response = self.client.get(
             '/api/v2/users/requests/',
             headers=dict(Authorization=f'Bearer {token}')
         )
-
+        print(response.data)
         self.assertEqual(response.status_code, 200)
 
     def test_get_a_request(self):

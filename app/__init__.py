@@ -38,7 +38,6 @@ def validate_username(string, name):
 @app.route('/')
 def index():
     return render_template('index.html')
-
 class RequestList(Resource):
     """ Resource for list request """
 

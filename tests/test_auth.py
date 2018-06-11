@@ -25,19 +25,19 @@ class TestRequestResource(unittest.TestCase):
                 "username": "user1",
                 "email": "user@gmail.com",
                 "name": "User One",
-                "password": "mysupersecret",
-                "confirm_password": "mysupersecret"
+                "password": "My_supersecret1",
+                "confirm_password": "My_supersecret1"
             },
             "user_login": {
                 "username": "user2",
                 "email": "user2@gmail.com",
                 "name": "User One",
-                "password": "mysupersecret",
-                "confirm_password": "mysupersecret"
+                "password": "My_supersecret1",
+                "confirm_password": "My_supersecret1"
             },
             "creds_login": {
                 "username": "user2",
-                "password": "mysupersecret"
+                "password": "My_supersecret1"
             }
         }
 

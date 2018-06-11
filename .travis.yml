@@ -7,12 +7,13 @@ install:
   - pip install coveralls
 
 before_script:
-  - psql -c "CREATE DATABASE travis;" -U postgres
+  - psql -c "CREATE DATABASE testdb;" -U postgres
   - psql -c "CREATE USER creez WITH PASSWORD 'password';" -U postgres
+  - flask init_db
 
 env:
   global:
-    - DB_NAME=travis
+    - DB_NAME=testdb
     - DB_USER=creez
     - DB_PASSWORD=password
 
