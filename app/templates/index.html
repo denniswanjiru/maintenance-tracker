@@ -1,0 +1,2189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>M-tracker | API Documentation</title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.4/semantic.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism-okaidia.min.css" />
+  <style>
+    blockquote {
+      border-left: solid 4px #eee;
+      padding-left: 8px;
+      font-style: italic;
+      margin-left: 0;
+      padding: 8px;
+    }
+
+    .ui.micro.label {
+      font-size: .25rem;
+    }
+
+    .ui.transaction.accordion .title {
+      text-align: center;
+    }
+
+    .ui.transaction.accordion .content {
+      border-top: solid 1px #ddd !important;
+      border-bottom: solid 1px #ddd !important;
+      background-color: rgba(0, 0, 0, .03);
+      padding: 0.5em 1em !important;
+    }
+
+    .ui.transaction.accordion .content.active {
+      margin-top: 0.5em;
+    }
+
+    .ui.basic.label {
+      text-align: left;
+      overflow: auto;
+    }
+
+    .resource .ui.sub.header {
+      text-transform: none;
+    }
+
+    @media only screen and (min-width: 768px) {
+      .sidewrap {
+        margin-right: 2rem;
+      }
+
+      .sidenav {
+        left: 0;
+        top: 0;
+        width: inherit;
+        position: fixed !important;
+        height: 100% !important;
+        overflow-y: auto !important;
+        padding-left: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ui padded grid">
+    <div class="sidewrap four wide computer five wide tablet sixteen wide mobile column">
+      <div class="sidenav">
+
+        <div class="ui horizontal divider">
+          <a href="#introduction">Introduction</a>
+        </div>
+        <div class="ui fluid secondary vertical menu">
+          <a class="item" href="#introduction">M-tracker</a>
+        </div>
+
+
+        <div class="ui accordion fluid">
+
+
+          <div class="title active">
+            <i class="dropdown icon"></i>
+
+            <strong>UserSignup Collection</strong>
+
+          </div>
+          <div class="content active">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item blue" href="#usersignup-collection-signup">
+                <i class="ui blue empty circular label"></i>
+
+                <span>Signup</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+
+          <div class="title ">
+            <i class="dropdown icon"></i>
+
+            <strong>UserSignin Collection</strong>
+
+          </div>
+          <div class="content ">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item blue" href="#usersignin-collection-signin">
+                <i class="ui blue empty circular label"></i>
+
+                <span>Signin</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+
+          <div class="title ">
+            <i class="dropdown icon"></i>
+
+            <strong>RequestsList Collection</strong>
+
+          </div>
+          <div class="content ">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item green" href="#requestslist-collection-list-all-request">
+                <i class="ui green empty circular label"></i>
+
+                <span>List All Request</span>
+
+              </a>
+
+              <a class="item blue" href="#requestslist-collection-make-a-new-request">
+                <i class="ui blue empty circular label"></i>
+
+                <span>Make a New Request</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+
+          <div class="title ">
+            <i class="dropdown icon"></i>
+
+            <strong>Request Collection</strong>
+
+          </div>
+          <div class="content ">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item green" href="#request-collection-get-a-request">
+                <i class="ui green empty circular label"></i>
+
+                <span>Get a Request</span>
+
+              </a>
+
+              <a class="item teal" href="#request-collection-update-request">
+                <i class="ui teal empty circular label"></i>
+
+                <span>Update Request</span>
+
+              </a>
+
+              <a class="item red" href="#request-collection-delete-request">
+                <i class="ui red empty circular label"></i>
+
+                <span>Delete Request</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+        <div class="ui horizontal divider">
+          <a href="#admin-endpoints">Admin Endpoints</a>
+        </div>
+
+        <div class="ui accordion fluid">
+
+
+          <div class="title active">
+            <i class="dropdown icon"></i>
+
+            <strong>Get All requests</strong>
+
+          </div>
+          <div class="content active">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item green" href="#admin-endpoints-get-all-requests-get-all">
+                <i class="ui green empty circular label"></i>
+
+                <span>Get All</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+
+          <div class="title ">
+            <i class="dropdown icon"></i>
+
+            <strong>Approve request</strong>
+
+          </div>
+          <div class="content ">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item teal" href="#admin-endpoints-approve-request-approve-request">
+                <i class="ui teal empty circular label"></i>
+
+                <span>Approve Request</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+
+          <div class="title ">
+            <i class="dropdown icon"></i>
+
+            <strong>Resolve request</strong>
+
+          </div>
+          <div class="content ">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item teal" href="#admin-endpoints-resolve-request-resolve-request">
+                <i class="ui teal empty circular label"></i>
+
+                <span>Resolve Request</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+
+          <div class="title ">
+            <i class="dropdown icon"></i>
+
+            <strong>Reject request</strong>
+
+          </div>
+          <div class="content ">
+            <div class="ui fluid secondary vertical menu">
+
+              <a class="item teal" href="#admin-endpoints-reject-request-reject-request">
+                <i class="ui teal empty circular label"></i>
+
+                <span>Reject Request</span>
+
+              </a>
+
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+    <div class="eleven wide computer ten wide tablet sixteen wide mobile column">
+
+      <div class="ui hidden divider header"></div>
+      <h1 class="ui huge header" id="introduction">M-tracker</h1>
+      <hr class="ui divider">
+      <div class="description">
+        <p>An application that helps users make requests for maintenance/repair services. The admin of the application receives
+          the request and either approves or disapproves it. If the request is approved the user is notified and he/she gets
+          the appropriate services as requested. User can also track his/her requests.</p>
+
+        <p>A maintenance/repair request app.</p>
+
+      </div>
+
+      <div class="ui hidden divider"></div>
+
+
+      <div class="ui horizontal divider">
+
+      </div>
+      <div class="ui header center aligned">
+        <div class="ui header">
+          <div class="sub header">
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            UserSignup Collection
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="usersignup-collection-signup">
+            Signup
+          </h3>
+          <div class="description">
+            <p>A user can create an Acoount</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui blue large button">
+              <h3>POST</h3>
+            </div>
+            <a class="ui basic fluid blue label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/auth/signup/</code>
+            </a>
+          </div>
+
+
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+
+          <div class="ui stacked segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title">
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                          <code class="language-json">{
+  &#34;id&#34;: 2321,
+  &#34;name&#34;: &#34;User One&#34;,
+  &#34;username&#34;: &#34;user1&#34;,
+  &#34;password&#34;: &#34;supersecret&#34;,
+  &#34;confirm_password&#34;: &#34;supersecret&#34;
+}</code>
+                        </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                          <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;object&#34;,
+  &#34;properties&#34;: {
+    &#34;id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;name&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;username&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;password&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;confirm_password&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    }
+  },
+  &#34;required&#34;: [
+    &#34;id&#34;,
+    &#34;name&#34;,
+    &#34;username&#34;,
+    &#34;password&#34;,
+    &#34;confirm_password&#34;
+  ]
+}</code>
+                        </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  201
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{&#34;message&#34;: &#34;Account successfully created&#34;}
+</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            UserSignin Collection
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="usersignin-collection-signin">
+            Signin
+          </h3>
+          <div class="description">
+            <p>A registerd user can signin</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui blue large button">
+              <h3>POST</h3>
+            </div>
+            <a class="ui basic fluid blue label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/auth/signin/</code>
+            </a>
+          </div>
+
+
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+
+          <div class="ui stacked segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title">
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                          <code class="language-json">{
+  &#34;username&#34;: &#34;user1&#34;,
+  &#34;password&#34;: &#34;supersecret&#34;
+}</code>
+                        </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                          <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;object&#34;,
+  &#34;properties&#34;: {
+    &#34;username&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;password&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    }
+  },
+  &#34;required&#34;: [
+    &#34;username&#34;,
+    &#34;password&#34;
+  ]
+}</code>
+                        </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  201
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{&#34;access_token&#34;: &#34;eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1Mjg2NDI2MTAsIm5iZiI6MTUyODY0MjYxMCwianRpIjoiNjJhNzFhYTgtYmUyNy00YjIxLTliOGItZjE3ZjJmOWRmNzBmIiwiZXhwIjoxNTI4NjQzNTEwLCJpZGVudGl0eSI6eyJpZCI6MSwidXNlcm5hbWUiOiJvZ29sMiIsIm5hbWUiOiJUZXN0IFVzZXIxIiwiZW1haWwiOiJuZXcxQGdtYWlsLmNvbSIsInBhc3N3b3JkX2hhc2giOiJwYmtkZjI6c2hhMjU2OjUwMDAwJFQydElKbUoyJDIxNGZkOTJiNzBmNDE4Mjg5ZGQ5ZjZmMTBmNjY4NDg5MzRmMzNhN2Q0ZDAzMDc3M2Q5Y2QwYTM0MmRhOTFmN2EiLCJpc19hZG1pbiI6ZmFsc2V9LCJmcmVzaCI6ZmFsc2UsInR5cGUiOiJhY2Nlc3MifQ.DcFIv6KC2lUD9k8rSYBVTU4ffxsEjNVQaaZSMhnwAa4&#34;}
+</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            RequestsList Collection
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="requestslist-collection-list-all-request">
+            List All Request
+          </h3>
+          <div class="description">
+            <p>Get all requests</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui green large button">
+              <h3>GET</h3>
+            </div>
+            <a class="ui basic fluid green label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/requests/</code>
+            </a>
+          </div>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  200
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">[
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  }
+]</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;array&#34;
+}</code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="requestslist-collection-make-a-new-request">
+            Make a New Request
+          </h3>
+          <div class="description"></div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui blue large button">
+              <h3>POST</h3>
+            </div>
+            <a class="ui basic fluid blue label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/requests/</code>
+            </a>
+          </div>
+
+
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+
+
+          <div class="ui stacked segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title">
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                          <code class="language-json">{
+  &#34;title&#34;: &#34;Broken Desktop&#34;,
+  &#34;description&#34;: &#34;Some useful Description here&#34;,
+  &#34;location&#34;: &#34;Some locaotion&#34;,
+  &#34;request_type&#34;: &#34;Some Type&#34;,
+  &#34;public_id&#34;: &#34;sdkmhfbkjsdh&#34;
+}</code>
+                        </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                          <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;object&#34;,
+  &#34;properties&#34;: {
+    &#34;title&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;description&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;location&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;request_type&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;public_id&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    }
+  },
+  &#34;required&#34;: [
+    &#34;title&#34;,
+    &#34;location&#34;,
+    &#34;public_id&#34;
+  ]
+}</code>
+                        </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  201
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;id&#34;: 21323232,
+  &#34;title&#34;: &#34;Broken Desktop&#34;,
+  &#34;user_id&#34;: 2234234,
+  &#34;location&#34;: &#34;Some locaotion&#34;,
+  &#34;description&#34;: &#34;Some useful Description here&#34;,
+  &#34;status&#34;: &#34;pending&#34;,
+  &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+}</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;object&#34;,
+  &#34;properties&#34;: {
+    &#34;id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;title&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;user_id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;location&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;description&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;status&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;public_id&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    }
+  },
+  &#34;required&#34;: [
+    &#34;id&#34;,
+    &#34;title&#34;,
+    &#34;user_id&#34;,
+    &#34;location&#34;,
+    &#34;status&#34;,
+    &#34;public_id&#34;
+  ]
+}</code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            Request Collection
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="request-collection-get-a-request">
+            Get a Request
+          </h3>
+          <div class="description">
+            <p>An authenticated user can view a single requests</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui green large button">
+              <h3>GET</h3>
+            </div>
+            <a class="ui basic fluid green label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/requests/{request_id}/</code>
+            </a>
+          </div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="4">Parameters</th>
+              </tr>
+              <thead>
+                <tbody>
+
+
+
+                  <tr>
+                    <td class="center aligned one wide">
+                      <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+                    </td>
+                    <td>
+                      <code>request_id</code>
+                    </td>
+                    <td class="center aligned">
+                      <code>number</code>
+
+
+                    </td>
+                    <td class="eight wide">
+                      <p>ID of the Request in the form of an integer</p>
+
+
+                    </td>
+                  </tr>
+
+
+
+
+                </tbody>
+          </table>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  200
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;id&#34;: 21323232,
+  &#34;title&#34;: &#34;Broken Desktop&#34;,
+  &#34;user_id&#34;: 2234234,
+  &#34;location&#34;: &#34;Some locaotion&#34;,
+  &#34;description&#34;: &#34;Some useful Description here&#34;,
+  &#34;status&#34;: &#34;pending&#34;,
+  &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+}</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;object&#34;,
+  &#34;properties&#34;: {
+    &#34;id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;title&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;user_id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;location&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;description&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;status&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;public_id&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    }
+  },
+  &#34;required&#34;: [
+    &#34;id&#34;,
+    &#34;title&#34;,
+    &#34;user_id&#34;,
+    &#34;location&#34;,
+    &#34;status&#34;,
+    &#34;public_id&#34;
+  ]
+}</code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="request-collection-update-request">
+            Update Request
+          </h3>
+          <div class="description">
+            <p>An authenticated user can update a single requests</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui teal large button">
+              <h3>PUT</h3>
+            </div>
+            <a class="ui basic fluid teal label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/requests/{request_id}/</code>
+            </a>
+          </div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="4">Parameters</th>
+              </tr>
+              <thead>
+                <tbody>
+
+
+
+                  <tr>
+                    <td class="center aligned one wide">
+                      <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+                    </td>
+                    <td>
+                      <code>request_id</code>
+                    </td>
+                    <td class="center aligned">
+                      <code>number</code>
+
+
+                    </td>
+                    <td class="eight wide">
+                      <p>ID of the Request in the form of an integer</p>
+
+
+                    </td>
+                  </tr>
+
+
+
+
+                </tbody>
+          </table>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  200
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;id&#34;: 21323232,
+  &#34;title&#34;: &#34;Broken Desktop&#34;,
+  &#34;user_id&#34;: 2234234,
+  &#34;location&#34;: &#34;Some locaotion&#34;,
+  &#34;description&#34;: &#34;Some useful Description here&#34;,
+  &#34;status&#34;: &#34;pending&#34;,
+  &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+}</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;object&#34;,
+  &#34;properties&#34;: {
+    &#34;id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;title&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;user_id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;location&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;description&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;status&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;public_id&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    }
+  },
+  &#34;required&#34;: [
+    &#34;id&#34;,
+    &#34;title&#34;,
+    &#34;user_id&#34;,
+    &#34;location&#34;,
+    &#34;status&#34;,
+    &#34;public_id&#34;
+  ]
+}</code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="request-collection-delete-request">
+            Delete Request
+          </h3>
+          <div class="description">
+            <p>An authenticated user can delete a single requests</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui red large button">
+              <h3>DELETE</h3>
+            </div>
+            <a class="ui basic fluid red label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/requests/{request_id}/</code>
+            </a>
+          </div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="4">Parameters</th>
+              </tr>
+              <thead>
+                <tbody>
+
+
+
+                  <tr>
+                    <td class="center aligned one wide">
+                      <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+                    </td>
+                    <td>
+                      <code>request_id</code>
+                    </td>
+                    <td class="center aligned">
+                      <code>number</code>
+
+
+                    </td>
+                    <td class="eight wide">
+                      <p>ID of the Request in the form of an integer</p>
+
+
+                    </td>
+                  </tr>
+
+
+
+
+                </tbody>
+          </table>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  200
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;id&#34;: 21323232,
+  &#34;title&#34;: &#34;Broken Desktop&#34;,
+  &#34;user_id&#34;: 2234234,
+  &#34;location&#34;: &#34;Some locaotion&#34;,
+  &#34;description&#34;: &#34;Some useful Description here&#34;,
+  &#34;status&#34;: &#34;pending&#34;,
+  &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+}</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;object&#34;,
+  &#34;properties&#34;: {
+    &#34;id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;title&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;user_id&#34;: {
+      &#34;type&#34;: &#34;number&#34;
+    },
+    &#34;location&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;description&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;status&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    },
+    &#34;public_id&#34;: {
+      &#34;type&#34;: &#34;string&#34;
+    }
+  },
+  &#34;required&#34;: [
+    &#34;id&#34;,
+    &#34;title&#34;,
+    &#34;user_id&#34;,
+    &#34;location&#34;,
+    &#34;status&#34;,
+    &#34;public_id&#34;
+  ]
+}</code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui red large button">
+              <h3>DELETE</h3>
+            </div>
+            <a class="ui basic fluid red label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/users/requests/{request_id}/</code>
+            </a>
+          </div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="4">Parameters</th>
+              </tr>
+              <thead>
+                <tbody>
+
+
+
+                  <tr>
+                    <td class="center aligned one wide">
+                      <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+                    </td>
+                    <td>
+                      <code>request_id</code>
+                    </td>
+                    <td class="center aligned">
+                      <code>number</code>
+
+
+                    </td>
+                    <td class="eight wide">
+                      <p>ID of the Request in the form of an integer</p>
+
+
+                    </td>
+                  </tr>
+
+
+
+
+                </tbody>
+          </table>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked orange segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui orange circular label">
+                  404
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{&#34;message&#34;: &#34;Request not found&#34;}
+</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+      <div class="ui horizontal divider" id="admin-endpoints">
+        Admin Endpoints
+      </div>
+      <div class="ui header center aligned">
+        <div class="ui header">
+          <div class="sub header">
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            Get All requests
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="admin-endpoints-get-all-requests-get-all">
+            Get All
+          </h3>
+          <div class="description">
+            <p>An Admin can get all the requests inthe application</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui green large button">
+              <h3>GET</h3>
+            </div>
+            <a class="ui basic fluid green label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/requests/</code>
+            </a>
+          </div>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  201
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">[
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  },
+  {
+    &#34;id&#34;: 21323232,
+    &#34;title&#34;: &#34;Broken Desktop&#34;,
+    &#34;user_id&#34;: 2234234,
+    &#34;location&#34;: &#34;Some locaotion&#34;,
+    &#34;description&#34;: &#34;Some useful Description here&#34;,
+    &#34;status&#34;: &#34;pending&#34;,
+    &#34;public_id&#34;: &#34;ywe98sfdcisaydvuh&#34;
+  }
+]</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{
+  &#34;$schema&#34;: &#34;http://json-schema.org/draft-04/schema#&#34;,
+  &#34;type&#34;: &#34;array&#34;
+}</code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            Approve request
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="admin-endpoints-approve-request-approve-request">
+            Approve Request
+          </h3>
+          <div class="description">
+            <p>An Admin can approve a request</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui teal large button">
+              <h3>PUT</h3>
+            </div>
+            <a class="ui basic fluid teal label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/requests/{request_id}/approve/</code>
+            </a>
+          </div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="4">Parameters</th>
+              </tr>
+              <thead>
+                <tbody>
+
+
+
+                  <tr>
+                    <td class="center aligned one wide">
+                      <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+                    </td>
+                    <td>
+                      <code>request_id</code>
+                    </td>
+                    <td class="center aligned">
+                      <code>number</code>
+
+
+                    </td>
+                    <td class="eight wide">
+                      <p>ID of the Request in the form of an integer</p>
+
+
+                    </td>
+                  </tr>
+
+
+
+
+                </tbody>
+          </table>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  200
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{&#34;message&#34;: &#34;Request has been successfully approved&#34;}
+</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            Resolve request
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="admin-endpoints-resolve-request-resolve-request">
+            Resolve Request
+          </h3>
+          <div class="description">
+            <p>An Admin can resolve approved requests in the application</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui teal large button">
+              <h3>PUT</h3>
+            </div>
+            <a class="ui basic fluid teal label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/requests/{request_id}/resolve/</code>
+            </a>
+          </div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="4">Parameters</th>
+              </tr>
+              <thead>
+                <tbody>
+
+
+
+                  <tr>
+                    <td class="center aligned one wide">
+                      <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+                    </td>
+                    <td>
+                      <code>request_id</code>
+                    </td>
+                    <td class="center aligned">
+                      <code>number</code>
+
+
+                    </td>
+                    <td class="eight wide">
+                      <p>ID of the Request in the form of an integer</p>
+
+
+                    </td>
+                  </tr>
+
+
+
+
+                </tbody>
+          </table>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  200
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{&#34;message&#34;: &#34;Request has been successfully resolved&#34;}
+</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+      <div class="ui stacked segments">
+        <div class="ui basic segment resource">
+          <div class="ui purple huge ribbon label">
+            Reject request
+          </div>
+          <div class="ui header">
+            <div class="ui sub header">
+
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="ui grey horizontal small divider header">
+          <i class="ui grey micro circular label"></i>
+          <i class="ui pink micro circular label"></i>
+          <i class="ui grey micro circular label"></i>
+        </div>
+
+        <div class="ui basic segment">
+          <h3 class="ui block center aligned header" id="admin-endpoints-reject-request-reject-request">
+            Reject Request
+          </h3>
+          <div class="description">
+            <p>An Admin can reject a request</p>
+          </div>
+
+
+          <h4 class="ui horizontal divider">
+            REQUEST
+          </h4>
+          <div class="description"></div>
+          <div class="fluid ui large labeled button">
+            <div class="ui teal large button">
+              <h3>PUT</h3>
+            </div>
+            <a class="ui basic fluid teal label">
+              <code>https://m-tracker-app.herokuapp.com/api/v2/requests/{request_id}/reject/</code>
+            </a>
+          </div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="4">Parameters</th>
+              </tr>
+              <thead>
+                <tbody>
+
+
+
+                  <tr>
+                    <td class="center aligned one wide">
+                      <i class="ui empty circular label black" data-content="required" data-position="top center"></i>
+                    </td>
+                    <td>
+                      <code>request_id</code>
+                    </td>
+                    <td class="center aligned">
+                      <code>number</code>
+
+
+                    </td>
+                    <td class="eight wide">
+                      <p>ID of the Request in the form of an integer</p>
+
+
+                    </td>
+                  </tr>
+
+
+
+
+                </tbody>
+          </table>
+
+
+
+
+          <h4 class="ui horizontal divider">RESPONSE</h4>
+          <div class="description"></div>
+
+          <table class="ui celled definition table">
+            <thead>
+              <tr>
+                <th colspan="2">Headers</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              <tr>
+                <td class="four wide">Content-Type</td>
+                <td>
+                  <code>application/json</code>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+
+          <div class="ui stacked blue segment">
+            <div class="ui fluid transaction accordion">
+              <div class="title center aligned">
+                <a class="ui blue circular label">
+                  200
+                </a>
+                <code>application/json</code>
+              </div>
+              <div class="content tabbed">
+                <div class="ui top attached tabular menu">
+                  <a data-tab="body" class="active item">BODY</a>
+                  <a data-tab="schema" class="item">SCHEMA</a>
+                </div>
+                <div class="ui bottom attached active tab segment" data-tab="body">
+                  <pre style="white-space: inherit">
+                        <code class="language-json">{&#34;message&#34;: &#34;Request has been successfully rejected&#34;}
+</code>
+                      </pre>
+                </div>
+                <div class="ui bottom attached tab segment" data-tab="schema">
+                  <pre style="white-space: inherit">
+                        <code class="language-json"></code>
+                      </pre>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+      <div class="ui hidden divider"></div>
+
+
+
+
+    </div>
+  </div>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/components/accordion.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/components/tab.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/components/transition.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.1/components/popup.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/prism.min.js"></script>
+  <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/prism/1.13.0/components/prism-json.min.js"></script>
+  <script type="text/javascript">
+    $(function () {
+      $('.ui.accordion').accordion({ animateChildren: false, duration: 0 });
+      $('.content.tabbed').each(function (index) {
+        $('.ui.tabular .item', $(this)).tab({ context: $(this) });
+      });
+      $('.ui.vertical.menu').on('click', '.item', function () {
+        $('.ui.vertical.menu .item').removeClass('active');
+        $(this).addClass('active');
+      });
+      $('.ui.empty.circular.label').popup();
+    });
+  </script>
+</body>
+
+</html>
