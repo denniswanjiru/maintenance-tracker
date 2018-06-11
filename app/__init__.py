@@ -36,13 +36,6 @@ def validate_username(string, name):
     return None
 
 
-class Documentation(Resource):
-    """API Documentation """
-
-    def get(self):
-        return render_template('index')
-
-
 class RequestList(Resource):
     """ Resource for list request """
 
@@ -290,7 +283,6 @@ class UserSignin(Resource):
 
 
 api.add_resource(RequestList, '/api/v2/users/requests/')
-api.add_resource(Documentation, '/')
 api.add_resource(Request, '/api/v2/users/request/<string:request_id>/')
 api.add_resource(AdminRequests, '/api/v2/requests/')
 api.add_resource(
