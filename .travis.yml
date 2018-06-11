@@ -6,6 +6,15 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 
+before_script:
+  - psql -c "CREATE DATABASE testdb;" -U postgres
+  - flask init_db
+
+env:
+  global:
+    - DB_NAME=testdb
+    - DB_USER=postgres
+
 script:
   - nosetests --with-coverage  --cover-package=app && coverage report
 

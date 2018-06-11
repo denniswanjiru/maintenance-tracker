@@ -4,15 +4,22 @@ import uuid
 import jwt
 import os
 
+from flask import current_app
+
 
 class Store():
+    """Store Model """
+
     def __init__(self):
-        self.db_host = os.getenv('DB_HOST')
-        self.db_name = os.getenv('DB_NAME')
-        self.db_username = os.getenv('DB_USERNAME')
-        self.db_password = os.getenv('DB_PASSWORD')
+        self.db_name = current_app.config['DB_NAME']
+        self.db_host = current_app.config['DB_HOST']
+        self.db_username = current_app.config['DB_USERNAME']
+        self.db_password = current_app.config['DB_PASSWORD']
         self.conn = psycopg2.connect(
-            database=self.db_name, host=self.db_host, user=self.db_username, password=self.db_password)
+            database=self.db_name,
+            host=self.db_host,
+            user=self.db_username,
+            password=self.db_password)
         self.cur = self.conn.cursor()
 
     def create_table(self, schema):
@@ -32,14 +39,17 @@ class Store():
 
 
 class User(Store):
-    def __init__(self, username=None, name=None, email=None, password=None, is_admin=False):
+    """ User Model """
+
+    def __init__(
+            self, username=None, name=None, email=None, password=None, is_admin=False):
         super().__init__()
         self.username = username
         self.name = name
         self.email = email
+        self.is_admin = is_admin
         self.password_hash = "" if not password else generate_password_hash(
             password)
-        self.is_admin = is_admin
 
     def create(self):
         self.create_table(
@@ -50,7 +60,7 @@ class User(Store):
                 name VARCHAR NOT NULL,
                 email VARCHAR NOT NULL UNIQUE,
                 password_hash TEXT NOT NULL,
-                is_admin BOOLEAN DEFAULT FALSE
+                is_admin BOOLEAN NOT NULL
             );
             """
         )
@@ -106,11 +116,14 @@ class User(Store):
             username=user[1],
             name=user[2],
             email=user[3],
-            password_hash=user[4]
+            password_hash=user[4],
+            is_admin=user[5]
         )
 
 
 class Request(Store):
+    """ Request Model """
+
     def __init__(
             self, user_id=None, title=None, location=None, request_type=None,
             description=None, id=None, status="pending"):
@@ -186,12 +199,47 @@ class Request(Store):
             title = (%s),
             location = (%s),
             description = (%s),
-            request_type = (%s),
-            status = (%s)
+            request_type = (%s)
             WHERE public_id = (%s)
              """,
             (self.title, self.location, self.description,
-             self.request_type, self.status, public_id)
+             self.request_type, public_id)
+        )
+        self.save()
+
+    def approve(self, public_id):
+        self.cur.execute(
+            """
+            UPDATE requests
+            SET
+            status = (%s)
+            WHERE public_id = (%s)
+             """,
+            ('approved', public_id)
+        )
+        self.save()
+
+    def reject(self, public_id):
+        self.cur.execute(
+            """
+            UPDATE requests
+            SET
+            status = (%s)
+            WHERE public_id = (%s)
+             """,
+            ('rejected', public_id)
+        )
+        self.save()
+
+    def resolve(self, public_id):
+        self.cur.execute(
+            """
+            UPDATE requests
+            SET
+            status = (%s)
+            WHERE public_id = (%s)
+             """,
+            ('resolved', public_id)
         )
         self.save()
 

@@ -1,24 +1,34 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
+
 from flask_restful import Resource, Api, reqparse
-from flask_cors import CORS
-from functools import wraps
 from flask_jwt_extended import (
-    jwt_required, JWTManager, create_access_token, get_jwt_identity
+    jwt_required, JWTManager, create_access_token, get_jwt_identity,
+    jwt_refresh_token_required, create_refresh_token
 )
 from .models import User, Request as RequestModel
 
 import os
 import re
 
+from config import app_config
+
 app = Flask(__name__)
-app.config['JWT_SECRET_KEY'] = os.getenv('SECRET')
+
+MODE = os.getenv('MODE') if os.getenv('MODE') else 'development'
+app.config.from_object(app_config[MODE])
 jwt = JWTManager(app)
-jwt.unauthorized_loader(app)
 api = Api(app)
-CORS(app)
 
 
 def validate_str_field(string, name):
+    if len(string.strip()) == 0:
+        return {"message": f"{name} can't have empty values"}, 400
+    elif not re.match("^[ A-Za-z0-9_-]*$", string):
+        return {"message": f"{name} invalid datas"}, 400
+    return None
+
+
+def validate_username(string, name):
     if len(string.strip()) == 0:
         return {"message": f"{name} can't have empty values"}, 400
     elif not re.match("^[A-Za-z0-9_-]*$", string):
@@ -26,14 +36,9 @@ def validate_str_field(string, name):
     return None
 
 
-def find_request(request_id, user_id):
-    """ Find a specific request resource based off the id and users' id """
-    return [
-        _request if _request['request_id'] == request_id and
-        _request["user_id"] == user_id else "does_not_belong_to"
-        for _request in requests_store
-        if _request['request_id'] == request_id
-    ]
+@app.route('/')
+def index():
+    return render_template('index.html')
 
 
 class RequestList(Resource):
@@ -69,8 +74,6 @@ class RequestList(Resource):
             return validate_str_field(args["location"], 'location')
         elif validate_str_field(args["request_type"], 'request_type'):
             return validate_str_field(args["request_type"], 'request_type')
-        elif validate_str_field(args["description"], 'description'):
-            return validate_str_field(args["description"], 'description')
 
         _request = RequestModel(
             user_id=user["id"], title=args['title'], location=args['location'],
@@ -112,17 +115,19 @@ class Request(Resource):
             return {"message": f"request {request_id} doesn't exit."}, 404
         elif _request['user_id'] != user["id"]:
             return {"message": "You can only edit your own requests"}, 403
+        elif _request["status"] != 'pending':
+            return {"message": "You can only update a pending request"}, 403
+        elif data.get('status'):
+            return {"message": "You can't change the status of your own requests"}, 403
+
         title = data.get('title', _request["title"])
         location = data.get('location', _request["location"])
         request_type = data.get('request_type', _request["request_type"])
         description = data.get('description', _request["description"])
-        status = data.get('status', _request["status"])
-
-        print(title)
 
         req = RequestModel(
             title=title, location=location, request_type=request_type,
-            description=description, status=status)
+            description=description)
 
         _request = req.update(request_id)
         updated_request = req.fetch_by_id(request_id)
@@ -139,8 +144,75 @@ class Request(Resource):
             return {"message": f"request {request_id} doesn't exit."}, 404
         elif _request["user_id"] != user_id:
             return {"message": "You can only delete your own requests"}, 403
+        elif _request["status"] != 'pending' or _request["status"] != 'rejected':
+            return {"message": "You can only delete a non-approved request"}, 403
         req.delete(_request["public_id"])
         return {"message": "Your request was successfully deleted"}, 200
+
+
+class AdminRequests(Resource):
+    """ View all the request """
+    @jwt_required
+    def get(self):
+        current_user = get_jwt_identity()
+
+        if current_user["is_admin"]:
+            req = RequestModel()
+            _requests = req.fetch_all()
+            return {"requests": _requests}, 200
+        return {'message': 'Access Denied'}, 403
+
+
+class ApproveRequest(Resource):
+    """ Approve a request """
+    @jwt_required
+    def put(self, request_id):
+        current_user = get_jwt_identity()
+        if current_user['is_admin']:
+            new_req = RequestModel()
+            req = new_req.fetch_by_id(request_id)
+            if not req:
+                return {"message": f"request {request_id} doesn't exit."}, 404
+            elif req["status"] != 'pending':
+                return {'message': 'You can\'t approve this request, it\'s already been approved or rejected'}, 403
+            new_req.approve(request_id)
+            return {'message': 'Request Approved succcessfully'}, 200
+        return {'message': 'Access Denied'}, 403
+
+
+class RejectRequest(Resource):
+    """ Reject a request """
+    @jwt_required
+    def put(self, request_id):
+        current_user = get_jwt_identity()
+        if current_user['is_admin']:
+            new_req = RequestModel()
+            req = new_req.fetch_by_id(request_id)
+            if not req:
+                return {"message": f"request {request_id} doesn't exit."}, 404
+            elif req["status"] != 'pending':
+                return {'message': 'You can\'t reject this request, it\'s already been approved or rejected'}, 403
+            new_req.reject(request_id)
+            return {'message': 'Request rejected succcessfully'}, 200
+        return {'message': 'Access Denied'}, 403
+
+
+class ResolveRequest(Resource):
+    """ Resolve a request """
+
+    @jwt_required
+    def put(self, request_id):
+        current_user = get_jwt_identity()
+        if current_user['is_admin']:
+            new_req = RequestModel()
+            req = new_req.fetch_by_id(request_id)
+            if not req:
+                return {"message": f"request {request_id} doesn't exit."}, 404
+            elif req["status"] != 'approve':
+                return {'message': 'You can\'t resolve this request, it\'s either rejected or not approved'}, 403
+            new_req.resolve(request_id)
+            return {'message': 'Request resolved succcessfully'}, 200
+        return {'message': 'Access Denied'}, 403
 
 
 class UserRegistration(Resource):
@@ -160,17 +232,20 @@ class UserRegistration(Resource):
     def post(self):
         """ Create a new User """
         args = UserRegistration.parser.parse_args()
-        print()
-        if validate_str_field(args["username"], 'Username'):
-            return validate_str_field(args["username"], 'Username')
+        username = args.get("username").lower()
+
+        if validate_username(username, 'Username'):
+            return validate_username(username, 'Username')
         if validate_str_field(args["name"], 'Name'):
             return validate_str_field(args["name"], 'Name')
+        if not re.match(r'(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z]).{6}', args['password']):
+            return {"message": " Password rule: 1 digit, 1 caps, 1 number and minimum of 6 chars"}, 400
         if not re.match('[^@]+@[^@]+\.[^@]+', args['email']):
             return {"message": "Provide a valid email"}, 400
 
-        user = User(username=args.get("username"), name=args.get("name"),
+        user = User(username=username, name=args.get("name"),
                     email=args.get("email"), password=args.get("password"))
-        username_taken = user.fetch_by_username(args["username"])
+        username_taken = user.fetch_by_username(username)
         email_taken = user.fetch_by_email(args["email"])
 
         if username_taken:
@@ -195,7 +270,7 @@ class UserSignin(Resource):
     def post(self):
         """ Signin an existing User """
         args = UserSignin.parser.parse_args()
-        username = args["username"]
+        username = args["username"].lower()
         password = args["password"]
 
         if validate_str_field(args["username"], 'Username'):
@@ -212,8 +287,15 @@ class UserSignin(Resource):
         return {"access_token": access_token}, 200
 
 
-api.add_resource(RequestList, '/api/v1/users/requests/')
-api.add_resource(Request, '/api/v1/users/request/<string:request_id>/')
-api.add_resource(UserRegistration, '/api/v1/users/auth/signup/')
-api.add_resource(UserSignin, '/api/v1/users/auth/signin/')
-# api.add_resource(UserSignout, '/api/v1/users/auth/signout/')
+api.add_resource(RequestList, '/api/v2/users/requests/')
+api.add_resource(Request, '/api/v2/users/request/<string:request_id>/')
+api.add_resource(AdminRequests, '/api/v2/requests/')
+api.add_resource(
+    ApproveRequest, '/api/v2/requests/<string:request_id>/approve/')
+api.add_resource(
+    RejectRequest, '/api/v2/requests/<string:request_id>/reject/')
+api.add_resource(
+    ResolveRequest, '/api/v2/requests/<string:request_id>/resolve/')
+api.add_resource(UserRegistration, '/api/v2/users/auth/signup/')
+api.add_resource(UserSignin, '/api/v2/users/auth/signin/')
+# api.add_resource(UserSignout, '/api/v2/users/auth/signout/')

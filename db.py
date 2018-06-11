@@ -9,4 +9,9 @@ def init():
     request.create()
 
 
-init()
+def drop():
+    user = User()
+    request = Request()
+
+    user.drop()
+    request.drop()
