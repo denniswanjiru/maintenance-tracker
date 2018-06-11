@@ -230,11 +230,13 @@ class UserRegistration(Resource):
         """ Create a new User """
         args = UserRegistration.parser.parse_args()
         username = args.get("username").lower()
-        print()
+
         if validate_username(username, 'Username'):
             return validate_username(username, 'Username')
         if validate_str_field(args["name"], 'Name'):
             return validate_str_field(args["name"], 'Name')
+        if not re.match(r'(?=.*?[0-9])(?=.*?[A-Z])(?=.*?[a-z]).{6}', args['password']):
+            return {"message": " Password rule: 1 digit, 1 caps, 1 number and minimum of 6 chars"}, 400
         if not re.match('[^@]+@[^@]+\.[^@]+', args['email']):
             return {"message": "Provide a valid email"}, 400
 
