@@ -18,6 +18,7 @@ before_script:
         request_type varchar NOT NULL,
         status varchar NOT NULL
   );
+
   - CREATE TABLE users(
       id serial PRIMARY KEY,
       username VARCHAR NOT NULL UNIQUE,
