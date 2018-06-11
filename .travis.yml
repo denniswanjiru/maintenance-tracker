@@ -8,25 +8,7 @@ install:
 
 before_script:
   - psql -c "CREATE DATABASE testdb;" -U postgres
-  -  CREATE TABLE requests(
-        id serial PRIMARY KEY,
-        public_id varchar NOT NULL UNIQUE,
-        title varchar NOT NULL,
-        location varchar NOT NULL,
-        description text,
-        user_id integer NOT NULL,
-        request_type varchar NOT NULL,
-        status varchar NOT NULL
-  );
-
-  - CREATE TABLE users(
-      id serial PRIMARY KEY,
-      username VARCHAR NOT NULL UNIQUE,
-      name VARCHAR NOT NULL,
-      email VARCHAR NOT NULL UNIQUE,
-      password_hash TEXT NOT NULL,
-      is_admin BOOLEAN NOT NULL
-  );
+  - flask init_db
 
 env:
   global:
