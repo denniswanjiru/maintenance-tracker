@@ -35,9 +35,12 @@ def validate_username(string, name):
         return {"message": f"{name} should only contain letters, numbers, underscores and dashes"}, 400
     return None
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
+
 class RequestList(Resource):
     """ Resource for list request """
 
