@@ -13,8 +13,8 @@ class Store():
     def __init__(self):
         self.db_name = current_app.config['DB_NAME']
         self.db_host = current_app.config['DB_HOST']
-        self.db_username = os.getenv('DB_USERNAME')
-        self.db_password = os.getenv('DB_PASSWORD')
+        self.db_username = current_app.config['DB_USERNAME']
+        self.db_password = current_app.config['DB_PASSWORD']
         self.conn = psycopg2.connect(
             database=self.db_name,
             host=self.db_host,

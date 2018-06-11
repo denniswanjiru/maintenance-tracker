@@ -11,21 +11,21 @@ The admin of the application receives the request and either approves or disappr
 
 ## Usage
 
-* Create an account and login
+- Create an account and login
 
-* Make a request
+- Make a request
 
-* Request is aprroved or disapproved
+- Request is aprroved or disapproved
 
-* If approved you get served
+- If approved you get served
 
 ## Installation
 
 _Download the project to your local computer through_
 
-* Download a zip folder of this repository
-* Unzip it and navigate into the ui directory
-* Open `index.html` in a browser (Google Chrome is preferred for better experience) :sunglasses:.
+- Download a zip folder of this repository
+- Unzip it and navigate into the ui directory
+- Open `index.html` in a browser (Google Chrome is preferred for better experience) :sunglasses:.
 
 ### Alternatively
 
@@ -35,29 +35,36 @@ _Run the following command_
 $ git clone git@github.com:DennisWanjiru/maintenance-tracker.git
 ```
 
-* Locate a folder named maintenance-tracker in your computer
-* Open `index.html` in a browser (Google Chrome is preferred for better experience) :sunglasses:.
+- Locate a folder named maintenance-tracker in your computer
+- Open `index.html` in a browser (Google Chrome is preferred for better experience) :sunglasses:.
 
 ## API
 
+### Documentation
+
+[Here is the API Documentations](https://m-tracker-app.herokuapp.com/)
+
 ### Prerequisites
 
-* [Python 3.6](https://www.python.org/downloads/release/python-360/)
-* [Virtual Environment](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/)
-* [Flask](http://flask.pocoo.org/)
-* [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)
+- [Python 3.6](https://www.python.org/downloads/release/python-360/)
+- [Virtual Environment](https://packaging.python.org/guides/installing-using-pip-and-virtualenv/)
+- [Flask](http://flask.pocoo.org/)
+- [Flask-RESTful](https://flask-restful.readthedocs.io/en/latest/)
 
 ### Endpoints
 
-| METHOD | ENDPOINT                                | DESCRIPTION                      |
-| ------ | --------------------------------------- | -------------------------------- |
-| GET    | /api/v1/users/requests/                 | Fetch all the requests resources |
-| GET    | /api/v1/users/request/<int:request_id>/ | Fetch a single request resource  |
-| POST   | /api/v1/users/requests/                 | Create a new request             |
-| PUT    | /api/v1/users/request/<int:request_id>/ | Update a specific request        |
-| DELETE | /api/v1/users/request/<int:request_id>/ | Delete a specific request        |
-| POST   | /api/v1/users/auth/signup/              | Handle user registration         |
-| POST   | /api/v1/users/auth/signin/              | Handle user login                |
+| METHOD | ENDPOINT                                      | DESCRIPTION                      |
+| ------ | --------------------------------------------- | -------------------------------- |
+| GET    | /api/v1/users/requests/                       | Fetch all the requests resources |
+| GET    | /api/v1/users/request/<int:request_id>/       | Fetch a single request resource  |
+| POST   | /api/v1/users/requests/                       | Create a new request             |
+| PUT    | /api/v1/users/request/<int:request_id>/       | Update a specific request        |
+| DELETE | /api/v1/users/request/<int:request_id>/       | Delete a specific request        |
+| POST   | /api/v1/users/auth/signup/                    | Handle user registration         |
+| GET    | /api/v1/requests/                             | Get all requests in the app      |
+| PUT    | /api/v1/requests/<string:request_id>/resolve/ | Resolve request                  |
+| PUT    | /api/v1/requests/<string:request_id>/reject/  | Rejecte request                  |
+| PUT    | /api/v1/requests/<string:request_id>/aprove/  | Approve request                  |
 
 ## Technologies & Languages
 
