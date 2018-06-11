@@ -19,5 +19,5 @@ def drop_db():
 def create_admin():
     """ Creates a Super Admin """
     admin = User(username="admin", name="Super Admin",
-                 password="secret", email="admin@app.com")
+                 password="secret", email="admin@app.com", is_admin=True)
     admin.add()

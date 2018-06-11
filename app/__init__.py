@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import (
@@ -36,6 +36,13 @@ def validate_username(string, name):
     return None
 
 
+class Documentation(Resource):
+    """API Documentation """
+
+    def get(self):
+        return render_template('index')
+
+
 class RequestList(Resource):
     """ Resource for list request """
 
@@ -69,8 +76,6 @@ class RequestList(Resource):
             return validate_str_field(args["location"], 'location')
         elif validate_str_field(args["request_type"], 'request_type'):
             return validate_str_field(args["request_type"], 'request_type')
-        elif validate_str_field(args["description"], 'description'):
-            return validate_str_field(args["description"], 'description')
 
         _request = RequestModel(
             user_id=user["id"], title=args['title'], location=args['location'],
@@ -112,17 +117,19 @@ class Request(Resource):
             return {"message": f"request {request_id} doesn't exit."}, 404
         elif _request['user_id'] != user["id"]:
             return {"message": "You can only edit your own requests"}, 403
+        elif _request["status"] != 'pending':
+            return {"message": "You can only update a pending request"}, 403
+        elif data.get('status'):
+            return {"message": "You can't change the status of your own requests"}, 403
+
         title = data.get('title', _request["title"])
         location = data.get('location', _request["location"])
         request_type = data.get('request_type', _request["request_type"])
         description = data.get('description', _request["description"])
-        status = data.get('status', _request["status"])
-
-        print(title)
 
         req = RequestModel(
             title=title, location=location, request_type=request_type,
-            description=description, status=status)
+            description=description)
 
         _request = req.update(request_id)
         updated_request = req.fetch_by_id(request_id)
@@ -139,6 +146,8 @@ class Request(Resource):
             return {"message": f"request {request_id} doesn't exit."}, 404
         elif _request["user_id"] != user_id:
             return {"message": "You can only delete your own requests"}, 403
+        elif _request["status"] != 'pending' or _request["status"] != 'rejected':
+            return {"message": "You can only delete a non-approved request"}, 403
         req.delete(_request["public_id"])
         return {"message": "Your request was successfully deleted"}, 200
 
@@ -163,7 +172,7 @@ class ApproveRequest(Resource):
             new_req = RequestModel()
             req = new_req.fetch_by_id(request_id)
             if not req:
-                return {"message": "request {request_id} doesn't exit."}, 404
+                return {"message": f"request {request_id} doesn't exit."}, 404
             elif req["status"] != 'pending':
                 return {'message': 'You can\'t approve this request, it\'s already been approved or rejected'}, 403
             new_req.approve(request_id)
@@ -179,7 +188,7 @@ class RejectRequest(Resource):
             new_req = RequestModel()
             req = new_req.fetch_by_id(request_id)
             if not req:
-                return {"message": "request {request_id} doesn't exit."}, 404
+                return {"message": f"request {request_id} doesn't exit."}, 404
             elif req["status"] != 'pending':
                 return {'message': 'You can\'t reject this request, it\'s already been approved or rejected'}, 403
             new_req.reject(request_id)
@@ -195,7 +204,7 @@ class ResolveRequest(Resource):
             new_req = RequestModel()
             req = new_req.fetch_by_id(request_id)
             if not req:
-                return {"message": "request {request_id} doesn't exit."}, 404
+                return {"message": f"request {request_id} doesn't exit."}, 404
             elif req["status"] != 'approve':
                 return {'message': 'You can\'t resolve this request, it\'s either rejected or not approved'}, 403
             new_req.resolve(request_id)
@@ -274,6 +283,7 @@ class UserSignin(Resource):
 
 
 api.add_resource(RequestList, '/api/v2/users/requests/')
+api.add_resource(Documentation, '/')
 api.add_resource(Request, '/api/v2/users/request/<string:request_id>/')
 api.add_resource(AdminRequests, '/api/v2/requests/')
 api.add_resource(

@@ -193,12 +193,11 @@ class Request(Store):
             title = (%s),
             location = (%s),
             description = (%s),
-            request_type = (%s),
-            status = (%s)
+            request_type = (%s)
             WHERE public_id = (%s)
              """,
             (self.title, self.location, self.description,
-             self.request_type, self.status, public_id)
+             self.request_type, public_id)
         )
         self.save()
 
