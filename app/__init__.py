@@ -153,6 +153,7 @@ class Request(Resource):
 
 
 class AdminRequests(Resource):
+    """ View all the request """
     @jwt_required
     def get(self):
         current_user = get_jwt_identity()
@@ -165,6 +166,7 @@ class AdminRequests(Resource):
 
 
 class ApproveRequest(Resource):
+    """ Approve a request """
     @jwt_required
     def put(self, request_id):
         current_user = get_jwt_identity()
@@ -181,6 +183,7 @@ class ApproveRequest(Resource):
 
 
 class RejectRequest(Resource):
+    """ Reject a request """
     @jwt_required
     def put(self, request_id):
         current_user = get_jwt_identity()
@@ -197,6 +200,8 @@ class RejectRequest(Resource):
 
 
 class ResolveRequest(Resource):
+    """ Resolve a request """
+
     @jwt_required
     def put(self, request_id):
         current_user = get_jwt_identity()

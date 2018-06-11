@@ -5,13 +5,13 @@ from app.models import User
 
 @app.cli.command()
 def init_db():
-    ''' Creates tables '''
+    """ Creates tables """
     init()
 
 
 @app.cli.command()
 def drop_db():
-    ''' Drops tables'''
+    """ Drops tables """
     drop()
 
 

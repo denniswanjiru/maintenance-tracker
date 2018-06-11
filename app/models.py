@@ -8,6 +8,8 @@ from flask import current_app
 
 
 class Store():
+    """Store Model """
+
     def __init__(self):
         self.db_name = current_app.config['DB_NAME']
         self.db_host = current_app.config['DB_HOST']
@@ -37,6 +39,8 @@ class Store():
 
 
 class User(Store):
+    """ User Model """
+
     def __init__(
             self, username=None, name=None, email=None, password=None, is_admin=False):
         super().__init__()
@@ -118,6 +122,8 @@ class User(Store):
 
 
 class Request(Store):
+    """ Request Model """
+
     def __init__(
             self, user_id=None, title=None, location=None, request_type=None,
             description=None, id=None, status="pending"):
