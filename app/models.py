@@ -185,6 +185,7 @@ class Request(Store):
         return None
 
     def fetch_by_user(self, user_id):
+        """ Get users requests """
         self.cur.execute(
             "SELECT * FROM requests WHERE user_id=%s", (user_id, ))
         requests_tuple = self.cur.fetchall()

@@ -297,7 +297,7 @@ class UserSignin(Resource):
 
 
 class UserSignout(Resource):
-    """ User Signin Resource """
+    """ User Signout Resource """
     @jwt_required
     def post(self):
         jti = get_raw_jwt()['jti']
