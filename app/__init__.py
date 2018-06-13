@@ -3,7 +3,7 @@ from flask import Flask, request, render_template
 from flask_restful import Resource, Api, reqparse
 from flask_jwt_extended import (
     jwt_required, JWTManager, create_access_token, get_jwt_identity,
-    jwt_refresh_token_required, create_refresh_token
+    jwt_refresh_token_required, create_refresh_token, get_raw_jwt
 )
 from .models import User, Request as RequestModel
 
@@ -18,6 +18,14 @@ MODE = os.getenv('MODE') if os.getenv('MODE') else 'development'
 app.config.from_object(app_config[MODE])
 jwt = JWTManager(app)
 api = Api(app)
+
+blacklist = set()
+
+
+@jwt.token_in_blacklist_loader
+def check_if_token_in_blacklist(decrypted_token):
+    jti = decrypted_token['jti']
+    return jti in blacklist
 
 
 def validate_str_field(string, name):
@@ -288,6 +296,17 @@ class UserSignin(Resource):
         return {"access_token": access_token}, 200
 
 
+class UserSignout(Resource):
+    """ User Signin Resource """
+    @jwt_required
+    def post(self):
+        jti = get_raw_jwt()['jti']
+        print(blacklist)
+        blacklist.add(jti)
+        print(blacklist)
+        return {"message": "Successfully signed out"}, 200
+
+
 api.add_resource(RequestList, '/api/v2/users/requests/')
 api.add_resource(Request, '/api/v2/users/request/<string:request_id>/')
 api.add_resource(AdminRequests, '/api/v2/requests/')
@@ -299,4 +318,4 @@ api.add_resource(
     ResolveRequest, '/api/v2/requests/<string:request_id>/resolve/')
 api.add_resource(UserRegistration, '/api/v2/users/auth/signup/')
 api.add_resource(UserSignin, '/api/v2/users/auth/signin/')
-# api.add_resource(UserSignout, '/api/v2/users/auth/signout/')
+api.add_resource(UserSignout, '/api/v2/users/auth/signout/')
