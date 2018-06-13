@@ -138,9 +138,8 @@ class Request(Resource):
         """ Delete a single request resource based off its id """
         user = get_jwt_identity()
         req = RequestModel()
-        _request = req.fetch_by_id(request_id)
-        print(_request)
-        print(user["id"])
+        _request = req.fetch_by_id(request_id)\
+
         if not _request:
             return {"message": f"request {request_id} doesn't exit."}, 404
         elif _request["user_id"] != user["id"]:
@@ -207,9 +206,10 @@ class ResolveRequest(Resource):
         if current_user['is_admin']:
             new_req = RequestModel()
             req = new_req.fetch_by_id(request_id)
+
             if not req:
                 return {"message": f"request {request_id} doesn't exit."}, 404
-            elif req["status"] != 'approve':
+            elif req["status"] != 'approved':
                 return {'message': 'You can\'t resolve this request, it\'s either rejected or not approved'}, 403
             new_req.resolve(request_id)
             return {'message': 'Request resolved succcessfully'}, 200
