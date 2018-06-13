@@ -136,15 +136,16 @@ class Request(Resource):
     @jwt_required
     def delete(self, request_id):
         """ Delete a single request resource based off its id """
-        user_id = get_jwt_identity()
+        user = get_jwt_identity()
         req = RequestModel()
         _request = req.fetch_by_id(request_id)
-
+        print(_request)
+        print(user["id"])
         if not _request:
             return {"message": f"request {request_id} doesn't exit."}, 404
-        elif _request["user_id"] != user_id:
+        elif _request["user_id"] != user["id"]:
             return {"message": "You can only delete your own requests"}, 403
-        elif _request["status"] != 'pending' or _request["status"] != 'rejected':
+        elif _request["status"] != 'pending':
             return {"message": "You can only delete a non-approved request"}, 403
         req.delete(_request["public_id"])
         return {"message": "Your request was successfully deleted"}, 200

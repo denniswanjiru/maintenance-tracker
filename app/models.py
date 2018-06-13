@@ -42,7 +42,8 @@ class User(Store):
     """ User Model """
 
     def __init__(
-            self, username=None, name=None, email=None, password=None, is_admin=False):
+            self, username=None, name=None, email=None, password=None,
+            is_admin=False):
         super().__init__()
         self.username = username
         self.name = name
@@ -82,7 +83,7 @@ class User(Store):
         self.cur.execute("SELECT * FROM users")
         users_tuple = self.cur.fetchall()
 
-        if user:
+        if users_tuple:
             return [self.serializer(user) for user in users_tuple]
         return None
 

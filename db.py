@@ -1,4 +1,4 @@
-from app.models import Store, User, Request
+from app.models import User, Request
 
 
 def init():
