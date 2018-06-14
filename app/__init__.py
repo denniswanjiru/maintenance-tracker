@@ -1,6 +1,7 @@
 from flask import Flask, request, render_template
 
 from flask_restful import Resource, Api, reqparse
+from flask_cors import CORS
 from flask_jwt_extended import (
     jwt_required, JWTManager, create_access_token, get_jwt_identity,
     jwt_refresh_token_required, create_refresh_token, get_raw_jwt
@@ -18,7 +19,7 @@ MODE = os.getenv('MODE') if os.getenv('MODE') else 'development'
 app.config.from_object(app_config[MODE])
 jwt = JWTManager(app)
 api = Api(app)
-
+CORS(app)
 blacklist = set()
 
 
