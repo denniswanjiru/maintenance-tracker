@@ -160,7 +160,7 @@ class Request(Resource):
 
 
 class AdminRequests(Resource):
-    """ View all the request """
+    """ View all the requests """
     @jwt_required
     def get(self):
         current_user = get_jwt_identity()
@@ -169,6 +169,20 @@ class AdminRequests(Resource):
             req = RequestModel()
             _requests = req.fetch_all()
             return {"requests": _requests}, 200
+        return {'message': 'Access Denied'}, 403
+
+
+class AdminRequest(Resource):
+    """ View a single request """
+
+    @jwt_required
+    def get(self, request_id):
+        """ Get a single request resource based off its id """
+        user = get_jwt_identity()
+        if user["is_admin"]:
+            req = RequestModel()
+            _request = req.fetch_by_id(request_id)
+            return {"request": _request}, 200
         return {'message': 'Access Denied'}, 403
 
 
@@ -311,6 +325,7 @@ class UserSignout(Resource):
 api.add_resource(RequestList, '/api/v2/users/requests/')
 api.add_resource(Request, '/api/v2/users/request/<string:request_id>/')
 api.add_resource(AdminRequests, '/api/v2/requests/')
+api.add_resource(AdminRequest, '/api/v2/request/<string:request_id>/')
 api.add_resource(
     ApproveRequest, '/api/v2/requests/<string:request_id>/approve/')
 api.add_resource(
