@@ -33,7 +33,7 @@ def validate_str_field(string, name):
     if len(string.strip()) == 0:
         return {"message": f"{name} can't have empty values"}, 400
     elif not re.match("^[ A-Za-z0-9_-]*$", string):
-        return {"message": f"{name} invalid datas"}, 400
+        return {"message": f"{name} invalid data"}, 400
     return None
 
 

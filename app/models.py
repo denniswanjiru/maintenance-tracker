@@ -8,7 +8,7 @@ from flask import current_app
 
 
 class Store():
-    """Store Model """
+    """ Store Model """
 
     def __init__(self):
         self.db_name = current_app.config['DB_NAME']
